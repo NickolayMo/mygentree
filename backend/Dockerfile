@@ -1,0 +1,5 @@
+FROM openjdk:17-oracle
+ARG JAR_FILE=build/libs/backend-0.0.1-SNAPSHOT.jar
+COPY ${JAR_FILE} backend.jar
+ENTRYPOINT ["java","-jar","/backend.jar"]
+EXPOSE 8080
