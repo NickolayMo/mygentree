@@ -1,6 +1,8 @@
-import type {ExtNode} from 'relatives-tree/lib/types';
+import type {ExtNode} from '../renderTree/types';
 export declare type DataExendedNode = ExtNode & Readonly<{
     image?: string
-    name?: string
+    firstName: string,
+    middleName?: string,
+    lastName?: string,
     description?: string
 }>;

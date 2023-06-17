@@ -1,6 +1,6 @@
 import React, { memo, useCallback, ChangeEvent } from 'react';
-import type { Node } from 'relatives-tree/lib/types';
-import { URL_LABEL } from '../const';
+import type { Node } from '../../renderTree/types';;
+import { URL_LABEL, EXT_LOAD_LABEL } from '../const';
 
 interface SourceSelectProps {
   value: string;
@@ -21,6 +21,18 @@ export const SourceSelect = memo(
           .then((resp) => resp.json())
           .then((data) => Array.isArray(data) && onChange(key, data))
           .catch(() => {});
+      } else if (key === EXT_LOAD_LABEL) {
+        const backUrl = "http://localhost:8080/web/api/v1/tree"
+        fetch(backUrl, {
+          method: "POST",
+          body: JSON.stringify({id:1}),
+          headers:{
+            "Content-Type": "application/json",
+          }
+        })
+          .then((resp) => resp.json())
+          .then((data) => Array.isArray(data) && onChange(key, data))
+          .catch(() => {});
       }
       else {
         onChange(key, items[key]);
@@ -33,6 +45,7 @@ export const SourceSelect = memo(
           <option key={item} value={item}>{item}</option>
         ))}
         <option value={URL_LABEL}>{URL_LABEL}</option>
+        <option value={EXT_LOAD_LABEL}>{EXT_LOAD_LABEL}</option>
       </select>
     );
   },

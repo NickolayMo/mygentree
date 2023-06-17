@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
-import type { DataExendedNode } from '../extTypes';
+import type { ExtNode } from '../../renderTree/types';
 import css from './FamilyNode.module.css';
 
 interface FamilyNodeProps {
-  node: DataExendedNode;
+  node: ExtNode;
   isRoot: boolean;
   isHover?: boolean;
   onClick: (id: string) => void;
@@ -18,8 +18,8 @@ export const FamilyNode = React.memo(
     const clickSubHandler = useCallback(() => onSubClick(node.id), [node.id, onSubClick]);
     return (
       <div className={css.root} style={style}>
-        {node.image && (
-          <img className={css.photo} src={node.image}></img>
+        {node.infoNode && node.infoNode.image && (
+          <img className={css.photo} src={node.infoNode.image}></img>
         )}
         <div
           className={classNames(

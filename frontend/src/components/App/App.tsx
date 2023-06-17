@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import type { Node } from 'relatives-tree/lib/types';
-import treePackage from 'relatives-tree/package.json';
-import ReactFamilyTree from 'react-family-tree';
+import type { Node, ExtNode } from '../../renderTree/types';
+import ReactFamilyTree from '../FamilyTree/FamilyTree';
 import { SourceSelect } from '../SourceSelect/SourceSelect';
 import { PinchZoomPan } from '../PinchZoomPan/PinchZoomPan';
 import { FamilyNode } from '../FamilyNode/FamilyNode';
@@ -45,9 +44,6 @@ export default React.memo(
         <header className={css.header}>
           <h1 className={css.title}>
             FamilyTree demo
-            <span className={css.version}>
-              core: {treePackage.version}
-            </span>
           </h1>
 
           <div>
@@ -63,7 +59,7 @@ export default React.memo(
               width={NODE_WIDTH}
               height={NODE_HEIGHT}
               className={css.tree}
-              renderNode={(node: Readonly<DataExendedNode>) => (
+              renderNode={(node: Readonly<ExtNode>) => (
                 <FamilyNode
                   key={node.id}
                   node={node}
