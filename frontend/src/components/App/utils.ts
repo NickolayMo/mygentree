@@ -10,7 +10,7 @@ export function getNodeStyle({ left, top }: Readonly<ExtNode>): CSSProperties {
   };
 }
 
-export function getPersonName(node?: Node): String {
+export function getPersonName(node?: Node): string {
   if(!node) {
     return ""
   }

@@ -9,6 +9,7 @@ import { NODE_WIDTH, NODE_HEIGHT, SOURCES, DEFAULT_SOURCE } from '../const';
 import { getNodeStyle } from './utils';
 
 import css from './App.module.css';
+import { PersonForm } from '../PersonForm/PersonForm';
 
 export default React.memo(
   function App() {
@@ -85,6 +86,10 @@ export default React.memo(
             onSelect={setSelectId}
             onHover={setHoverId}
             onClear={() => setHoverId(undefined)}
+          />
+        )}
+        {selected && (
+          <PersonForm node={selected}
           />
         )}
       </div>

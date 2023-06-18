@@ -1,6 +1,6 @@
 import React, { memo, useCallback, ChangeEvent } from 'react';
-import type { Node } from '../../renderTree/types';;
-import { URL_LABEL, EXT_LOAD_LABEL } from '../const';
+import type { Node } from '../../renderTree/types';
+import { URL_LABEL, EXT_LOAD_LABEL } from '../const';;
 
 interface SourceSelectProps {
   value: string;
