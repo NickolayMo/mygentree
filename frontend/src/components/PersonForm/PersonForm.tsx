@@ -1,8 +1,5 @@
-import { memo, useCallback, ChangeEvent, FormEventHandler, FormEvent, useState } from 'react';
-import classNames from 'classnames';
-import type { Node, InfoNode } from '../../renderTree/types';
-import css from './PersonForm.module.css';
-import { getPersonName } from '../App/utils';
+import { memo } from 'react';
+import type { Node } from '../../renderTree/types';
 import { useForm } from '../UseForm/UseForm';
 
 interface PersonFormProps {
@@ -32,7 +29,6 @@ export const PersonForm = memo(
     }
 
     return (
-        // don't mind this ugly form :P
         <form onSubmit={onSubmit}>
         <div>
             <input
@@ -60,57 +56,3 @@ export const PersonForm = memo(
     );
   }
 )
-
-// interface PersonFormProps {
-//   node: Readonly<Node>;
-//   nodeList: ReadonlyArray<Node>;
-// }
-// interface FormElements extends HTMLFormControlsCollection {
-//   name: HTMLInputElement
-// }
-// interface UsernameFormElement extends HTMLFormElement {
-//   readonly elements: FormElements
-// }
-
-
-// type Values = {
-//   name: string,
-//   email: string,
-//   age: string,
-// }
-
-
-// //export const PersonForm = memo(
-//   export const PersonForm = ({ nodeList, node }: PersonFormProps) => {
-//     var personName = node.infoNode?.firstName ?? ""
-//     const [values, setValues] = useState<Values>({
-//       name: "",
-//       email: "",
-//       age: "",
-//     });
-    
-//     const changeHandler = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-//       setValues({ ...values, [event.target.name]: event.target.value });
-//       console.log("111", event.target.name, event.target.value)
-//       event.stopPropagation();
-//     }, [nodeList, setValues]);
-
-//     const submitHandler = useCallback((event: FormEvent<UsernameFormElement>) => {
-//       console.log(event.currentTarget.elements.name.value);
-//       const key = node.infoNode?.firstName;
-//       alert('A name was submitted: ' + event.currentTarget.elements.name.value);
-//       event.preventDefault();
-
-//     }, [nodeList]);
-
-//     return (
-//       <form onSubmit={submitHandler}>
-//         <label>
-//           Name:
-//           <input id="name" type="text" value={values.name} onChange={changeHandler} name={"name"} />
-//         </label>
-//         <input type="submit" value="Submit" />
-//       </form>
-//     );
-//   }
-// //);
