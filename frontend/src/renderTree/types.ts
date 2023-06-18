@@ -88,7 +88,7 @@ export type Options = Readonly<{
 }>
 
 export type InfoNode = {
-  image?: string
+  avatar?: string
   firstName?: string,
   middleName?: string,
   lastName?: string,

@@ -36,3 +36,22 @@
 .close:hover {
   color: #666;
 }
+
+.avatar {
+  width: 35%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.avatarImg {
+  border-radius: 50%;
+  height: 100%;
+}
+
+.female .avatarImg {
+  border: 1px solid #ffdcef;
+}
+.male .avatarImg {
+  border: 1px solid #5ddcff;
+}

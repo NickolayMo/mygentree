@@ -9,7 +9,6 @@ import { NODE_WIDTH, NODE_HEIGHT, SOURCES, DEFAULT_SOURCE } from '../const';
 import { getNodeStyle } from './utils';
 
 import css from './App.module.css';
-import { DataExendedNode } from '../extTypes';
 
 export default React.memo(
   function App() {
@@ -43,7 +42,7 @@ export default React.memo(
       <div className={css.root}>
         <header className={css.header}>
           <h1 className={css.title}>
-            FamilyTree demo
+            My gen tree
           </h1>
 
           <div>
@@ -81,6 +80,7 @@ export default React.memo(
         {selected && (
           <NodeDetails
             node={selected}
+            nodeList={nodes}
             className={css.details}
             onSelect={setSelectId}
             onHover={setHoverId}

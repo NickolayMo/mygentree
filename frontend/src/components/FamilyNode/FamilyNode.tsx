@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import type { ExtNode } from '../../renderTree/types';
 import css from './FamilyNode.module.css';
+import { getPersonName } from '../App/utils'
 
 interface FamilyNodeProps {
   node: ExtNode;
@@ -16,11 +17,10 @@ export const FamilyNode = React.memo(
   function FamilyNode({ node, isRoot, isHover, onClick, onSubClick, style }: FamilyNodeProps) {
     const clickHandler = useCallback(() => onClick(node.id), [node.id, onClick]);
     const clickSubHandler = useCallback(() => onSubClick(node.id), [node.id, onSubClick]);
+
     return (
       <div className={css.root} style={style}>
-        {node.infoNode && node.infoNode.image && (
-          <img className={css.photo} src={node.infoNode.image}></img>
-        )}
+
         <div
           className={classNames(
             css.inner,
@@ -30,14 +30,32 @@ export const FamilyNode = React.memo(
           )}
           onClick={clickHandler}
         >
-          <div className={css.id}>{node.id}</div>
+          {/*header*/}
+          <div className={css.header}>
+            <div className={css.headerTitle}>{!isRoot && ("родственник")}</div>
+            <div className={css.hasSubTree}>
+              {node.hasSubTree && (
+                <div
+                  className={classNames(css.sub, css[node.gender])}
+                  onClick={clickSubHandler}
+                />
+              )}
+            </div>
+            <div className={css.edit}>...</div>
+          </div>
+          {/*body*/}
+          <div className={css.body}>
+            {node.infoNode && node.infoNode.avatar && (
+              <div className={css.avatar}>
+                <img className={css.avatarImg} src={node.infoNode.avatar} alt='avatar'></img>
+              </div>
+            )}
+            <div className={css.personInfo}>
+              <div className={css.personName}>{getPersonName(node)}</div>
+              <div className={css.personBirhDate}>{node.infoNode?.birthDate ?? ""}</div>
+            </div>
+          </div>
         </div>
-        {node.hasSubTree && (
-          <div
-            className={classNames(css.sub, css[node.gender])}
-            onClick={clickSubHandler}
-          />
-        )}
       </div>
     );
   },

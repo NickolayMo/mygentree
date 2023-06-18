@@ -1,23 +1,26 @@
-import React, { memo, useCallback } from 'react';
-import { Relation } from '../../renderTree/types';;
+import React, { memo, useCallback, useMemo, useState } from 'react';
+import { Relation, Node } from '../../renderTree/types';
 import css from './Relations.module.css';
+import { getPersonName } from '../App/utils';
 
 interface RelationsProps {
   title: string;
   items: readonly Relation[];
+  nodeList: ReadonlyArray<Node>;
   onSelect: (nodeId: string) => void;
   onHover: (nodeId: string) => void;
   onClear: () => void;
 }
 
 export const Relations = memo(
-  function Relations({ title, items, onSelect, onHover, onClear }: RelationsProps) {
+  function Relations({title, items, nodeList, onSelect, onHover, onClear}: RelationsProps) {
     const selectHandler = useCallback((id: string) => () => onSelect(id), [onSelect]);
     const hoverHandler = useCallback((id: string) => () => onHover(id), [onHover]);
     const clearHandler = useCallback(() => onClear(), [onClear]);
-
+    const findNode = (selectId:String): Node | undefined => {
+      return nodeList.find(item => item.id === selectId)
+    };
     if (!items.length) return null;
-
     return (
       <div>
         <h4>{title}</h4>
@@ -29,7 +32,7 @@ export const Relations = memo(
             onMouseEnter={hoverHandler(item.id)}
             onMouseLeave={clearHandler}
           >
-            {item.id} ({item.type})
+            {getPersonName(findNode(item.id))} ({item.type})
           </div>
         ))}
       </div>

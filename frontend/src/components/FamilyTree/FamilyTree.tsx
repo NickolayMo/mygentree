@@ -2,7 +2,6 @@ import React from 'react';
 import calcTree from '../../renderTree';
 import { Node, ExtNode } from '../../renderTree/types';
 import Connector from './connector';
-import { DataExendedNode } from '../extTypes';
 
 interface Props {
   nodes: ReadonlyArray<Node>;
