@@ -20,15 +20,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    //implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    //runtimeOnly("org.springdoc:springdoc-openapi-kotlin:1.7.0")
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
-    //testImplementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.1.0")
-
-
-
+    implementation("com.google.code.gson:gson:2.10.1")
 }
 
 tasks.withType<KotlinCompile> {
