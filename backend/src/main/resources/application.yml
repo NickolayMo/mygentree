@@ -1,18 +1,15 @@
 management:
   server:
     port: 9090
-#  management:
-#    endpoints:
-#      web:
-#        exposure:
-#          include: openapi, swaggerui
-#
-#
-##.server.port=9090
-#springdoc:
-#  use-management-port: true
-#
-#
-#
-##springdoc.use-management-port=true
-##management.endpoints.web.exposure.include=openapi, swagger-ui
+spring:
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  datasource:
+    url: jdbc:h2:~/liquibase;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml

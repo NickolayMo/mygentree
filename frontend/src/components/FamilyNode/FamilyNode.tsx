@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import type { ExtNode } from '../../renderTree/types';
 import css from './FamilyNode.module.css';
-import { getPersonName } from '../App/utils'
+import { getPersonName } from '../../utils/utils'
 
 interface FamilyNodeProps {
   node: ExtNode;
@@ -20,11 +20,10 @@ export const FamilyNode = React.memo(
 
     return (
       <div className={css.root} style={style}>
-
         <div
           className={classNames(
             css.inner,
-            css[node.gender],
+            css[node.gender.toLowerCase()],
             isRoot && css.isRoot,
             isHover && css.isHover,
           )}
@@ -36,7 +35,7 @@ export const FamilyNode = React.memo(
             <div className={css.hasSubTree}>
               {node.hasSubTree && (
                 <div
-                  className={classNames(css.sub, css[node.gender])}
+                  className={classNames(css.sub, css[node.gender.toLocaleLowerCase()])}
                   onClick={clickSubHandler}
                 />
               )}

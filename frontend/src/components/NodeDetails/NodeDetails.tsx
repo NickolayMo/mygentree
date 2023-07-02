@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import type { Node } from '../../renderTree/types';
 import { Relations } from './Relations';
 import css from './NodeDetails.module.css';
-import { getPersonName } from '../App/utils';
+import { getPersonName } from '../../utils/utils';
 
 interface NodeDetailsProps {
   node: Readonly<Node>;
@@ -12,13 +12,44 @@ interface NodeDetailsProps {
   onSelect: (nodeId: string | undefined) => void;
   onHover: (nodeId: string) => void;
   onClear: () => void;
+  onDelete: () => void;
 }
 
 export const NodeDetails = memo(
   function NodeDetails({nodeList, node, className, ...props }: NodeDetailsProps) {
     const closeHandler = useCallback(() => props.onSelect(undefined), [props]);
+    const deleteNodeHandler = useCallback(() => props.onDelete(), [props]);
+
+
+
+    async function updateUserCallback() {
+      fetch(
+        process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/update/person",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            "userId": "HkqEDLvxE",
+            "treeId": "1",
+            "action": "DELETE",
+            "nodeId": node.id,
+            "context": {
+            }
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }
+      ).then((res) => res.json())
+        .then((res) => res.data)
+        .then((res) => deleteNodeHandler())
+    }
+
+
     return (
       <section className={classNames(css.root, className)}>
+         <button className={css.reset} onClick={updateUserCallback}>
+          удалить
+        </button>
         <header className={css.header}>
           {node.infoNode && node.infoNode.avatar && (
               <div className={css.avatar}>

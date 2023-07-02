@@ -6,6 +6,8 @@ plugins {
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.spring") version "1.8.21"
     id("org.springdoc.openapi-gradle-plugin") version "1.6.0"
+    kotlin("plugin.jpa") version "1.8.21"
+    id("org.liquibase.gradle") version "2.2.0"
 }
 
 group = "com.example"
@@ -24,6 +26,17 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator:3.1.0")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.liquibase:liquibase-core")
+    runtimeOnly("com.h2database:h2")
+    liquibaseRuntime(sourceSets.getByName("main").output)
+    liquibaseRuntime("org.liquibase:liquibase-core")
+    liquibaseRuntime("org.liquibase.ext:liquibase-hibernate5:3.8")
+    //liquibaseRuntime("org.postgresql:postgresql")
+    liquibaseRuntime("com.h2database:h2")
+    liquibaseRuntime("org.springframework.boot:spring-boot")
+    liquibaseRuntime("info.picocli:picocli:4.6.3")
 }
 
 tasks.withType<KotlinCompile> {
@@ -35,4 +48,22 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+liquibase {
+    activities.register("main") {
+        val db_url by project.extra.properties
+        val db_user by project.extra.properties
+        val db_password by project.extra.properties
+
+        this.arguments = mapOf(
+            "logLevel" to "info",
+            "changelogFile" to "src/main/resources/db/changelog.yml",
+            "url" to db_url,
+            "username" to db_user,
+            "password" to db_password,
+            "driver" to "com.mysql.cj.jdbc.Driver"
+        )
+    }
+    runList = "main"
 }

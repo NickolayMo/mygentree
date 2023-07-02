@@ -22,6 +22,10 @@ class MockTreeRepositoryImpl : ITreeRepository {
         when (updatePersonContext.action) {
             UpdatePersonContext.UpdatePersonContextAction.DELETE -> {
                 mockTree.relatives.removeAll { n -> n.id == updatePersonContext.nodeId }
+                mockTree.relatives.forEach { rn->rn.children?.removeAll{ ch -> ch.id == updatePersonContext.nodeId} }
+                mockTree.relatives.forEach { rn->rn.parents?.removeAll{ ch -> ch.id == updatePersonContext.nodeId} }
+                mockTree.relatives.forEach { rn->rn.siblings?.removeAll{ ch -> ch.id == updatePersonContext.nodeId} }
+                mockTree.relatives.forEach { rn->rn.spouses?.removeAll{ ch -> ch.id == updatePersonContext.nodeId} }
                 mockTree
             }
 

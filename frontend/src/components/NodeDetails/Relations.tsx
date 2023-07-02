@@ -1,7 +1,7 @@
 import { memo, useCallback } from 'react';
 import { Relation, Node } from '../../renderTree/types';
 import css from './Relations.module.css';
-import { getPersonName } from '../App/utils';
+import { getPersonName } from '../../utils/utils';
 
 interface RelationsProps {
   title: string;

@@ -22,7 +22,7 @@ export const SourceSelect = memo(
           .then((data) => Array.isArray(data) && onChange(key, data))
           .catch(() => {});
       } else if (key === EXT_LOAD_LABEL) {
-        const backUrl = "http://localhost:8080/web/api/v1/tree"
+        const backUrl = "http://localhost:8080/web/api/v1/tree/get"
         fetch(backUrl, {
           method: "POST",
           body: JSON.stringify({id:1}),
