@@ -13,16 +13,21 @@ interface NodeDetailsProps {
   onHover: (nodeId: string) => void;
   onClear: () => void;
   onDelete: () => void;
+  onEdit: (isVisible: boolean) => void;
 }
 
 export const NodeDetails = memo(
   function NodeDetails({nodeList, node, className, ...props }: NodeDetailsProps) {
     const closeHandler = useCallback(() => props.onSelect(undefined), [props]);
     const deleteNodeHandler = useCallback(() => props.onDelete(), [props]);
+    const editUserHandler = useCallback(() => props.onEdit(true), [props])
+    console.log(props)
 
+    async function editUserCallback() {
+      editUserHandler()
+    }
 
-
-    async function updateUserCallback() {
+    async function deleteUserCallback() {
       fetch(
         process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/update/person",
         {
@@ -47,8 +52,12 @@ export const NodeDetails = memo(
 
     return (
       <section className={classNames(css.root, className)}>
-         <button className={css.reset} onClick={updateUserCallback}>
+        <div>{node.id}</div>
+         <button className={css.reset} onClick={deleteUserCallback}>
           удалить
+        </button>
+        <button className={css.reset} onClick={editUserCallback}>
+          Редактировать
         </button>
         <header className={css.header}>
           {node.infoNode && node.infoNode.avatar && (

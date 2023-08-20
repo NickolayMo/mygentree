@@ -16,6 +16,7 @@ export const TreeRoot = () => {
   const data = resource.read()
   const [source, setSource] = useState(DEFAULT_SOURCE);
   const [nodes, setNodes] = useState<readonly Readonly<Node>[]>(data.relatives);
+  const [isUserEditVisible,  setIsUserEdit] = useState(false)
 
   const firstNodeId = useMemo(() => nodes[0].id, [nodes]);
   const [rootId, setRootId] = useState(firstNodeId);
@@ -97,10 +98,16 @@ export const TreeRoot = () => {
           onHover={setHoverId}
           onClear={() => setHoverId(undefined)}
           onDelete={() => setSelectId(undefined)}
+          onEdit={setIsUserEdit}
         />
       )}
-      {selected && (
-        <PersonForm node={selected} onPersonChange={onPersonChange}/>
+      {selected && isUserEditVisible && (
+        <PersonForm 
+        className={css.personForm}
+        node={selected} 
+        onPersonChange={onPersonChange}
+        onClose={setIsUserEdit}
+        />
       )}
     </div>
   );
