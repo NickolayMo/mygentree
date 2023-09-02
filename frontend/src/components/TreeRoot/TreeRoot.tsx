@@ -6,17 +6,20 @@ import { PinchZoomPan } from '../PinchZoomPan/PinchZoomPan';
 import { FamilyNode } from '../FamilyNode/FamilyNode';
 import { NodeDetails } from '../NodeDetails/NodeDetails';
 import { NODE_WIDTH, NODE_HEIGHT, SOURCES, DEFAULT_SOURCE } from '../const';
-import { getInitData, getNodeStyle } from '../../utils/utils';
+import { getInitData, getNodeStyle, getMockInitData } from '../../utils/utils';
 
 import css from './TreeRoot.module.css';
 import { PersonForm } from '../PersonForm/PersonForm';
 
 const resource = getInitData()
 export const TreeRoot = () => {
-  const data = resource.read()
+  //const data = resource.read()
+  const data = getMockInitData()
   const [source, setSource] = useState(DEFAULT_SOURCE);
   const [nodes, setNodes] = useState<readonly Readonly<Node>[]>(data.relatives);
   const [isUserEditVisible,  setIsUserEdit] = useState(false)
+
+  const [isUserCreateVisible,  setIsUserCreate] = useState(false)
 
   const firstNodeId = useMemo(() => nodes[0].id, [nodes]);
   const [rootId, setRootId] = useState(firstNodeId);
@@ -99,12 +102,15 @@ export const TreeRoot = () => {
           onClear={() => setHoverId(undefined)}
           onDelete={() => setSelectId(undefined)}
           onEdit={setIsUserEdit}
+          onCreate={setIsUserCreate}
         />
       )}
-      {selected && isUserEditVisible && (
+      {selected && (isUserEditVisible || isUserCreateVisible) && (
         <PersonForm 
+        createForm = {isUserCreateVisible}
         className={css.personForm}
         node={selected} 
+        nodeList={nodes}
         onPersonChange={onPersonChange}
         onClose={setIsUserEdit}
         />

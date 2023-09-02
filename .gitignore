@@ -5,7 +5,7 @@ frontend/node_modules
 !**/src/main/**/build/
 !**/src/test/**/build/
 .env*.local
-
+*-local.*
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml

@@ -14,6 +14,7 @@ interface NodeDetailsProps {
   onClear: () => void;
   onDelete: () => void;
   onEdit: (isVisible: boolean) => void;
+  onCreate: (isVisible: boolean) => void;
 }
 
 export const NodeDetails = memo(
@@ -21,10 +22,14 @@ export const NodeDetails = memo(
     const closeHandler = useCallback(() => props.onSelect(undefined), [props]);
     const deleteNodeHandler = useCallback(() => props.onDelete(), [props]);
     const editUserHandler = useCallback(() => props.onEdit(true), [props])
+    const createUserHandler = useCallback(() => props.onCreate(true), [props])
     console.log(props)
 
     async function editUserCallback() {
       editUserHandler()
+    }
+    async function createUserCallback() {
+      createUserHandler()
     }
 
     async function deleteUserCallback() {
@@ -58,6 +63,9 @@ export const NodeDetails = memo(
         </button>
         <button className={css.reset} onClick={editUserCallback}>
           Редактировать
+        </button>
+        <button className={css.reset} onClick={createUserCallback}>
+          Добавить родственника
         </button>
         <header className={css.header}>
           {node.infoNode && node.infoNode.avatar && (

@@ -1,20 +1,19 @@
 package com.mygentree.business.service
 
-data class UpdatePersonContext(
-    val userId: String?,
-    val treeId: String?,
-    val nodeId: String?,
-    val action: UpdatePersonContextAction,
-    val updateTreeContextData: UpdatePersonContextData
-
+data class TreeUpdatePerson(
+    val userId: String,
+    val treeId: String,
+    val action: TreeAction,
+    val context: TreeUpdatePersonContext,
 ) {
-    enum class UpdatePersonContextAction {
+    enum class TreeAction {
         UPDATE,
         DELETE,
         CREATE
     }
 
-    data class UpdatePersonContextData(
+    data class TreeUpdatePersonContext(
+        var nodeId: String?,
         var avatar: String?,
         var firstName: String?,
         var middleName: String?,
@@ -22,7 +21,18 @@ data class UpdatePersonContext(
         var birthDate: String?,
         var occupation: String?,
         var location: String?,
+        var parents: List<Connection>?,
+        var children: List<Connection>?,
+        var siblings: List<Connection>?,
+        var spouses: List<Connection>?
     )
-
+    data class Connection(
+        val personId: String,
+        val connectionType: ConnectionType,
+    )
+    enum class ConnectionType {
+        BLOOD,
+        MARRIED
+    }
     companion object
 }

@@ -1,14 +1,12 @@
 package com.mygentree.repository
 
 import com.google.gson.Gson
-import com.mygentree.business.dto.ConnectionNode
-import com.mygentree.business.dto.ConnectionType
-import com.mygentree.business.dto.GenTree
-import com.mygentree.business.dto.InfoNode
-import com.mygentree.business.service.UpdateConnectionContext
-import com.mygentree.business.service.UpdatePersonContext
+import com.mygentree.business.dto.*
+import com.mygentree.business.service.TreeUpdatePerson
 import com.mygentree.presentation.web.controller.api.v1.mock
 import org.springframework.stereotype.Component
+import java.security.MessageDigest
+import kotlin.random.Random
 
 @Component
 class MockTreeRepositoryImpl : ITreeRepository {
@@ -18,135 +16,79 @@ class MockTreeRepositoryImpl : ITreeRepository {
         return mockTree
     }
 
-    override fun updatePerson(updatePersonContext: UpdatePersonContext): GenTree? =
+    override fun updatePerson(updatePersonContext: TreeUpdatePerson): GenTree? =
         when (updatePersonContext.action) {
-            UpdatePersonContext.UpdatePersonContextAction.DELETE -> {
-                mockTree.relatives.removeAll { n -> n.id == updatePersonContext.nodeId }
-                mockTree.relatives.forEach { rn->rn.children?.removeAll{ ch -> ch.id == updatePersonContext.nodeId} }
-                mockTree.relatives.forEach { rn->rn.parents?.removeAll{ ch -> ch.id == updatePersonContext.nodeId} }
-                mockTree.relatives.forEach { rn->rn.siblings?.removeAll{ ch -> ch.id == updatePersonContext.nodeId} }
-                mockTree.relatives.forEach { rn->rn.spouses?.removeAll{ ch -> ch.id == updatePersonContext.nodeId} }
+
+            TreeUpdatePerson.TreeAction.DELETE -> {
+                mockTree.relatives.removeAll { n -> n.id == updatePersonContext.context.nodeId }
+                mockTree.relatives.forEach { rn->rn.children?.removeAll{ ch -> ch.id == updatePersonContext.context.nodeId} }
+                mockTree.relatives.forEach { rn->rn.parents?.removeAll{ ch -> ch.id == updatePersonContext.context.nodeId} }
+                mockTree.relatives.forEach { rn->rn.siblings?.removeAll{ ch -> ch.id == updatePersonContext.context.nodeId} }
+                mockTree.relatives.forEach { rn->rn.spouses?.removeAll{ ch -> ch.id == updatePersonContext.context.nodeId} }
                 mockTree
             }
 
-            UpdatePersonContext.UpdatePersonContextAction.CREATE -> {
-                mockTree
-            }
-
-            UpdatePersonContext.UpdatePersonContextAction.UPDATE -> {
-                val node = mockTree.relatives.firstOrNull { n -> n.id == updatePersonContext.nodeId }
+            TreeUpdatePerson.TreeAction.CREATE -> {
+                val node = GenTreeNode(
+                    id = MessageDigest.getInstance("MD5").digest(Random(1).nextInt().toString().toByteArray()).toString(),
+                    gender = Gender.FEMALE,
+                    parents = mutableListOf(),
+                    siblings = mutableListOf(),
+                    spouses = mutableListOf(),
+                    children = mutableListOf(),
+                    infoNode = null
+                )
+                
                 var infoNode = node?.infoNode
                 if(infoNode == null) {
                     infoNode = InfoNode()
                 }
-                infoNode.avatar = updatePersonContext.updateTreeContextData.avatar
-                infoNode.firstName = updatePersonContext.updateTreeContextData.firstName
-                infoNode.middleName = updatePersonContext.updateTreeContextData.middleName
-                infoNode.lastName = updatePersonContext.updateTreeContextData.lastName
-                infoNode.birthDate = updatePersonContext.updateTreeContextData.birthDate
-                infoNode.occupation = updatePersonContext.updateTreeContextData.occupation
+                infoNode.avatar = updatePersonContext.context.avatar
+                infoNode.firstName = updatePersonContext.context.firstName
+                infoNode.middleName = updatePersonContext.context.middleName
+                infoNode.lastName = updatePersonContext.context.lastName
+                infoNode.birthDate = updatePersonContext.context.birthDate
+                infoNode.occupation = updatePersonContext.context.occupation
                 node?.infoNode = infoNode
+
+
+                node?.parents = updatePersonContext.context.parents?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList() ?: mutableListOf()
+                node?.children = updatePersonContext.context.children?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()?: mutableListOf()
+                node?.spouses = updatePersonContext.context.children?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()?: mutableListOf()
+                node?.siblings = updatePersonContext.context.siblings?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()?: mutableListOf()
+                node.parents?.forEach { p->
+                    mockTree.relatives.find { it.id == p.id}?.children?.add(ConnectionNode(id = node.id, type =ConnectionType.BLOOD))
+                }
+
+                mockTree.relatives.add(node)
                 mockTree
             }
 
+            TreeUpdatePerson.TreeAction.UPDATE -> {
+                val node = mockTree.relatives.firstOrNull { n -> n.id == updatePersonContext.context.nodeId }
+                var infoNode = node?.infoNode
+                if(infoNode == null) {
+                    infoNode = InfoNode()
+                }
+                infoNode.avatar = updatePersonContext.context.avatar
+                infoNode.firstName = updatePersonContext.context.firstName
+                infoNode.middleName = updatePersonContext.context.middleName
+                infoNode.lastName = updatePersonContext.context.lastName
+                infoNode.birthDate = updatePersonContext.context.birthDate
+                infoNode.occupation = updatePersonContext.context.occupation
+                node?.infoNode = infoNode
+
+                node?.parents = updatePersonContext.context.parents?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()
+                node?.children = updatePersonContext.context.children?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()
+                node?.spouses = updatePersonContext.context.children?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()
+                node?.siblings = updatePersonContext.context.siblings?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()
+                mockTree
+            }
+
+
         }
 
-    override fun updateConnection(updateConnectionContext: UpdateConnectionContext): GenTree? {
-        val node = mockTree.relatives.firstOrNull { n -> n.id == updateConnectionContext.nodeId }
-
-        when (updateConnectionContext.action) {
-            UpdateConnectionContext.TreeUpdateConnectionAction.DELETE -> {
-                when(updateConnectionContext.context.connection) {
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.PARENTS ->{
-                        node?.parents?.removeAll { it.id == updateConnectionContext.context.personNodeId }
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.CHILDREN ->{
-                        node?.children?.removeAll { it.id == updateConnectionContext.context.personNodeId }
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.SPOUSES ->{
-                        node?.spouses?.removeAll { it.id == updateConnectionContext.context.personNodeId }
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.SIBLINGS ->{
-                        node?.siblings?.removeAll { it.id == updateConnectionContext.context.personNodeId }
-                        return mockTree
-                    }
-                    else -> {
-                        return mockTree
-                    }
-                }
-            }
-
-            UpdateConnectionContext.TreeUpdateConnectionAction.CREATE -> {
-                when(updateConnectionContext.context.connection) {
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.PARENTS ->{
-                        node?.parents?.add(ConnectionNode(
-                            id = updateConnectionContext.context.personNodeId,
-                            type = ConnectionType.valueOf(updateConnectionContext.context.connectionType.name)
-                        ))
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.CHILDREN ->{
-                        node?.children?.add(ConnectionNode(
-                            id = updateConnectionContext.context.personNodeId,
-                            type = ConnectionType.valueOf(updateConnectionContext.context.connectionType.name)
-                        ))
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.SPOUSES ->{
-                        node?.spouses?.add(ConnectionNode(
-                            id = updateConnectionContext.context.personNodeId,
-                            type = ConnectionType.valueOf(updateConnectionContext.context.connectionType.name)
-                        ))
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.SIBLINGS ->{
-                        node?.siblings?.add(ConnectionNode(
-                            id = updateConnectionContext.context.personNodeId,
-                            type = ConnectionType.valueOf(updateConnectionContext.context.connectionType.name)
-                        ))
-                        return mockTree
-                    }
-                    else -> {
-                        return mockTree
-                    }
-                }
-            }
-
-            UpdateConnectionContext.TreeUpdateConnectionAction.UPDATE -> {
-                when(updateConnectionContext.context.connection) {
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.PARENTS ->{
-                        val connectionNode = node?.parents?.firstOrNull{it.id == updateConnectionContext.context.personNodeId}
-                        connectionNode?.id = updateConnectionContext.context.personNodeId
-                        connectionNode?.type = ConnectionType.valueOf(updateConnectionContext.context.connectionType.name)
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.CHILDREN ->{
-                        val connectionNode = node?.children?.firstOrNull{it.id == updateConnectionContext.context.personNodeId}
-                        connectionNode?.id = updateConnectionContext.context.personNodeId
-                        connectionNode?.type = ConnectionType.valueOf(updateConnectionContext.context.connectionType.name)
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.SPOUSES ->{
-                        val connectionNode = node?.spouses?.firstOrNull{it.id == updateConnectionContext.context.personNodeId}
-                        connectionNode?.id = updateConnectionContext.context.personNodeId
-                        connectionNode?.type = ConnectionType.valueOf(updateConnectionContext.context.connectionType.name)
-                        return mockTree
-                    }
-                    UpdateConnectionContext.TreeUpdateConnectionTarget.SIBLINGS ->{
-                        val connectionNode = node?.siblings?.firstOrNull{it.id == updateConnectionContext.context.personNodeId}
-                        connectionNode?.id = updateConnectionContext.context.personNodeId
-                        connectionNode?.type = ConnectionType.valueOf(updateConnectionContext.context.connectionType.name)
-                        return mockTree
-                    }
-                    else -> {
-                        return mockTree
-                    }
-                }
-            }
-
-        }
+    override fun getPersonList(treeId: String): List<GenTreeNode>? {
+        return mockTree.relatives.toList()
     }
 }

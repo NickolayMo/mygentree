@@ -1,0 +1,12 @@
+management:
+  server:
+    port: 9090
+spring:
+  profile:
+    active: "local"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mygentreedb
+    username: mygentreeuser
+    password: mygentreepassword
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml

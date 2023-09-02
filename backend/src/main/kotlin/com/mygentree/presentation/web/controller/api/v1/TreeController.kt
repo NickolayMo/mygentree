@@ -1,10 +1,10 @@
 package com.mygentree.presentation.web.controller.api.v1
 
 import com.mygentree.business.dto.GenTree
+import com.mygentree.business.dto.GenTreeNode
 import com.mygentree.business.extensions.fromRequest
 import com.mygentree.business.service.ITreeService
-import com.mygentree.business.service.UpdateConnectionContext
-import com.mygentree.business.service.UpdatePersonContext
+import com.mygentree.business.service.TreeUpdatePerson
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -22,17 +22,24 @@ class TreeController(
         val tree = treeService.getTreeById(request.treeId)
         return TreeResponse(success = true, data = tree, error = null)
     }
-    @PostMapping("/tree/update/person")
+    //create, delete, update
+    @PostMapping("/tree/person/update")
     fun updatePerson(@RequestBody request: TreeUpdatePersonRequest): TreeResponse {
-        val tree = treeService.updatePerson(UpdatePersonContext.fromRequest(request))
+        val tree = treeService.updatePerson(TreeUpdatePerson.fromRequest(request))
         return TreeResponse(success = true, data = tree, error = null)
     }
-    @PostMapping("/tree/update/connections")
-    fun updateConnections(@RequestBody request: TreeUpdateConnectionRequest): TreeResponse {
-        val tree = treeService.updateConnection(UpdateConnectionContext.fromRequest(request))
-        return TreeResponse(success = true, data = tree, error = null)
+    @PostMapping("/tree/person/getlist")
+    fun personGetList(@RequestBody request: TreeRequest): PersonGetListResponse? {
+        val data = treeService.getPersonList(request.treeId)
+        return PersonGetListResponse(success = true, data = data, error = null)
     }
 }
+
+data class PersonGetListResponse(
+    val success: Boolean,
+    val data: List<GenTreeNode>?,
+    val error: String?
+)
 
 
 data class TreeResponse(
@@ -50,8 +57,7 @@ data class TreeUpdatePersonRequest(
     val userId: String,
     val treeId: String,
     val action: TreeAction,
-    val nodeId: String,
-    val context: TreeUpdateContext,
+    val context: TreeUpdatePersonContext,
 ) {
     enum class TreeAction {
         UPDATE,
@@ -59,7 +65,8 @@ data class TreeUpdatePersonRequest(
         CREATE
     }
 
-    data class TreeUpdateContext(
+    data class TreeUpdatePersonContext(
+        var nodeId: String?,
         var avatar: String?,
         var firstName: String?,
         var middleName: String?,
@@ -67,41 +74,20 @@ data class TreeUpdatePersonRequest(
         var birthDate: String?,
         var occupation: String?,
         var location: String?,
+        var parents: List<Connection>?,
+        var children: List<Connection>?,
+        var siblings: List<Connection>?,
+        var spouses: List<Connection>?
     )
-
-    companion object
-}
-
-
-data class TreeUpdateConnectionRequest(
-    val userId: String,
-    val treeId: String,
-    val nodeId: String,
-    val action: TreeUpdateConnectionAction,
-    val context: TreeUpdateConnectionContext,
-
-) {
-    enum class TreeUpdateConnectionAction {
-        UPDATE,
-        DELETE,
-        CREATE
-    }
-
-    data class TreeUpdateConnectionContext(
-        val personNodeId: String,
-        val connectionType: TreeUpdateConnectionType,
-        val connection: TreeUpdateConnectionTarget
+    data class Connection(
+        val id: String,
+        val type: ConnectionType,
     )
-
-    enum class TreeUpdateConnectionTarget {
-        PARENTS,
-        SIBLINGS,
-        SPOUSES,
-        CHILDREN
-    }
-
-    enum class TreeUpdateConnectionType {
+    enum class ConnectionType {
         BLOOD,
-        MARRIED
+        MARRIED,
+        DIVORCED,
+        ADOPTED,
+        HALF
     }
 }

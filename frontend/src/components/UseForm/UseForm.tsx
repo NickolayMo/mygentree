@@ -8,6 +8,11 @@ export const useForm = (callback: any, initialState = {}) => {
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setValues({ ...values, [event.target.name]: event.target.value });
     };
+
+    const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        console.log(event.target.value)
+        setValues({ ...values, [event.target.name]: event.target.value });
+    };
     
     // onSubmit
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,6 +24,7 @@ export const useForm = (callback: any, initialState = {}) => {
     return {
         onChange,
         onSubmit,
+        onSelect,
         values,
     };
 }

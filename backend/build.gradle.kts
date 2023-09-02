@@ -6,7 +6,7 @@ plugins {
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.spring") version "1.8.21"
     id("org.springdoc.openapi-gradle-plugin") version "1.6.0"
-    kotlin("plugin.jpa") version "1.8.21"
+    //kotlin("plugin.jpa") version "1.8.21"
     id("org.liquibase.gradle") version "2.2.0"
 }
 
@@ -28,13 +28,12 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.postgresql:postgresql:42.6.0")
     implementation("org.liquibase:liquibase-core")
-    runtimeOnly("com.h2database:h2")
-    liquibaseRuntime(sourceSets.getByName("main").output)
+   // liquibaseRuntime(sourceSets.getByName("main").output)
     liquibaseRuntime("org.liquibase:liquibase-core")
     liquibaseRuntime("org.liquibase.ext:liquibase-hibernate5:3.8")
-    //liquibaseRuntime("org.postgresql:postgresql")
-    liquibaseRuntime("com.h2database:h2")
+    liquibaseRuntime("org.postgresql:postgresql")
     liquibaseRuntime("org.springframework.boot:spring-boot")
     liquibaseRuntime("info.picocli:picocli:4.6.3")
 }
@@ -52,17 +51,13 @@ tasks.withType<Test> {
 
 liquibase {
     activities.register("main") {
-        val db_url by project.extra.properties
-        val db_user by project.extra.properties
-        val db_password by project.extra.properties
-
         this.arguments = mapOf(
             "logLevel" to "info",
-            "changelogFile" to "src/main/resources/db/changelog.yml",
-            "url" to db_url,
-            "username" to db_user,
-            "password" to db_password,
-            "driver" to "com.mysql.cj.jdbc.Driver"
+            "changelogFile" to "src/main/resources/db/changelog/db.changelog-master.xml",
+            "url" to property("db_url"),
+            "username" to property("db_user"),
+            "password" to property("db_password"),
+            "driver" to "org.postgresql.Driver"
         )
     }
     runList = "main"

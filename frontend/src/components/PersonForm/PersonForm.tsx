@@ -3,18 +3,22 @@ import type { InfoNode, Node } from '../../renderTree/types';
 import { useForm } from '../UseForm/UseForm';
 import classNames from 'classnames';
 import css from './PersonForm.module.css';
+import { createPerson, updatePerson } from './actions';
+import Select from 'react-select'
 
 interface PersonFormProps {
+  createForm?: boolean
   className?: string;
   node: Readonly<Node>;
+  nodeList: ReadonlyArray<Node>;
   onPersonChange: (nodes: readonly Readonly<Node>[]) => void;
   onClose: (isVisible: boolean) => void;
 }
 
 export const PersonForm = memo(
-  function PersonForm({ className, node, onPersonChange, ...props}: PersonFormProps) {
+  function PersonForm({ createForm, className, node, nodeList, onPersonChange, ...props }: PersonFormProps) {
     const closeHandler = useCallback(() => props.onClose(false), [props]);
-    const initialState = {
+    const initialState = !createForm ? {
       firstName: node.infoNode?.firstName,
       middleName: node.infoNode?.middleName,
       lastName: node.infoNode?.lastName,
@@ -22,40 +26,24 @@ export const PersonForm = memo(
       birthDate: node.infoNode?.birthDate,
       location: node.infoNode?.location,
       occupation: node.infoNode?.occupation
-    };
-    const { onChange, onSubmit, values } = useForm(
-      updateUserCallback,
+    }: {};
+    const { onChange, onSubmit, onSelect, values } = useForm(
+      createForm ? createUserCallback : updateUserCallback,
       initialState
     );
+
     async function updateUserCallback() {
-      const formVals = values as InfoNode
-      fetch(
-        process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/update/person",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            "userId": "HkqEDLvxE",
-            "treeId": "1",
-            "action": "UPDATE",
-            "nodeId": node.id,
-            "context": {
-              "avatar": formVals.avatar,
-              "firstName": formVals.firstName,
-              "middleName": formVals.middleName,
-              "lastName": formVals.lastName,
-              "birthDate": formVals.birthDate,
-              "occupation": formVals.occupation,
-              "location": formVals.location
-            }
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          }
-        }
-      ).then((res) => res.json())
-        .then((res) => res.data)
-        .then((res) => onPersonChange(res.relatives))
+      updatePerson(values, node, onPersonChange)
     }
+
+    async function createUserCallback() {
+      createPerson(values, node, onPersonChange)
+    }
+    const options = [
+      { value: 'chocolate', label: 'Chocolate' },
+      { value: 'strawberry', label: 'Strawberry' },
+      { value: 'vanilla', label: 'Vanilla' }
+    ]
 
     return (
       <div className={classNames(css.root, className)}>
@@ -138,7 +126,26 @@ export const PersonForm = memo(
                 onChange={onChange}
               />
             </div>
+            <div>
+              <label>родители</label>
+              <select id='parents' name='parent' multiple onChange={onSelect}>
+                {nodeList.map((nodeVal) => {
+                  var selected = node.parents.find((p)=>p.id === nodeVal.id)
+                  if (selected && !createForm) {
+                    return (<option id={nodeVal.id} selected>
+                      ({nodeVal.id}) {nodeVal.infoNode?.firstName}
+                    </option>)
+                  }
+                  return (<option id={nodeVal.id}>
+                    ({nodeVal.id}) {nodeVal.infoNode?.firstName}
+                  </option>)
+                })}
+              </select>
+            </div>
             <button type='submit'>Изменить</button>
+          </div>
+          <div>
+            <Select options={options}/>
           </div>
         </form>
         <button className={css.close} onClick={closeHandler}>&#10005;</button>
