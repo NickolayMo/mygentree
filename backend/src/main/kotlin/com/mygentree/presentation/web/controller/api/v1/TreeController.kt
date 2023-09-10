@@ -10,15 +10,19 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import kotlin.math.log
 
 @RestController
 @RequestMapping("/web/api/v1/")
 class TreeController(
     @Autowired
-    private val treeService: ITreeService
+    private val treeService: ITreeService,
+    @Autowired
+    private val realTreeService: com.mygentree.service.ITreeService
 ) {
     @PostMapping("/tree/get")
     fun getTree(@RequestBody request: TreeRequest): TreeResponse? {
+        val t = realTreeService.getTreeById(1)
         val tree = treeService.getTreeById(request.treeId)
         return TreeResponse(success = true, data = tree, error = null)
     }

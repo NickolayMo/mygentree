@@ -3,13 +3,14 @@ package com.mygentree.repository
 import com.google.gson.Gson
 import com.mygentree.business.dto.*
 import com.mygentree.business.service.TreeUpdatePerson
+import com.mygentree.data.Tree
 import com.mygentree.presentation.web.controller.api.v1.mock
 import org.springframework.stereotype.Component
 import java.security.MessageDigest
 import kotlin.random.Random
 
 @Component
-class MockTreeRepositoryImpl : ITreeRepository {
+class TreeRepositoryImpl : ITreeRepository {
 
     private val mockTree = Gson().fromJson(mock, GenTree::class.java)
     override fun getById(id: String): GenTree {

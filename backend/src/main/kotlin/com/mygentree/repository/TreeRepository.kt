@@ -1,13 +1,9 @@
 package com.mygentree.repository
 
-import com.mygentree.business.dto.GenTree
-import com.mygentree.business.dto.GenTreeNode
-import com.mygentree.business.service.UpdateConnectionContext
-import com.mygentree.business.service.TreeUpdatePerson
+import com.mygentree.data.Tree
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-interface ITreeRepository {
-    fun getById(id: String): GenTree
-    fun updatePerson(updatePersonContext: TreeUpdatePerson): GenTree?
-    //fun updateConnection(updateConnectionContext: UpdateConnectionContext): GenTree?
-    fun getPersonList(treeId: String): List<GenTreeNode>?
+@Repository
+interface TreeRepository: JpaRepository<Tree, Long> {
 }

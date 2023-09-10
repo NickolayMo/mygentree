@@ -6,7 +6,7 @@ plugins {
     kotlin("jvm") version "1.8.21"
     kotlin("plugin.spring") version "1.8.21"
     id("org.springdoc.openapi-gradle-plugin") version "1.6.0"
-    //kotlin("plugin.jpa") version "1.8.21"
+    kotlin("plugin.jpa") version "1.8.21"
     id("org.liquibase.gradle") version "2.2.0"
 }
 
@@ -30,7 +30,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("org.liquibase:liquibase-core")
-   // liquibaseRuntime(sourceSets.getByName("main").output)
     liquibaseRuntime("org.liquibase:liquibase-core")
     liquibaseRuntime("org.liquibase.ext:liquibase-hibernate5:3.8")
     liquibaseRuntime("org.postgresql:postgresql")
