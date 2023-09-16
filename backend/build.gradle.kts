@@ -52,7 +52,7 @@ liquibase {
     activities.register("main") {
         this.arguments = mapOf(
             "logLevel" to "info",
-            "changelogFile" to "src/main/resources/db/changelog/db.changelog-master.xml",
+            "changelogFile" to "backend/src/main/resources/db/changelog/db.changelog-master.xml",
             "url" to property("db_url"),
             "username" to property("db_user"),
             "password" to property("db_password"),

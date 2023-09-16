@@ -22,8 +22,8 @@ class TreeController(
 ) {
     @PostMapping("/tree/get")
     fun getTree(@RequestBody request: TreeRequest): TreeResponse? {
-        val t = realTreeService.getTreeById(1)
-        val tree = treeService.getTreeById(request.treeId)
+        val tree = realTreeService.getTreeById(request.treeId.toLong())
+        //val tree = treeService.getTreeById(request.treeId)
         return TreeResponse(success = true, data = tree, error = null)
     }
     //create, delete, update

@@ -2,6 +2,12 @@ management:
   server:
     port: 9090
 spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    use_sql_comments: true
   profile:
     active: "local"
   datasource:
@@ -10,3 +16,4 @@ spring:
     password: mygentreepassword
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
+
