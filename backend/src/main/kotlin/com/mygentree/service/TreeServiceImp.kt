@@ -57,7 +57,7 @@ class TreeServiceImp(
         relations?.forEach {
             result.add(
                 ConnectionNode(
-                    id = it.id.toString(),
+                    id = it.secondPerson?.id.toString(),
                     type = ConnectionType.valueOf(it.connectionType.toString())
                 )
             )

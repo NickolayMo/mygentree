@@ -13,8 +13,8 @@ import { PersonForm } from '../PersonForm/PersonForm';
 
 const resource = getInitData()
 export const TreeRoot = () => {
-  //const data = resource.read()
-  const data = getMockInitData()
+  const data = resource.read()
+  //const data = getMockInitData()
   const [source, setSource] = useState(DEFAULT_SOURCE);
   const [nodes, setNodes] = useState<readonly Readonly<Node>[]>(data.relatives);
   const [isUserEditVisible,  setIsUserEdit] = useState(false)
