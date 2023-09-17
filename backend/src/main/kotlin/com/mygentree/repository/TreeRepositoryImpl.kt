@@ -37,7 +37,8 @@ class TreeRepositoryImpl : ITreeRepository {
                     siblings = mutableListOf(),
                     spouses = mutableListOf(),
                     children = mutableListOf(),
-                    infoNode = null
+                    infoNode = null,
+                    isMain = false
                 )
                 
                 var infoNode = node?.infoNode

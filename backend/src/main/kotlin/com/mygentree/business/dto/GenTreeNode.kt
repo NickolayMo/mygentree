@@ -8,4 +8,5 @@ data class GenTreeNode(
     var spouses: MutableList<ConnectionNode>?,
     var children: MutableList<ConnectionNode>?,
     var infoNode: InfoNode?,
+    var isMain: Boolean?
 )

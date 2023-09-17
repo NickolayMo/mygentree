@@ -37,20 +37,21 @@ CREATE TABLE IF NOT EXISTS tree (
 id serial primary key,
 name text,
 extra_info json,
-deleted bool,
-created_at timestamp default current_timestamp,
-updated_at timestamp default current_timestamp,
+deleted bool not null default false,
+created_at timestamp not null default current_timestamp,
+updated_at timestamp not null default current_timestamp,
 deleted_at timestamp
 );
 
 CREATE TABLE IF NOT EXISTS person (
 id serial primary key,
 tree_id bigint,
+is_main bool not null default false,
 extra_info json,
 gender gender,
-deleted bool,
-created_at timestamp default current_timestamp,
-updated_at timestamp default current_timestamp,
+deleted bool not null default false,
+created_at timestamp not null default current_timestamp,
+updated_at timestamp not null default current_timestamp,
 deleted_at timestamp
 );
 
@@ -60,9 +61,9 @@ first_person_id bigint,
 second_person_id bigint,
 relation_type relation_type,
 connection_type connection_type,
-deleted bool,
-created_at timestamp default current_timestamp,
-updated_at timestamp default current_timestamp,
+deleted bool not null default false,
+created_at timestamp not null default current_timestamp,
+updated_at timestamp not null default current_timestamp,
 deleted_at timestamp
 );
 

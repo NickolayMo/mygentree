@@ -41,10 +41,12 @@ class TreeServiceImp(
                     siblings = mapConnectionNode(relMap?.getOrDefault(RelationType.SIBLING.name, mutableListOf())),
                     spouses = mapConnectionNode(relMap?.getOrDefault(RelationType.SPOUSE.name, mutableListOf())),
                     children = mapConnectionNode(relMap?.getOrDefault(RelationType.CHILD.name, mutableListOf())),
-                    infoNode = mapInfoNode(person.extraInfo)
+                    infoNode = mapInfoNode(person.extraInfo),
+                    isMain = person.isMain
                 )
             )
         }
+        result.sortByDescending { it.isMain }
         return result
     }
 

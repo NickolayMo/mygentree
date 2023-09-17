@@ -14,6 +14,7 @@ class Tree(
     @GeneratedValue
     var id: Long? = null,
     @OneToMany(mappedBy = "tree")
+    @OrderBy("id ASC")
     var persons: Set<Person>?
 )
 
@@ -23,19 +24,15 @@ class Person(
     @GeneratedValue
     var id: Long?,
     @OneToMany(mappedBy = "firstPerson")
+    @OrderBy("id ASC")
     var relations: Set<Relation>?,
     @ManyToOne
     @JoinColumn(name = "tree_id")
     var tree: Tree?,
-    @JdbcTypeCode(SqlTypes.JSON)
     var extraInfo: String?,
-
-    var gender: String?
+    var gender: String?,
+    var isMain: Boolean?
 )
-
-class ExtraInfo(
-    var textId: String?
-): Serializable
 
 @Entity
 class Relation(
