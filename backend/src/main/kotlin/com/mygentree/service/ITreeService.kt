@@ -1,6 +1,6 @@
 package com.mygentree.service
 
-import com.mygentree.business.dto.GenTree
+import com.mygentree.dto.GenTree
 import com.mygentree.data.Tree
 import java.util.*
 

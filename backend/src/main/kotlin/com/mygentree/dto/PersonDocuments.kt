@@ -1,4 +1,4 @@
-package com.mygentree.business.dto
+package com.mygentree.dto
 
 data class PersonDocuments(
     var url: String

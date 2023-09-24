@@ -1,10 +1,10 @@
 package com.mygentree.service
 
 import com.google.gson.Gson
-import com.mygentree.business.dto.*
 import com.mygentree.data.Relation
 import com.mygentree.data.RelationType
 import com.mygentree.data.Tree
+import com.mygentree.dto.*
 import com.mygentree.repository.TreeRepository
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,7 +16,6 @@ class TreeServiceImp(
     private val treeRepository: TreeRepository
 ) : ITreeService {
 
-    @Suppress("UNREACHABLE_CODE")
     override fun getTreeById(id: Long): GenTree {
         val result = treeRepository.findById(id).orElseThrow{EntityNotFoundException("Tree not found")}
         return mapToGenTree(result)

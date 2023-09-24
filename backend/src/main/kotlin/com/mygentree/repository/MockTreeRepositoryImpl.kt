@@ -1,16 +1,15 @@
 package com.mygentree.repository
 
 import com.google.gson.Gson
-import com.mygentree.business.dto.*
-import com.mygentree.business.service.TreeUpdatePerson
-import com.mygentree.data.Tree
-import com.mygentree.presentation.web.controller.api.v1.mock
+import com.mygentree.dto.TreeUpdatePerson
+import com.mygentree.dto.*
+import com.mygentree.repository.mock.mock
 import org.springframework.stereotype.Component
 import java.security.MessageDigest
 import kotlin.random.Random
 
 @Component
-class TreeRepositoryImpl : ITreeRepository {
+class MockTreeRepositoryImpl : MockITreeRepository {
 
     private val mockTree = Gson().fromJson(mock, GenTree::class.java)
     override fun getById(id: String): GenTree {
@@ -59,7 +58,7 @@ class TreeRepositoryImpl : ITreeRepository {
                 node?.spouses = updatePersonContext.context.children?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()?: mutableListOf()
                 node?.siblings = updatePersonContext.context.siblings?.map { ConnectionNode(id = it.personId, type = ConnectionType.valueOf(it.connectionType.name)) }?.toMutableList()?: mutableListOf()
                 node.parents?.forEach { p->
-                    mockTree.relatives.find { it.id == p.id}?.children?.add(ConnectionNode(id = node.id, type =ConnectionType.BLOOD))
+                    mockTree.relatives.find { it.id == p.id}?.children?.add(ConnectionNode(id = node.id, type = ConnectionType.BLOOD))
                 }
 
                 mockTree.relatives.add(node)

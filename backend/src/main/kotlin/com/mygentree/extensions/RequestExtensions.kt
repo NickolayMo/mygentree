@@ -1,6 +1,6 @@
-package com.mygentree.business.extensions
+package com.mygentree.extensions
 
-import com.mygentree.business.service.TreeUpdatePerson
+import com.mygentree.dto.TreeUpdatePerson
 import com.mygentree.presentation.web.controller.api.v1.TreeUpdatePersonRequest
 
 fun TreeUpdatePerson.Companion.fromRequest(request: TreeUpdatePersonRequest): TreeUpdatePerson {
@@ -29,6 +29,7 @@ fun TreeUpdatePerson.Companion.fromRequest(request: TreeUpdatePersonRequest): Tr
             spouses = request.context.spouses?.map {
                 mapConnection(it)
             },
+            gender = request.context.gender
 
             )
     )

@@ -1,3 +1,3 @@
-package com.mygentree.business.dto
+package com.mygentree.dto
 
 data class GenTree(var relatives: MutableList<GenTreeNode>)

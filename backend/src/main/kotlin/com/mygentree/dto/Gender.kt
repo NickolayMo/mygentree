@@ -1,4 +1,4 @@
-package com.mygentree.business.dto
+package com.mygentree.dto
 
 enum class Gender {
     MALE,

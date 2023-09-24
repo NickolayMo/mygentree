@@ -1,4 +1,4 @@
-package com.mygentree.business.service
+package com.mygentree.dto
 
 data class TreeUpdatePerson(
     val userId: String,
@@ -24,8 +24,10 @@ data class TreeUpdatePerson(
         var parents: List<Connection>?,
         var children: List<Connection>?,
         var siblings: List<Connection>?,
-        var spouses: List<Connection>?
+        var spouses: List<Connection>?,
+        var gender: String?
     )
+
     data class Connection(
         val personId: String,
         val connectionType: ConnectionType,
