@@ -50,6 +50,7 @@ class PersonServiceImpl(
 
     @Transactional
     private fun update(updatePersonContext: TreeUpdatePerson) {
+        val tree = treeRepository.findById(updatePersonContext.treeId.toLong()).orElseThrow()
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
         val node = personRepository.findById(nodeId).orElseThrow { EntityNotFoundException("Entity not found") }
         var infoNode = InfoNode()
@@ -64,33 +65,14 @@ class PersonServiceImpl(
         infoNode.birthDate = updatePersonContext.context.birthDate
         infoNode.occupation = updatePersonContext.context.occupation
         node?.extraInfo = Gson().toJson(infoNode)
+        val session = sessionFactory.openSession()
+        session.transaction.begin()
         personRepository.save(node)
-
-//        node?.parents = updatePersonContext.context.parents?.map {
-//            ConnectionNode(
-//                id = it.personId,
-//                type = ConnectionType.valueOf(it.connectionType.name)
-//            )
-//        }?.toMutableList()
-//        node?.children = updatePersonContext.context.children?.map {
-//            ConnectionNode(
-//                id = it.personId,
-//                type = ConnectionType.valueOf(it.connectionType.name)
-//            )
-//        }?.toMutableList()
-//        node?.spouses = updatePersonContext.context.children?.map {
-//            ConnectionNode(
-//                id = it.personId,
-//                type = ConnectionType.valueOf(it.connectionType.name)
-//            )
-//        }?.toMutableList()
-//        node?.siblings = updatePersonContext.context.siblings?.map {
-//            ConnectionNode(
-//                id = it.personId,
-//                type = ConnectionType.valueOf(it.connectionType.name)
-//            )
-//        }?.toMutableList()
-//        mockTree
+        val relations = createRelations(updatePersonContext, tree, node)
+        relations.forEach {relation ->
+            session.persist(relation)
+        }
+        session.transaction.commit()
     }
 
 
@@ -124,9 +106,7 @@ class PersonServiceImpl(
         relations.forEach {relation ->
             session.persist(relation)
         }
-
         session.transaction.commit()
-
     }
 
     private fun createRelations(
@@ -136,10 +116,33 @@ class PersonServiceImpl(
     ): MutableSet<Relation> {
         val relations = mutableSetOf<Relation>()
         if (updatePersonContext.context.children?.isEmpty() == false) {
-            creteChildConnections(updatePersonContext, tree, relations, node)
+            relations.addAll(creteChildConnections(updatePersonContext, tree, node))
         }
         if (updatePersonContext.context.parents?.isEmpty() == false) {
-            createParentConnection(updatePersonContext, tree, relations, node)
+            relations.addAll(createParentConnection(updatePersonContext, tree, node))
+        }
+        if (updatePersonContext.context.spouses?.isEmpty() == false) {
+            relations.addAll(createSpouseConnection(updatePersonContext, tree, node))
+        }
+        return relations
+    }
+
+    private fun createSpouseConnection(
+        updatePersonContext: TreeUpdatePerson,
+        tree: Tree,
+        node: Person
+    ): Set<Relation> {
+        val relations = mutableSetOf<Relation>()
+        updatePersonContext.context.spouses!!.map { spouse ->
+            val personSpouse = tree.persons?.firstOrNull { it.id == spouse.personId.toLong() }
+                ?: throw NoSuchElementException("Person with id ${spouse.personId} not found")
+            relations.add(
+                getSpouseRelation(node, personSpouse, spouse.connectionType)
+            )
+            relations.add(
+                getSpouseRelation(personSpouse, node, spouse.connectionType)
+            )
+
         }
         return relations
     }
@@ -147,73 +150,82 @@ class PersonServiceImpl(
     private fun createParentConnection(
         updatePersonContext: TreeUpdatePerson,
         tree: Tree,
-        relations: MutableSet<Relation>,
         node: Person
-    ) {
+    ): Set<Relation> {
+        val relations = mutableSetOf<Relation>()
         updatePersonContext.context.parents!!.map { parent ->
             val personParent = tree.persons?.firstOrNull { it.id == parent.personId.toLong() }
                 ?: throw NoSuchElementException("Person with id ${parent.personId} not found")
             relations.add(
-                getParentRelation(node, personParent, parent)
+                getParentRelation(node, personParent, parent.connectionType)
             )
-            //add person as child to parent
-            relations.add(
-                getChildRelation(personParent, node, parent)
-            )
+            //add sibling relations
             personParent.relations?.filter { it.relationType == RelationType.CHILD.toString() }?.forEach {sibling ->
                 relations.add(
-                    getSiblingRelation(sibling.firstPerson!!, node, parent)
+                    getSiblingRelation(sibling.firstPerson!!, node, parent.connectionType)
                 )
                 relations.add(
-                    getSiblingRelation(node, sibling.firstPerson!!, parent)
+                    getSiblingRelation(node, sibling.firstPerson!!, parent.connectionType)
                 )
             }
+            //add person as child to parent
+            relations.add(
+                getChildRelation(personParent, node, parent.connectionType)
+            )
+
         }
+        return relations
     }
 
     private fun creteChildConnections(
         updatePersonContext: TreeUpdatePerson,
         tree: Tree,
-        relations: MutableSet<Relation>,
         node: Person
-    ) {
+    ): Set<Relation> {
+        val relations = mutableSetOf<Relation>()
         updatePersonContext.context.children!!.map { child ->
             val personChild = tree.persons?.firstOrNull { it.id == child.personId.toLong() }
                 ?: throw NoSuchElementException("Person with id ${child.personId} not found")
             relations.add(
-                getChildRelation(node, personChild, child)
+                getChildRelation(node, personChild, child.connectionType)
             )
             //add person as parent to child
             relations.add(
-                getParentRelation(personChild, node, child)
+                getParentRelation(personChild, node, child.connectionType)
             )
         }
+        return relations
     }
 
     private fun getParentRelation(
         person: Person,
         parent: Person,
-        connection: TreeUpdatePerson.Connection
-    ) = mapRelation(person, parent, connection.connectionType, RelationType.PARENT)
+        connection: TreeUpdatePerson.ConnectionType
+    ) = mapRelation(person, parent, connection, RelationType.PARENT)
+
+    private fun getSpouseRelation(
+        person: Person,
+        spouse: Person,
+        connection: TreeUpdatePerson.ConnectionType
+    ) = mapRelation(person, spouse, connection, RelationType.SPOUSE)
 
     private fun getChildRelation(
         person: Person,
         child: Person,
-        connection: TreeUpdatePerson.Connection
-    ) = mapRelation(person, child, connection.connectionType, RelationType.CHILD)
+        connection: TreeUpdatePerson.ConnectionType
+    ) = mapRelation(person, child, connection, RelationType.CHILD)
 
     private fun getSiblingRelation(
         person: Person,
         sibling: Person,
-        parent: TreeUpdatePerson.Connection
-    ) = mapRelation(person, sibling, parent.connectionType, RelationType.SIBLING)
+        connection: TreeUpdatePerson.ConnectionType
+    ) = mapRelation(person, sibling, connection, RelationType.SIBLING)
 
     private fun mapRelation(
         firstPerson: Person,
         secondPerson: Person,
         connectionType: TreeUpdatePerson.ConnectionType,
         relationType: RelationType
-
     ) = Relation(
         id = null,
         firstPerson = firstPerson,
