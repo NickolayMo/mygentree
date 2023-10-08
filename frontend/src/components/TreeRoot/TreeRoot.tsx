@@ -8,8 +8,10 @@ import { NodeDetails } from '../NodeDetails/NodeDetails';
 import { NODE_WIDTH, NODE_HEIGHT, SOURCES, DEFAULT_SOURCE } from '../const';
 import { getInitData, getNodeStyle, getMockInitData } from '../../utils/utils';
 
+
+
 import css from './TreeRoot.module.css';
-import { PersonForm } from '../PersonForm/PersonForm';
+import { FormTypes, PersonForm } from '../PersonForm/PersonForm';
 
 const resource = getInitData()
 export const TreeRoot = () => {
@@ -17,9 +19,8 @@ export const TreeRoot = () => {
   //const data = getMockInitData()
   const [source, setSource] = useState(DEFAULT_SOURCE);
   const [nodes, setNodes] = useState<readonly Readonly<Node>[]>(data.relatives);
-  const [isUserEditVisible,  setIsUserEdit] = useState(false)
-
-  const [isUserCreateVisible,  setIsUserCreate] = useState(false)
+  const [formType, setFormType] = useState<FormTypes>()
+  const [formVisible, setFormVisilble] = useState(false)
 
   const firstNodeId = useMemo(() => nodes[0].id, [nodes]);
   const [rootId, setRootId] = useState(firstNodeId);
@@ -46,18 +47,20 @@ export const TreeRoot = () => {
 
   const onPersonChange = useCallback(
     (nodes: readonly Readonly<Node>[]) => {
-    setRootId(nodes[0].id);
-    setNodes(nodes);
-    setSelectId(selectId);
-    setHoverId(selectId);
-  },
-  [],)
+      setRootId(nodes[0].id);
+      setNodes(nodes);
+      setSelectId(selectId);
+      setHoverId(selectId);
+    },
+    [],)
+
+  console.log(formType)
 
   return (
     <div className={css.root}>
       <header className={css.header}>
         <h1 className={css.title}>
-          My gen tree
+          Мое древо
         </h1>
 
         <div>
@@ -101,18 +104,18 @@ export const TreeRoot = () => {
           onHover={setHoverId}
           onClear={() => setHoverId(undefined)}
           onDelete={() => setSelectId(undefined)}
-          onEdit={setIsUserEdit}
-          onCreate={setIsUserCreate}
+          editFormType={setFormType}
+          showForm={setFormVisilble}
         />
       )}
-      {selected && (isUserEditVisible || isUserCreateVisible) && (
-        <PersonForm 
-        createForm = {isUserCreateVisible}
-        className={css.personForm}
-        node={selected} 
-        nodeList={nodes}
-        onPersonChange={onPersonChange}
-        onClose={setIsUserEdit}
+      {selected && formVisible && (
+        <PersonForm
+          formType={formType}
+          className={css.personForm}
+          node={selected}
+          nodeList={nodes}
+          onPersonChange={onPersonChange}
+          onClose={setFormVisilble}
         />
       )}
     </div>

@@ -1,9 +1,11 @@
-import React, { memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import classNames from 'classnames';
 import type { Node } from '../../renderTree/types';
 import { Relations } from './Relations';
 import css from './NodeDetails.module.css';
 import { getPersonName } from '../../utils/utils';
+import { deleteUser } from './actions';
+import { FormTypes } from '../PersonForm/PersonForm';
 
 interface NodeDetailsProps {
   node: Readonly<Node>;
@@ -13,45 +15,41 @@ interface NodeDetailsProps {
   onHover: (nodeId: string) => void;
   onClear: () => void;
   onDelete: () => void;
-  onEdit: (isVisible: boolean) => void;
-  onCreate: (isVisible: boolean) => void;
+  editFormType: (formType: FormTypes)=>void;
+  showForm: (showForm: boolean)=>void
 }
 
 export const NodeDetails = memo(
   function NodeDetails({nodeList, node, className, ...props }: NodeDetailsProps) {
     const closeHandler = useCallback(() => props.onSelect(undefined), [props]);
     const deleteNodeHandler = useCallback(() => props.onDelete(), [props]);
-    const editUserHandler = useCallback(() => props.onEdit(true), [props])
-    const createUserHandler = useCallback(() => props.onCreate(true), [props])
-    console.log(props)
+    const editUserHandler = useCallback(() => props.editFormType(FormTypes.EDIT), [props]);
+    const addChildHandler = useCallback(()=> props.editFormType(FormTypes.ADD_CHILD), [props]);
+    const addParentHandler = useCallback(()=> props.editFormType(FormTypes.ADD_PARENT), [props]);
+    const addSpouseHandler = useCallback(()=> props.editFormType(FormTypes.ADD_SPOUSE), [props]);
 
     async function editUserCallback() {
+      props.showForm(true)
       editUserHandler()
     }
-    async function createUserCallback() {
-      createUserHandler()
+
+    async function addChildCallback() {
+      props.showForm(true)
+      addChildHandler()
+    }
+
+    async function addSposeCallback() {
+      props.showForm(true)
+      addSpouseHandler()
+    }
+
+    async function addParentCallback() {
+      props.showForm(true)
+      addParentHandler()
     }
 
     async function deleteUserCallback() {
-      fetch(
-        process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/update/person",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            "userId": "HkqEDLvxE",
-            "treeId": "1",
-            "action": "DELETE",
-            "nodeId": node.id,
-            "context": {
-            }
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          }
-        }
-      ).then((res) => res.json())
-        .then((res) => res.data)
-        .then((res) => deleteNodeHandler())
+      deleteUser(node, deleteNodeHandler)
     }
 
 
@@ -64,8 +62,14 @@ export const NodeDetails = memo(
         <button className={css.reset} onClick={editUserCallback}>
           Редактировать
         </button>
-        <button className={css.reset} onClick={createUserCallback}>
-          Добавить родственника
+        <button className={css.reset} onClick={addChildCallback}>
+          Добавить ребенка
+        </button>
+        <button className={css.reset} onClick={addParentCallback}>
+          Добавить родителя
+        </button>
+        <button className={css.reset} onClick={addSposeCallback}>
+          Добавить супруга/супругу
         </button>
         <header className={css.header}>
           {node.infoNode && node.infoNode.avatar && (

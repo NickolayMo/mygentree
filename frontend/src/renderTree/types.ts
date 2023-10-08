@@ -3,22 +3,22 @@ export type Mutable<T> = {
 };
 
 export const enum Gender {
-  male = 'male',
-  female = 'female',
+  male = 'MALE',
+  female = 'FEMALE',
 }
 
 export const enum RelType {
-  blood = 'blood',
-  married = 'married',
-  divorced = 'divorced',
-  adopted = 'adopted',
-  half = 'half',
+  blood = 'BLOOD',
+  married = 'MARRIED',
+  divorced = 'DIVORCED',
+  adopted = 'ADOPTED',
+  half = 'HALF',
 }
 
 export const enum FamilyType {
-  root = 'root',
-  child = 'child',
-  parent = 'parent',
+  root = 'ROOT',
+  child = 'CHILD',
+  parent = 'PARENT',
 }
 
 export type Family = {
@@ -106,10 +106,10 @@ export type LiveEvent = Readonly<{
 }>
 
 export const enum LiveEventType {
-  birth = 'birth',
-  death = 'death',
-  marrige = 'marrige',
-  other = 'other'
+  birth = 'BIRTH',
+  death = 'DEATH',
+  marrige = 'MARRIGE',
+  other = 'OTHER'
 }
 
 export type PersonDocuments = Readonly<{

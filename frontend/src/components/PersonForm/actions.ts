@@ -1,63 +1,94 @@
-import { InfoNode, Node } from "../../renderTree/types"
+import { Gender, InfoNode, LiveEvent, Node, PersonDocuments, RelType, Relation } from "../../renderTree/types"
 
-export const updatePerson = (values: InfoNode, node: Node, callback: (nodeList: any) => any) => {
-    const formVals = values as InfoNode
-    fetch(
-      process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/update/person",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          "userId": "HkqEDLvxE",
-          "treeId": "1",
-          "action": "UPDATE",
-          "nodeId": node.id,
-          "context": {
-            "avatar": formVals.avatar,
-            "firstName": formVals.firstName,
-            "middleName": formVals.middleName,
-            "lastName": formVals.lastName,
-            "birthDate": formVals.birthDate,
-            "occupation": formVals.occupation,
-            "location": formVals.location
-          }
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        }
+type UpdateContext = {
+  avatar?: string
+  firstName?: string,
+  middleName?: string,
+  lastName?: string,
+  occupation?: string,
+  location?: string,
+  birthDate?: string
+  liveEvents?: readonly LiveEvent[];
+  personDocuments?: readonly PersonDocuments[];
+  description?: string,
+  gender?: Gender,
+  parents?: readonly Relation[];
+  children?: readonly Relation[];
+  siblings?: readonly Relation[];
+  spouses?: readonly Relation[];
+}
+
+export const updatePerson = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
+  const formVals = values as UpdateContext
+  fetch(
+    process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/person/update",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        "userId": "HkqEDLvxE",
+        "treeId": "1",
+        "action": "UPDATE",
+        "nodeId": node.id,
+        "context": { ...formVals }
+      }),
+      headers: {
+        "Content-Type": "application/json",
       }
-    ).then((res) => res.json())
-      .then((res) => res.data)
-      .then((res) => callback(res.relatives))
-  }
+    }
+  ).then((res) => res.json())
+    .then((res) => res.data)
+    .then((res) => callback(res.relatives))
+}
 
 
-  export const createPerson = (values: InfoNode, node: Node, callback: (nodeList: any) => any) => {
-    const formVals = values as InfoNode
-    console.log(formVals)
-    fetch(
-      process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/update/person",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          "userId": "HkqEDLvxE",
-          "treeId": "1",
-          "action": "CREATE",
-          "nodeId": node.id,
-          "context": {
-            "avatar": formVals.avatar,
-            "firstName": formVals.firstName,
-            "middleName": formVals.middleName,
-            "lastName": formVals.lastName,
-            "birthDate": formVals.birthDate,
-            "occupation": formVals.occupation,
-            "location": formVals.location
-          }
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        }
+const createPerson = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
+  const formVals = values as UpdateContext
+  fetch(
+    process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/person/update",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        "userId": "HkqEDLvxE",
+        "treeId": "1",
+        "action": "CREATE",
+        "nodeId": node.id,
+        "context": { ...formVals }
+      }),
+      headers: {
+        "Content-Type": "application/json",
       }
-    ).then((res) => res.json())
-      .then((res) => res.data)
-      .then((res) => callback(res.relatives))
+    }
+  ).then((res) => res.json())
+    .then((res) => res.data)
+    .then((res) => callback(res.relatives))
+}
+
+
+export const addChild = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
+  const parents = [
+    {
+      id: node.id,
+      type: RelType.blood
+    }
+  ]
+  if (node.spouses.length > 0) {
+    const spouse = node.spouses[0]
+    parents.push(
+      {
+        id: spouse.id,
+        type: RelType.blood
+      }
+
+    )
   }
+  values.parents = parents
+  return createPerson(values, node, callback)
+}
+
+export const addParent = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
+  return createPerson(values, node, callback)
+}
+
+export const addSpouse = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
+  return createPerson(values, node, callback)
+}

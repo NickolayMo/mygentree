@@ -1,13 +1,19 @@
 import { memo, useCallback } from 'react';
-import type { InfoNode, Node } from '../../renderTree/types';
+import { Gender, type InfoNode, type Node } from '../../renderTree/types';
 import { useForm } from '../UseForm/UseForm';
 import classNames from 'classnames';
 import css from './PersonForm.module.css';
-import { createPerson, updatePerson } from './actions';
-import Select from 'react-select'
+import { addChild, addParent, addSpouse, updatePerson } from './actions';
+
+export const enum FormTypes {
+  "ADD_CHILD",
+  "ADD_PARENT",
+  "ADD_SPOUSE",
+  "EDIT"
+}
 
 interface PersonFormProps {
-  createForm?: boolean
+  formType?: FormTypes
   className?: string;
   node: Readonly<Node>;
   nodeList: ReadonlyArray<Node>;
@@ -16,19 +22,33 @@ interface PersonFormProps {
 }
 
 export const PersonForm = memo(
-  function PersonForm({ createForm, className, node, nodeList, onPersonChange, ...props }: PersonFormProps) {
+  function PersonForm({ formType, className, node, nodeList, onPersonChange, ...props }: PersonFormProps) {
     const closeHandler = useCallback(() => props.onClose(false), [props]);
-    const initialState = !createForm ? {
+    const initialState = formType === FormTypes.EDIT ? {
       firstName: node.infoNode?.firstName,
       middleName: node.infoNode?.middleName,
       lastName: node.infoNode?.lastName,
       avatar: node.infoNode?.avatar,
       birthDate: node.infoNode?.birthDate,
       location: node.infoNode?.location,
-      occupation: node.infoNode?.occupation
-    }: {};
+      occupation: node.infoNode?.occupation,
+      gender: node.gender
+    } : {};
+
+    const formCallback = () => {
+      switch (formType) {
+        case FormTypes.ADD_CHILD:
+          return addChildCallback
+        case FormTypes.ADD_PARENT:
+          return addParentCallback
+        case FormTypes.ADD_SPOUSE:
+          return addSpouseCallback
+        default:
+          return updateUserCallback
+      }
+    }
     const { onChange, onSubmit, onSelect, values } = useForm(
-      createForm ? createUserCallback : updateUserCallback,
+      formCallback(),
       initialState
     );
 
@@ -36,14 +56,15 @@ export const PersonForm = memo(
       updatePerson(values, node, onPersonChange)
     }
 
-    async function createUserCallback() {
-      createPerson(values, node, onPersonChange)
+    async function addChildCallback() {
+      addChild(values, node, onPersonChange)
     }
-    const options = [
-      { value: 'chocolate', label: 'Chocolate' },
-      { value: 'strawberry', label: 'Strawberry' },
-      { value: 'vanilla', label: 'Vanilla' }
-    ]
+    async function addParentCallback() {
+      addParent(values, node, onPersonChange)
+    }
+    async function addSpouseCallback() {
+      addSpouse(values, node, onPersonChange)
+    }
 
     return (
       <div className={classNames(css.root, className)}>
@@ -58,6 +79,17 @@ export const PersonForm = memo(
                 defaultValue={initialState.avatar}
                 onChange={onChange}
               />
+            </div>
+            <div>
+              <label>Пол</label>
+              <select value={initialState.gender} id='gender' name='gender' onChange={onSelect}>
+                <option id={Gender.male} value={Gender.male}>
+                  Мужской
+                </option>
+                <option id={Gender.female} value={Gender.female}>
+                  Женский
+                </option>
+              </select>
             </div>
             <div>
               <label>Имя</label>
@@ -126,26 +158,7 @@ export const PersonForm = memo(
                 onChange={onChange}
               />
             </div>
-            <div>
-              <label>родители</label>
-              <select id='parents' name='parent' multiple onChange={onSelect}>
-                {nodeList.map((nodeVal) => {
-                  var selected = node.parents.find((p)=>p.id === nodeVal.id)
-                  if (selected && !createForm) {
-                    return (<option id={nodeVal.id} selected>
-                      ({nodeVal.id}) {nodeVal.infoNode?.firstName}
-                    </option>)
-                  }
-                  return (<option id={nodeVal.id}>
-                    ({nodeVal.id}) {nodeVal.infoNode?.firstName}
-                  </option>)
-                })}
-              </select>
-            </div>
             <button type='submit'>Изменить</button>
-          </div>
-          <div>
-            <Select options={options}/>
           </div>
         </form>
         <button className={css.close} onClick={closeHandler}>&#10005;</button>
