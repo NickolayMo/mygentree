@@ -7,8 +7,7 @@ import { FamilyNode } from '../FamilyNode/FamilyNode';
 import { NodeDetails } from '../NodeDetails/NodeDetails';
 import { NODE_WIDTH, NODE_HEIGHT, SOURCES, DEFAULT_SOURCE } from '../const';
 import { getInitData, getNodeStyle, getMockInitData } from '../../utils/utils';
-
-
+import Modal from 'react-modal'
 
 import css from './TreeRoot.module.css';
 import { FormTypes, PersonForm } from '../PersonForm/PersonForm';
@@ -52,7 +51,15 @@ export const TreeRoot = () => {
       setSelectId(selectId);
       setHoverId(selectId);
     },
-    [],)
+    [])
+    const onPersonDelete = useCallback(
+      (nodes: readonly Readonly<Node>[]) => {
+        setRootId(nodes[0].id);
+        setNodes(nodes);
+        setSelectId(undefined);
+        setHoverId(undefined);
+      },
+      [])
 
   console.log(formType)
 
@@ -63,10 +70,10 @@ export const TreeRoot = () => {
           Мое древо
         </h1>
 
-        <div>
+        {/* <div>
           <label>Source: </label>
           <SourceSelect value={source} items={SOURCES} onChange={changeSourceHandler} />
-        </div>
+        </div> */}
       </header>
       {nodes.length > 0 && (
         <PinchZoomPan min={0.5} max={2.5} captureWheel className={css.wrapper}>
@@ -103,7 +110,7 @@ export const TreeRoot = () => {
           onSelect={setSelectId}
           onHover={setHoverId}
           onClear={() => setHoverId(undefined)}
-          onDelete={() => setSelectId(undefined)}
+          onDelete={onPersonDelete}
           editFormType={setFormType}
           showForm={setFormVisilble}
         />

@@ -1,3 +1,4 @@
+import { updateRoute } from "../../api/routes";
 import { Gender, InfoNode, LiveEvent, Node, PersonDocuments, RelType, Relation } from "../../renderTree/types"
 
 type UpdateContext = {
@@ -16,12 +17,14 @@ type UpdateContext = {
   children?: readonly Relation[];
   siblings?: readonly Relation[];
   spouses?: readonly Relation[];
+  nodeId?: string;
 }
 
 export const updatePerson = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
+  console.log(values)
   const formVals = values as UpdateContext
   fetch(
-    process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/person/update",
+    process.env.REACT_APP_TREE_APP_SERVICE_URL + updateRoute,
     {
       method: "POST",
       body: JSON.stringify({
@@ -44,7 +47,7 @@ export const updatePerson = (values: UpdateContext, node: Node, callback: (nodeL
 const createPerson = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
   const formVals = values as UpdateContext
   fetch(
-    process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/person/update",
+    process.env.REACT_APP_TREE_APP_SERVICE_URL + updateRoute,
     {
       method: "POST",
       body: JSON.stringify({
@@ -86,9 +89,24 @@ export const addChild = (values: UpdateContext, node: Node, callback: (nodeList:
 }
 
 export const addParent = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
+  const children = [
+    {
+      id: node.id,
+      type: RelType.blood
+    }
+  ]
+  values.children = children
   return createPerson(values, node, callback)
 }
 
 export const addSpouse = (values: UpdateContext, node: Node, callback: (nodeList: any) => any) => {
+  const spouse = [
+    {
+      id: node.id,
+      type: RelType.blood
+    }
+  ]
+
+  values.spouses = spouse
   return createPerson(values, node, callback)
 }

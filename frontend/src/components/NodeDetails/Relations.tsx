@@ -32,7 +32,7 @@ export const Relations = memo(
             onMouseEnter={hoverHandler(item.id)}
             onMouseLeave={clearHandler}
           >
-            {getPersonName(findNode(item.id))} ({item.type})
+            {getPersonName(findNode(item.id))} <div hidden>{item.id}</div>
           </div>
         ))}
       </div>

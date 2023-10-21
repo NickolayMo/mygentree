@@ -6,6 +6,7 @@ import com.mygentree.data.RelationType
 import com.mygentree.data.Tree
 import com.mygentree.dto.*
 import com.mygentree.repository.TreeRepository
+import jakarta.persistence.EntityManager
 import jakarta.persistence.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -13,10 +14,13 @@ import org.springframework.stereotype.Service
 @Service
 class TreeServiceImp(
     @Autowired
-    private val treeRepository: TreeRepository
+    private val treeRepository: TreeRepository,
+    @Autowired
+    private val entityManager: EntityManager
 ) : ITreeService {
 
     override fun getTreeById(id: Long): GenTree {
+        entityManager.clear()
         val result = treeRepository.findById(id).orElseThrow{EntityNotFoundException("Tree not found")}
         return mapToGenTree(result)
     }

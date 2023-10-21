@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import type { ExtNode, Node } from '../renderTree/types';
 import { NODE_HEIGHT, NODE_WIDTH } from '../components/const';
 import { fetchData } from '../api/fetchData';
+import { getTreeRoute } from '../api/routes';
 
 export function getNodeStyle({ left, top }: Readonly<ExtNode>): CSSProperties {
   return {
@@ -20,7 +21,7 @@ export function getPersonName(node?: Node): string {
 
 export function getInitData(): any {
   return fetchData(
-    process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/get",
+    process.env.REACT_APP_TREE_APP_SERVICE_URL + getTreeRoute,
     {
       method: "POST",
       body: JSON.stringify({ userId: 1, treeId: 1 }),

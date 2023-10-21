@@ -6,11 +6,11 @@ export const useForm = (callback: any, initialState = {}) => {
 
     // onChange
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(values)
         setValues({ ...values, [event.target.name]: event.target.value });
     };
 
     const onSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        console.log(event.target.value)
         setValues({ ...values, [event.target.name]: event.target.value });
     };
     

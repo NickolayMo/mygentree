@@ -1,8 +1,9 @@
+import { updateRoute } from "../../api/routes"
 import { Node } from "../../renderTree/types"
 
-export const deleteUser= (node: Node, callback: () => void) => {
+export const deleteUser= (node: Node, callback: (nodes: readonly Readonly<Node>[]) => void) => {
     fetch(
-        process.env.REACT_APP_TREE_APP_SERVICE_URL + "/web/api/v1/tree/update/person",
+        process.env.REACT_APP_TREE_APP_SERVICE_URL + updateRoute,
         {
             method: "POST",
             body: JSON.stringify({
@@ -11,6 +12,7 @@ export const deleteUser= (node: Node, callback: () => void) => {
                 "action": "DELETE",
                 "nodeId": node.id,
                 "context": {
+                    "nodeId": node.id
                 }
             }),
             headers: {
@@ -18,6 +20,6 @@ export const deleteUser= (node: Node, callback: () => void) => {
             }
         }
     ).then((res) => res.json())
-        .then((res) => res.data)
-        .then((res) => callback())
+    .then((res) => res.data)
+    .then((res) => callback(res.relatives))
 }

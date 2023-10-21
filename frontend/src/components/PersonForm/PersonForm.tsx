@@ -32,9 +32,20 @@ export const PersonForm = memo(
       birthDate: node.infoNode?.birthDate,
       location: node.infoNode?.location,
       occupation: node.infoNode?.occupation,
-      gender: node.gender
-    } : {};
-
+      gender: node.gender,
+      nodeId: node.id
+    } : {
+      firstName: "",
+      middleName: "",
+      lastName: "",
+      avatar: "",
+      birthDate: "",
+      location: "",
+      occupation: "",
+      gender: Gender.male,
+      nodeId: ""
+    };
+    console.log(initialState)
     const formCallback = () => {
       switch (formType) {
         case FormTypes.ADD_CHILD:
@@ -67,101 +78,138 @@ export const PersonForm = memo(
     }
 
     return (
-      <div className={classNames(css.root, className)}>
+      <div className={classNames(css.root, css.container, className)}>
+        <button className={css.close} onClick={closeHandler}>&#10005;</button>
         <form onSubmit={onSubmit}>
           <div>
-            <div>
-              <label>фото</label><input
-                name='avatar'
-                id='avatar'
-                type='text'
-                placeholder='avatarUrl'
-                defaultValue={initialState.avatar}
-                onChange={onChange}
-              />
+            <div className={css.row}>
+              <div className={css.col_25}>
+                <label>фото</label>
+              </div>
+              <div className={css.col_75}>
+                <input
+                  name='avatar'
+                  id='avatar'
+                  type='text'
+                  placeholder='фото'
+                  defaultValue={initialState.avatar}
+                  onChange={onChange}
+                />
+              </div>
             </div>
-            <div>
-              <label>Пол</label>
-              <select value={initialState.gender} id='gender' name='gender' onChange={onSelect}>
-                <option id={Gender.male} value={Gender.male}>
-                  Мужской
-                </option>
-                <option id={Gender.female} value={Gender.female}>
-                  Женский
-                </option>
-              </select>
+            <div className={css.row}>
+              <div className={css.col_25}>
+                <label>Пол</label>
+              </div>
+              <div className={css.col_75}>
+                <select value={initialState.gender} id='gender' name='gender' onChange={onSelect}>
+                  <option id={Gender.male} value={Gender.male}>
+                    Мужской
+                  </option>
+                  <option id={Gender.female} value={Gender.female}>
+                    Женский
+                  </option>
+                </select>
+              </div>
             </div>
-            <div>
-              <label>Имя</label>
-              <input
-                name='firstName'
-                id='firstName'
-                type='text'
-                placeholder='firstName'
-                defaultValue={initialState.firstName}
-                onChange={onChange}
-              />
+            <div className={css.row}>
+              <div className={css.col_25}>
+                <label>Имя</label>
+              </div>
+              <div className={css.col_75}>
+                <input
+                  name='firstName'
+                  id='firstName'
+                  type='text'
+                  placeholder='Имя'
+                  defaultValue={initialState.firstName}
+                  onChange={onChange}
+                />
+              </div>
             </div>
-            <div>
-              <label>Отчество</label>
-              <input
-                name='middleName'
-                id='middleName'
-                type='text'
-                placeholder='middleName'
-                defaultValue={initialState.middleName}
-                onChange={onChange}
-              />
+            <div className={css.row}>
+              <div className={css.col_25}>
+                <label>Отчество</label>
+              </div>
+              <div className={css.col_75}>
+                <input
+                  name='middleName'
+                  id='middleName'
+                  type='text'
+                  placeholder='Отчество'
+                  defaultValue={initialState.middleName}
+                  onChange={onChange}
+                />
+              </div>
             </div>
-            <div>
-
-              <label>Фамилия</label>
-              <input
-                name='lastName'
-                id='lastName'
-                type='text'
-                placeholder='lastName'
-                defaultValue={initialState.lastName}
-                onChange={onChange}
-              />
+            <div className={css.row}>
+              <div className={css.col_25}>
+                <label>Фамилия</label>
+              </div>
+              <div className={css.col_75}>
+                <input
+                  name='lastName'
+                  id='lastName'
+                  type='text'
+                  placeholder='Фамилия'
+                  defaultValue={initialState.lastName}
+                  onChange={onChange}
+                />
+              </div>
             </div>
-            <div>
-              <label>Дата рождения</label>
-              <input
-                name='birthDate'
-                id='birthDate'
-                type='text'
-                placeholder='birthDate'
-                defaultValue={initialState.birthDate}
-                onChange={onChange}
-              />
+            <div className={css.row}>
+              <div className={css.col_25}>
+                <label>Дата рождения</label>
+              </div>
+              <div className={css.col_75}>
+                <input
+                  name='birthDate'
+                  id='birthDate'
+                  type='date'
+                  placeholder='Дата рождения'
+                  defaultValue={initialState.birthDate}
+                  onChange={onChange}
+                />
+              </div>
             </div>
-            <div>
-              <label>Место жительства</label>
-              <input
-                name='location'
-                id='location'
-                type='text'
-                placeholder='location'
-                defaultValue={initialState.location}
-                onChange={onChange}
-              />
+            <div className={css.row}>
+              <div className={css.col_25}>
+                <label>Место жительства</label>
+              </div>
+              <div className={css.col_75}>
+                <input
+                  name='location'
+                  id='location'
+                  type='text'
+                  placeholder='Место жительства'
+                  defaultValue={initialState.location}
+                  onChange={onChange}
+                />
+              </div>
             </div>
-            <div>
-              <label>Род занятий</label>
-              <input
-                name='occupation'
-                id='occupation'
-                type='text'
-                placeholder='occupation'
-                defaultValue={initialState.occupation}
-                onChange={onChange}
-              />
+            <div className={css.row}>
+              <div className={css.col_25}>
+                <label>Род занятий</label>
+              </div>
+              <div className={css.col_75}>
+                <input
+                  name='occupation'
+                  id='occupation'
+                  type='text'
+                  placeholder='Род занятий'
+                  defaultValue={initialState.occupation}
+                  onChange={onChange}
+                />
+              </div>
             </div>
-            <button type='submit'>Изменить</button>
+            <br/>
+            <div className={css.row}>
+              <input type='submit' value="Сохранить" />
+            </div>
           </div>
+          <input type='hidden' name='nodeId' id='nodeId' value={initialState.nodeId} onChange={onChange} />
         </form>
-        <button className={css.close} onClick={closeHandler}>&#10005;</button>
+
       </div>
     );
   }
