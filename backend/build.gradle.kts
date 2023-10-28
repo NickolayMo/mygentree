@@ -35,6 +35,10 @@ dependencies {
     liquibaseRuntime("org.postgresql:postgresql")
     liquibaseRuntime("org.springframework.boot:spring-boot")
     liquibaseRuntime("info.picocli:picocli:4.6.3")
+    implementation("io.jsonwebtoken:jjwt-api:0.10.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 }
 
 tasks.withType<KotlinCompile> {
@@ -52,7 +56,7 @@ liquibase {
     activities.register("main") {
         this.arguments = mapOf(
             "logLevel" to "info",
-            "changelogFile" to "backend/src/main/resources/db/changelog/db.changelog-master.xml",
+            "changelogFile" to "/src/main/resources/db/changelog/db.changelog-master.xml",
             "url" to property("db_url"),
             "username" to property("db_user"),
             "password" to property("db_password"),

@@ -7,7 +7,8 @@ import jakarta.persistence.*
 class Tree(
     var name: String,
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name="treeSeq", sequenceName="tree_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "treeSeq")
     var id: Long? = null,
     @OneToMany(mappedBy = "tree")
     @OrderBy("id ASC")
