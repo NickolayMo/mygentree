@@ -1,4 +1,4 @@
-package com.mygentree.presentation.web.controller.api.v1
+package com.mygentree.controller
 
 import com.mygentree.dto.GenTree
 import com.mygentree.dto.GenTreeNode

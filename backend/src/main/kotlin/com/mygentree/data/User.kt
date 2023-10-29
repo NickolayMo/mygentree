@@ -20,7 +20,7 @@ import java.time.Instant
 )
 class User(
     @Id
-    @SequenceGenerator(name="userSeq", sequenceName="user_id_seq", allocationSize = 1)
+    @SequenceGenerator(name="userSeq", sequenceName="users_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
     var id: Long? = null,
 
@@ -54,21 +54,14 @@ class User(
     )
     var roles: Set<Role>?,
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_trees",
-        joinColumns = [JoinColumn(name = "user_id")],
-        inverseJoinColumns = [JoinColumn(name = "tree_id")]
-    )
-    var trees: Set<Tree>?,
-
     @NotBlank
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    var createdAt: Instant,
+    var createdAt: Instant = Instant.now(),
 
     @NotBlank
     @LastModifiedDate
     @Column(nullable = false, updatable = false)
-    var updatedAt: Instant
+    var updatedAt: Instant = Instant.now()
 
 )
