@@ -1,5 +1,5 @@
-import { updateRoute } from "../../api/routes";
-import { Gender, InfoNode, LiveEvent, Node, PersonDocuments, RelType, Relation } from "../../renderTree/types"
+import { updateRoute } from "../../utils/routes";
+import { Gender, LiveEvent, Node, PersonDocuments, RelType, Relation } from "../../renderTree/types"
 
 type UpdateContext = {
   avatar?: string

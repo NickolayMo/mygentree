@@ -1,6 +1,5 @@
 package com.mygentree.configuration
 
-import com.mygentree.security.CustomUserDetailsService
 import com.mygentree.security.JwtAuthenticationEntryPoint
 import com.mygentree.security.filter.JwtAuthenticationFilter
 import org.springframework.beans.factory.annotation.Autowired
@@ -73,7 +72,7 @@ class SecurityConfiguration {
                     .requestMatchers(HttpMethod.GET, "/api/users/**")
                     .permitAll()
                     .anyRequest()
-                    .authenticated()
+                    .permitAll()
             }
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .build()

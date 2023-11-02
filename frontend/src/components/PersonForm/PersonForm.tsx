@@ -45,7 +45,6 @@ export const PersonForm = memo(
       gender: Gender.male,
       nodeId: ""
     };
-    console.log(initialState)
     const formCallback = () => {
       switch (formType) {
         case FormTypes.ADD_CHILD:

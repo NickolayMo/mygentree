@@ -1,4 +1,4 @@
-import { updateRoute } from "../../api/routes"
+import { updateRoute } from "../../utils/routes"
 import { Node } from "../../renderTree/types"
 
 export const deleteUser= (node: Node, callback: (nodes: readonly Readonly<Node>[]) => void) => {
