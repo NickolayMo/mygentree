@@ -1,0 +1,5 @@
+export const updateRoute = "/web/api/v1/tree/person/update"
+export const getTreeRoute = "/web/api/v1/tree/get"
+export const getCurrentUserRoute = "/api/v1/user/me"
+export const signInRoute = "/api/v1/auth/sign_in"
+export const signUpRoute = "/api/v1/auth/sign_up"
