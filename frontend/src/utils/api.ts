@@ -1,8 +1,13 @@
-import { SignInRequest } from "../components/SignInForm/SignInRequest";
-import { SignUpRequest } from "../components/SignUpForm/SignUpRequest";
-import { ACCESS_TOKEN, API_BASE_URL } from "../constants";
-import { signInRoute, signUpRoute } from "./routes";
-
+import {SignInRequest} from "../components/SignInForm/SignInRequest";
+import {SignUpRequest} from "../components/SignUpForm/SignUpRequest";
+import {ACCESS_TOKEN, API_BASE_URL} from "../constants";
+import {
+    checkEmailAvailabilityRoute,
+    checkUsernameAvailabilityRoute,
+    getCurrentUserRoute, getTreeListRoute, getTreeRoute,
+    signInRoute,
+    signUpRoute
+} from "./routes";
 
 
 const request = (url: RequestInfo | URL, options: RequestInit | undefined) => {
@@ -14,10 +19,12 @@ const request = (url: RequestInfo | URL, options: RequestInit | undefined) => {
         headers.append('Authorization', 'Bearer ' + localStorage.getItem(ACCESS_TOKEN))
     }
 
-    const defaults = { headers: headers };
-    options = Object.assign({}, defaults, options);
+    const opt = {
+        ...options,
+        headers
+    }
 
-    return fetch(url, options)
+    return fetch(url, opt)
         .then(response =>
             response.json().then(json => {
                 if (!response.ok) {
@@ -33,7 +40,7 @@ export const getCurrentUser = () => {
         return Promise.reject("Авторизационный токен не найден")
     }
     return request(
-        API_BASE_URL + getCurrentUser,
+        API_BASE_URL + getCurrentUserRoute,
         {
             method: "GET"
         }
@@ -61,20 +68,39 @@ export const signUp = (signUpRequest: SignUpRequest) => {
     )
 }
 
-export const checkUsernameAvailability = (username: string)=>{
+export const checkUsernameAvailability = (username: string) => {
     return request(
-        API_BASE_URL + signUpRoute,
+        API_BASE_URL + checkUsernameAvailabilityRoute + `?username=${username}`,
         {
-            method: "POST"
+            method: "GET",
         }
     )
 }
 
-export const checkEmailAvailability = (email: string)=>{
+export const checkEmailAvailability = (email: string) => {
     return request(
-        API_BASE_URL + signUpRoute,
+        API_BASE_URL + checkEmailAvailabilityRoute + `?email=${email}`,
         {
-            method: "POST"
+            method: "GET",
+        }
+    )
+}
+
+export const getTreeList = () => {
+    return request(
+        API_BASE_URL + getTreeListRoute,
+        {
+            method: "GET",
+        }
+    )
+}
+
+export const getTreeNodes = (treeId: string) => {
+    return request(
+        API_BASE_URL + getTreeRoute,
+        {
+            method: "POST",
+            body: JSON.stringify({ userId: 1, treeId: treeId }),
         }
     )
 }

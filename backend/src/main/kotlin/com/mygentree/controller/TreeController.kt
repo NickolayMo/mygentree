@@ -8,6 +8,7 @@ import com.mygentree.dto.TreeUpdatePerson
 import com.mygentree.dto.request.TreeRequest
 import com.mygentree.dto.request.TreeUpdatePersonRequest
 import com.mygentree.dto.response.ApiResponse
+import com.mygentree.dto.response.TreeInfo
 import com.mygentree.security.CurrentUser
 import com.mygentree.security.UserPrincipal
 import com.mygentree.service.IPersonService
@@ -61,7 +62,7 @@ class TreeController(
     }
     @GetMapping("get/list")
     @PreAuthorize("hasRole('USER')")
-    fun getTreeList(@CurrentUser user: UserPrincipal): ResponseEntity<ApiResponse<List<Long>>> {
+    fun getTreeList(@CurrentUser user: UserPrincipal): ResponseEntity<ApiResponse<List<TreeInfo>>> {
         val treeList = treeService.getUserTrees(user.id)
         return ResponseEntity.ok(
             ApiResponse(

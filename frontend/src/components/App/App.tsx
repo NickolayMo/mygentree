@@ -8,6 +8,7 @@ import { AppHeader } from '../AppHeader/AppHeader';
 import SignInForm from '../SignInForm/SignInForm';
 import css from "./App.module.css"
 import SignUpForm from "../SignUpForm/SignUpForm";
+import {Home} from "../Home/Home";
 const { Content } = Layout;
 
 export const App: React.FC = () => {
@@ -22,13 +23,8 @@ export const App: React.FC = () => {
       <Content className={css.app_content}>
         <div className="container">
           <Routes>
-            <Route path='/' Component={() => { return (<div>faljflajfla</div>) }}></Route>
-            <Route path='/tree/:id' Component={() => (
-              <Suspense fallback={<p>Загрузка ...</p>}>
-                <TreeRoot />
-              </Suspense>
-            )}>
-            </Route>
+            <Route path='/' Component={Home}/>
+            <Route path='/tree/:id' Component={TreeRoot}/>
             <Route path='/sign_in' Component={SignInForm}/>
             <Route path='/sign_up' Component={SignUpForm}/>
             <Route path='*' Component={NotFound}></Route>

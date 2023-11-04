@@ -39,21 +39,21 @@ class UserController(
 
     @GetMapping("/username_availability")
     fun checkUsernameAvailability(@RequestParam(value = "username") username: String):ResponseEntity<ApiResponse<Boolean>> {
-        val available = userService.isUserUsernameInUse(username)
+        val inUse = userService.isUserUsernameInUse(username)
         return ResponseEntity.ok(
             ApiResponse(
             success = true,
-            data = available,
+            data = !inUse,
             error = null
         )
         )
     }
     @GetMapping("/email_availability")
     fun checkEmailAvailability(@RequestParam(value = "email") email: String):ResponseEntity<ApiResponse<Boolean>> {
-        val available = userService.isUserEmailInUse(email)
+        val inUse = userService.isUserEmailInUse(email)
         return ResponseEntity.ok(ApiResponse(
             success = true,
-            data = available,
+            data = !inUse,
             error = null
         ))
     }

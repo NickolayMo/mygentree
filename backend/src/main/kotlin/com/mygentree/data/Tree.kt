@@ -18,9 +18,11 @@ class Tree(
     @NotBlank
     var userId: Long,
 
-    @OneToMany(mappedBy = "tree")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tree")
     @OrderBy("id ASC")
-    var persons: Set<Person>?
+    var persons: Set<Person>?,
+
+    var extraInfo: String?
 )
 
 //select p.id, r.first_person_id, r.second_person_id, r.relation_type, r.connection_type,rel_p.extra_info as rel_person_info from tree t

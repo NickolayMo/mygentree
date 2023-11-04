@@ -5,30 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2a94fb5-ddda-43f4-bd1a-b0966bf51d50" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeUpdatePersonRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/PersonGetListResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/TreeResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/UserSummary.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/TreeInfo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Home/Home.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Home/Home.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/AuthController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/AuthController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/SecurityConfiguration.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/SecurityConfiguration.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/TreeController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/TreeController.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/UserController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/UserController.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Person.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Person.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Tree.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Tree.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/ApiResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/ApiResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/TreeRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/TreeRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/CurrentUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/CurrentUser.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/UserPrincipal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/UserPrincipal.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/ITreeService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/ITreeService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/IUserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/IUserService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/PersonServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/PersonServiceImpl.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/UserService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserProfile/UserProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserProfile/UserProfile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/fetchData.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/utils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +56,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="TypeScript JSX File" />
         <option value="CSS File" />
         <option value="Kotlin Class" />
       </list>
@@ -186,7 +182,7 @@
       <workItem from="1698953327336" duration="21000" />
       <workItem from="1698953545764" duration="953000" />
       <workItem from="1698954510986" duration="179000" />
-      <workItem from="1698992720233" duration="7496000" />
+      <workItem from="1698992720233" duration="19542000" />
     </task>
     <servers />
   </component>

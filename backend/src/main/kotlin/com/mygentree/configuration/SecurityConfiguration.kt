@@ -72,7 +72,7 @@ class SecurityConfiguration {
                     .requestMatchers(HttpMethod.GET, "/api/users/**")
                     .permitAll()
                     .anyRequest()
-                    .permitAll()
+                    .authenticated()
             }
             .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .build()

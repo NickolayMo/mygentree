@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, {useState, ChangeEvent, FormEvent} from 'react';
 import "./SignUpForm.css"
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {checkEmailAvailability, checkUsernameAvailability, signUp} from "../../utils/api";
 import {
     NAME_MIN_LENGTH, NAME_MAX_LENGTH,
@@ -9,10 +9,10 @@ import {
     PASSWORD_MIN_LENGTH, PASSWORD_MAX_LENGTH
 } from '../../constants';
 
-import { Form, Input, Button, notification } from 'antd';
+import {Form, Input, Button, notification} from 'antd';
 import {ValidateStatus} from "antd/es/form/FormItem";
 
-const { Item } = Form;
+const {Item} = Form;
 
 interface State {
     name: string;
@@ -20,13 +20,13 @@ interface State {
     email: string;
     password: string;
     nameValidateStatus: ValidateStatus;
-    usernameValidateStatus:ValidateStatus;
-    emailValidateStatus:ValidateStatus;
+    usernameValidateStatus: ValidateStatus;
+    emailValidateStatus: ValidateStatus;
     passwordValidateStatus: ValidateStatus;
-    nameErrorMsg: string;
-    passwordErrorMsg: string;
-    emailErrorMsg: string;
-    usernameErrorMsg: string;
+    nameErrorMsg: string | null;
+    passwordErrorMsg: string | null;
+    emailErrorMsg: string | null;
+    usernameErrorMsg: string | null;
 
 }
 
@@ -47,17 +47,16 @@ const Signup: React.FC = () => {
     });
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>, validationFun: (value: string) => any) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setState((prev) => ({
             ...prev,
             [name]: value,
             ...validationFun(value)
         }));
+        console.log(state)
     };
 
     const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
-
         const signupRequest = {
             name: state.name,
             email: state.email,
@@ -171,29 +170,28 @@ const Signup: React.FC = () => {
 
         setState((prev) => ({
             ...prev,
-            usernameValidation: {
-                usernameValidateStatus: 'validating',
-                usernameErrorMsg: null
-            }
+
+            usernameValidateStatus: 'validating',
+            usernameErrorMsg: null
+
         }));
 
         checkUsernameAvailability(usernameValue)
             .then(response => {
-                if (response.available) {
+                if (response.data === true) {
                     setState((prev) => ({
                         ...prev,
-                        usernameValidation: {
-                            usernameValidateStatus: 'success',
-                            usernameErrorMsg: null
-                        }
+
+                        usernameValidateStatus: 'success',
+                        usernameErrorMsg: null
+
                     }));
                 } else {
                     setState((prev) => ({
                         ...prev,
-                        usernameValidation: {
-                            usernameValidateStatus: 'error',
-                            usernameErrorMsg: 'This username is already taken'
-                        }
+
+                        usernameValidateStatus: 'error',
+                        usernameErrorMsg: 'This username is already taken'
                     }));
                 }
             })
@@ -201,10 +199,10 @@ const Signup: React.FC = () => {
                 // Marking validateStatus as success, Form will be rechecked at the server
                 setState((prev) => ({
                     ...prev,
-                    usernameValidation: {
-                        usernameValidateStatus: 'success',
-                        usernameErrorMsg: null
-                    }
+
+                    usernameValidateStatus: 'success',
+                    usernameErrorMsg: null
+
                 }));
             });
     };
@@ -221,43 +219,34 @@ const Signup: React.FC = () => {
             }));
             return;
         }
-
         setState((prev) => ({
             ...prev,
-            emailValidation: {
-                emailValidateStatus: 'validating',
-                emailErrorMsg: null
-            }
+            emailValidateStatus: 'validating',
+            emailErrorMsg: null
         }));
 
         checkEmailAvailability(emailValue)
             .then(response => {
-                if (response.available) {
+                if (response.data === true) {
                     setState((prev) => ({
                         ...prev,
-                        emailValidation: {
-                            emailValidateStatus: 'success',
-                            emailErrorMsg: null
-                        }
+                        emailValidateStatus: 'success',
+                        emailErrorMsg: null
                     }));
                 } else {
                     setState((prev) => ({
                         ...prev,
-                        emailValidation: {
-                            emailValidateStatus: 'error',
-                            emailErrorMsg: 'This Email is already registered'
-                        }
+                        emailValidateStatus: 'error',
+                        emailErrorMsg: 'This Email is already registered'
                     }));
+                    console.log(state)
                 }
             })
             .catch(error => {
-                // Marking validateStatus as success, Form will be rechecked at the server
                 setState((prev) => ({
                     ...prev,
-                    emailValidation: {
-                        emailValidateStatus: 'success',
-                        emailErrorMsg: null
-                    }
+                    emailValidateStatus: 'success',
+                    emailErrorMsg: null
                 }));
             });
     };

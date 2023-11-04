@@ -5,6 +5,7 @@ import com.mygentree.data.Relation
 import com.mygentree.data.RelationType
 import com.mygentree.data.Tree
 import com.mygentree.dto.*
+import com.mygentree.dto.response.TreeInfo
 import com.mygentree.repository.TreeRepository
 import jakarta.persistence.EntityManager
 import jakarta.persistence.EntityNotFoundException
@@ -21,13 +22,21 @@ class TreeServiceImp(
 
     override fun getTreeByIdAndUserId(treeId: Long, userId: Long): GenTree {
         entityManager.clear()
-        val result = treeRepository.findByIdAndUserId(treeId, userId).orElseThrow{EntityNotFoundException("Tree not found")}
+        val result =
+            treeRepository.findByIdAndUserId(treeId, userId).orElseThrow { EntityNotFoundException("Tree not found") }
         return mapToGenTree(result)
     }
 
-    override fun getUserTrees(id: Long?): List<Long>? {
+    override fun getUserTrees(id: Long?): List<TreeInfo>? {
         treeRepository.findAll()
-        return treeRepository.findAllByUserId(id).mapNotNull { it.id }.toList()
+        return treeRepository.findAllByUserId(id).map {
+            TreeInfo(
+                id = it.id,
+                name = it.name,
+                extraInfo = it.extraInfo
+
+            )
+        }.toList()
 
     }
 
@@ -39,7 +48,7 @@ class TreeServiceImp(
 
     private fun mapRelatives(tree: Tree): MutableList<GenTreeNode> {
         val result = mutableListOf<GenTreeNode>()
-        tree.persons?.forEach{person ->
+        tree.persons?.forEach { person ->
             val relMap: Map<String?, List<Relation>>? = person.relations?.distinct()?.groupBy {
                 it.relationType
             }?.toMap()
