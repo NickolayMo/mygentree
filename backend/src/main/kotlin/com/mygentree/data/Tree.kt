@@ -1,15 +1,23 @@
 package com.mygentree.data
 
 import jakarta.persistence.*
+import jakarta.validation.constraints.NotBlank
 
 
 @Entity
+@Table(name = "tree")
 class Tree(
-    var name: String,
     @Id
     @SequenceGenerator(name="treeSeq", sequenceName="tree_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "treeSeq")
     var id: Long? = null,
+
+    @NotBlank
+    var name: String,
+
+    @NotBlank
+    var userId: Long,
+
     @OneToMany(mappedBy = "tree")
     @OrderBy("id ASC")
     var persons: Set<Person>?

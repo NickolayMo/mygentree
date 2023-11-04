@@ -27,11 +27,6 @@ class PersonServiceImpl(
     @Autowired
     val treeRepository: TreeRepository,
     @Autowired
-    val relationRepository: RelationRepository,
-
-    @PersistenceContext
-    val entityManager: EntityManager,
-    @Autowired
     val sessionFactory: SessionFactory
 ) : IPersonService {
     override fun updatePerson(updatePersonContext: TreeUpdatePerson): GenTree? {
@@ -52,7 +47,6 @@ class PersonServiceImpl(
         return null
     }
 
-    @Transactional
     private fun update(updatePersonContext: TreeUpdatePerson) {
         val tree = treeRepository.findById(updatePersonContext.treeId.toLong()).orElseThrow()
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
@@ -254,7 +248,6 @@ class PersonServiceImpl(
         connectionType = connectionType.toString()
     )
 
-    @Transactional
     private fun delete(updatePersonContext: TreeUpdatePerson) {
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
         val session = sessionFactory.openSession()

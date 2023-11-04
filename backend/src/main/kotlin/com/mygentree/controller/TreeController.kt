@@ -5,95 +5,71 @@ import com.mygentree.dto.GenTreeNode
 import com.mygentree.extensions.fromRequest
 
 import com.mygentree.dto.TreeUpdatePerson
+import com.mygentree.dto.request.TreeRequest
+import com.mygentree.dto.request.TreeUpdatePersonRequest
+import com.mygentree.dto.response.ApiResponse
+import com.mygentree.security.CurrentUser
+import com.mygentree.security.UserPrincipal
 import com.mygentree.service.IPersonService
 import com.mygentree.service.ITreeService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/web/api/v1/")
+@RequestMapping("/api/v1/tree")
 class TreeController(
     @Autowired
     private val treeService: ITreeService,
     private val personService: IPersonService
 ) {
-    @PostMapping("/tree/get")
-    fun getTree(@RequestBody request: TreeRequest): TreeResponse? {
-        val tree = treeService.getTreeById(request.treeId.toLong())
-        return TreeResponse(success = true, data = tree, error = null)
+    @PostMapping("/get")
+    @PreAuthorize("hasRole('USER')")
+    fun getTree(@RequestBody request: TreeRequest, @CurrentUser user: UserPrincipal): ResponseEntity<ApiResponse<GenTree>> {
+        val tree = treeService.getTreeByIdAndUserId(request.treeId.toLong(), user.id!!)
+        return ResponseEntity.ok(ApiResponse(
+            success = true,
+            data = tree,
+            error = null
+        ))
     }
-    //create, delete, update
-    @PostMapping("/tree/person/update")
-    fun updatePerson(@RequestBody request: TreeUpdatePersonRequest): TreeResponse {
+    @PostMapping("/person/update")
+    @PreAuthorize("hasRole('USER')")
+    fun updatePerson(@RequestBody request: TreeUpdatePersonRequest, @CurrentUser user: UserPrincipal): ResponseEntity<ApiResponse<GenTree>> {
         personService.updatePerson(TreeUpdatePerson.fromRequest(request))
-        val tree = treeService.getTreeById(request.treeId.toLong())
-        return TreeResponse(success = true, data = tree, error = null)
+        val tree = treeService.getTreeByIdAndUserId(request.treeId.toLong(), user.id!!)
+        return ResponseEntity.ok(ApiResponse(
+            success = true,
+            data = tree,
+            error = null
+        ))
     }
-    @PostMapping("/tree/person/getlist")
-    fun personGetList(@RequestBody request: TreeRequest): PersonGetListResponse? {
-        val tree = treeService.getTreeById(request.treeId.toLong())
-        return PersonGetListResponse(success = true, data = tree.relatives, error = null)
+    @PostMapping("/person/get/list")
+    @PreAuthorize("hasRole('USER')")
+    fun personGetList(@RequestBody request: TreeRequest, @CurrentUser user: UserPrincipal): ResponseEntity<ApiResponse<List<GenTreeNode>>> {
+        val tree = treeService.getTreeByIdAndUserId(request.treeId.toLong(), user.id!!)
+        return ResponseEntity.ok(ApiResponse(
+            success = true,
+            data = tree.relatives,
+            error = null
+        ))
     }
-}
+    @GetMapping("get/list")
+    @PreAuthorize("hasRole('USER')")
+    fun getTreeList(@CurrentUser user: UserPrincipal): ResponseEntity<ApiResponse<List<Long>>> {
+        val treeList = treeService.getUserTrees(user.id)
+        return ResponseEntity.ok(
+            ApiResponse(
+            success = true,
+            data = treeList,
+            error = null
+        )
+        )
 
-data class PersonGetListResponse(
-    val success: Boolean,
-    val data: List<GenTreeNode>?,
-    val error: String?
-)
-
-
-data class TreeResponse(
-    val success: Boolean,
-    val data: GenTree?,
-    val error: String?
-)
-
-data class TreeRequest(
-    val userId: String,
-    val treeId: String,
-)
-
-data class TreeUpdatePersonRequest(
-    val userId: String,
-    val treeId: String,
-    val action: TreeAction,
-    val context: TreeUpdatePersonContext,
-) {
-    enum class TreeAction {
-        UPDATE,
-        DELETE,
-        CREATE
-    }
-
-    data class TreeUpdatePersonContext(
-        var nodeId: String?,
-        var avatar: String?,
-        var firstName: String?,
-        var middleName: String?,
-        var lastName: String?,
-        var birthDate: String?,
-        var occupation: String?,
-        var location: String?,
-        var parents: List<Connection>?,
-        var children: List<Connection>?,
-        var siblings: List<Connection>?,
-        var spouses: List<Connection>?,
-        var gender: String?
-    )
-
-    data class Connection(
-        val id: String,
-        val type: ConnectionType,
-    )
-    enum class ConnectionType {
-        BLOOD,
-        MARRIED,
-        DIVORCED,
-        ADOPTED,
-        HALF
     }
 }

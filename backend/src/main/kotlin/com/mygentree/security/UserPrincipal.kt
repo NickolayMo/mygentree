@@ -8,14 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails
 
 
 class UserPrincipal(
-    val id: Long?,
-    val name: String,
-    val userUsername: String,
+    var id: Long?,
+    var name: String,
+    var userUsername: String,
     @JsonIgnore
-    val userEmail: String,
+    var userEmail: String,
     @JsonIgnore
-    val userPassword: String,
-    val userAuthorities: MutableCollection<GrantedAuthority>
+    var userPassword: String,
+    var userAuthorities: MutableCollection<GrantedAuthority>
 
 ): UserDetails {
     companion object{

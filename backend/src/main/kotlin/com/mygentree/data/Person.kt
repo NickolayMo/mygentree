@@ -5,6 +5,7 @@ import org.hibernate.annotations.ColumnTransformer
 
 
 @Entity
+@Table(name = "person")
 class Person(
     @Id
     @SequenceGenerator(name="personSeq", sequenceName="person_id_seq", allocationSize = 1)

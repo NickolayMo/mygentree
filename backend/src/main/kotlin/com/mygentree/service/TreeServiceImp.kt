@@ -19,11 +19,18 @@ class TreeServiceImp(
     private val entityManager: EntityManager
 ) : ITreeService {
 
-    override fun getTreeById(id: Long): GenTree {
+    override fun getTreeByIdAndUserId(treeId: Long, userId: Long): GenTree {
         entityManager.clear()
-        val result = treeRepository.findById(id).orElseThrow{EntityNotFoundException("Tree not found")}
+        val result = treeRepository.findByIdAndUserId(treeId, userId).orElseThrow{EntityNotFoundException("Tree not found")}
         return mapToGenTree(result)
     }
+
+    override fun getUserTrees(id: Long?): List<Long>? {
+        treeRepository.findAll()
+        return treeRepository.findAllByUserId(id).mapNotNull { it.id }.toList()
+
+    }
+
     fun mapToGenTree(tree: Tree): GenTree {
         return GenTree(
             relatives = mapRelatives(tree)

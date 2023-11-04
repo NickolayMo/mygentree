@@ -1,9 +1,8 @@
 package com.mygentree.service
 
 import com.mygentree.dto.GenTree
-import com.mygentree.data.Tree
-import java.util.*
 
 interface ITreeService {
-    fun getTreeById(id: Long): GenTree
+    fun getUserTrees(id: Long?): List<Long>?
+    fun getTreeByIdAndUserId(treeId: Long, userId: Long): GenTree
 }

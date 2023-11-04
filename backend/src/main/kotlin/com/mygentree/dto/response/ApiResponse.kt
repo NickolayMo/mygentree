@@ -1,8 +1,8 @@
 package com.mygentree.dto.response
 
 
-class ApiResponse(
+class ApiResponse<T>(
     val success: Boolean,
-    val data: Any?,
+    val data: T?,
     val error: Any?
 )

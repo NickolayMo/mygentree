@@ -1,7 +1,7 @@
 package com.mygentree.extensions
 
 import com.mygentree.dto.TreeUpdatePerson
-import com.mygentree.controller.TreeUpdatePersonRequest
+import com.mygentree.dto.request.TreeUpdatePersonRequest
 
 fun TreeUpdatePerson.Companion.fromRequest(request: TreeUpdatePersonRequest): TreeUpdatePerson {
     return TreeUpdatePerson(

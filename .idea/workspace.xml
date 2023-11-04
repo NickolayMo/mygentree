@@ -5,27 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2a94fb5-ddda-43f4-bd1a-b0966bf51d50" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeUpdatePersonRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/PersonGetListResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/TreeResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/UserSummary.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/SecurityConfiguration.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/SecurityConfiguration.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/fetchData.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/routes.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/App/App.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/App/App.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/NodeDetails/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NodeDetails/actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PersonForm/PersonForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/PersonForm/PersonForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PersonForm/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/PersonForm/actions.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/AuthController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/AuthController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/TreeController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/TreeController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/UserController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/UserController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Person.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Person.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Tree.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Tree.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/ApiResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/ApiResponse.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/TreeRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/TreeRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/CurrentUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/CurrentUser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/UserPrincipal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/UserPrincipal.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/ITreeService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/ITreeService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/IUserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/IUserService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/PersonServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/PersonServiceImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/UserService.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,39 +51,20 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyGenTree" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyGenTree" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyGenTree" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="application" type="c8890929:TasksNode$1" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyGenTree" type="f1a62948:ProjectNode" />
-                <item name="backend" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="MyGenTree" type="f1a62948:ProjectNode" />
-                <item name="backend" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="Kotlin Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -88,6 +72,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2Xbq0n31z92qsOPHm6AQkRaaHMx" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -97,19 +84,38 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "18",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_interpreter_path": "node",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/Users/nikolaimokrenko/IdeaProjects/MyGenTree/frontend/node_modules/typescript/lib"
+    "spring.configuration.checksum": "d53fd99bf96cf9563a1fcfdb550f0afc",
+    "ts.external.directory.path": "/Users/nikolaimokrenko/IdeaProjects/MyGenTree/frontend/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RecentsManager">
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.mygentree.dto.request" />
+      <recent name="com.mygentree.dto.response" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.MyGenTree [bootRun]">
+    <configuration name="start my gen tree" type="CompoundRunConfigurationType">
+      <toRun name="MyGenTree [bootRun]" type="GradleRunConfiguration" />
+      <toRun name="start" type="js.build_tools.npm" />
+      <method v="2" />
+    </configuration>
     <configuration name="MyGenTree [bootRun]" type="GradleRunConfiguration" factoryName="Gradle">
       <ExternalSystemSettings>
         <option name="env">
@@ -134,15 +140,7 @@
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
-      <method v="2" />
-    </configuration>
-    <configuration name="Unnamed" type="JavascriptDebugType" nameIsGenerated="true">
-      <method v="2" />
-    </configuration>
-    <configuration name="index.tsx" type="NodeJSConfigurationType" nameIsGenerated="true" path-to-js-file="src/index.tsx" working-dir="$PROJECT_DIR$/frontend">
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="Main" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -163,10 +161,8 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Compound.start my gen tree" />
       <item itemvalue="Gradle.MyGenTree [bootRun]" />
-      <item itemvalue="JavaScript Debug.Debug Application" />
-      <item itemvalue="JavaScript Debug.Unnamed" />
-      <item itemvalue="Node.js.index.tsx" />
       <item itemvalue="npm.start" />
       <item itemvalue="Spring Boot.Main" />
     </list>
@@ -182,11 +178,34 @@
       <workItem from="1698907754027" duration="151000" />
       <workItem from="1698907907864" duration="181000" />
       <workItem from="1698945763611" duration="275000" />
-      <workItem from="1698946051744" duration="3325000" />
+      <workItem from="1698946051744" duration="4263000" />
+      <workItem from="1698950340848" duration="384000" />
+      <workItem from="1698950820135" duration="147000" />
+      <workItem from="1698951002763" duration="1093000" />
+      <workItem from="1698952776019" duration="539000" />
+      <workItem from="1698953327336" duration="21000" />
+      <workItem from="1698953545764" duration="953000" />
+      <workItem from="1698954510986" duration="179000" />
+      <workItem from="1698992720233" duration="7496000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

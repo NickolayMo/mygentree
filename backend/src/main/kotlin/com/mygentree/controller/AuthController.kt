@@ -53,7 +53,7 @@ class AuthController(
         @Valid
         @RequestBody
         rq: SignUpRequest
-    ): ResponseEntity<ApiResponse> {
+    ): ResponseEntity<ApiResponse<String>> {
         if (userService.isUserEmailInUse(rq)) {
             return ResponseEntity(
                 ApiResponse(

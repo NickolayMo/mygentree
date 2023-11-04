@@ -7,5 +7,7 @@ interface IUserService {
     fun createUser(rq: SignUpRequest): User
 
     fun isUserEmailInUse(rq: SignUpRequest): Boolean
+    fun isUserEmailInUse(email: String): Boolean
     fun isUserUsernameInUse(rq: SignUpRequest): Boolean
+    fun isUserUsernameInUse(username: String): Boolean
 }

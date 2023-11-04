@@ -36,7 +36,15 @@ class UserService(
         return userRepository.existsByEmail(rq.email)
     }
 
+    override fun isUserEmailInUse(email: String): Boolean {
+        return userRepository.existsByEmail(email)
+    }
+
     override fun isUserUsernameInUse(rq: SignUpRequest): Boolean {
         return userRepository.existsByUsername(rq.username)
+    }
+
+    override fun isUserUsernameInUse(username: String): Boolean {
+        return userRepository.existsByUsername(username)
     }
 }
