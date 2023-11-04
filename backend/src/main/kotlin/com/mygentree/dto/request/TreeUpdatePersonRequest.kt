@@ -1,7 +1,6 @@
 package com.mygentree.dto.request
 
 data class TreeUpdatePersonRequest(
-    val userId: String,
     val treeId: String,
     val action: TreeAction,
     val context: TreeUpdatePersonContext,

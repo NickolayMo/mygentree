@@ -5,7 +5,6 @@ import com.mygentree.dto.request.TreeUpdatePersonRequest
 
 fun TreeUpdatePerson.Companion.fromRequest(request: TreeUpdatePersonRequest): TreeUpdatePerson {
     return TreeUpdatePerson(
-        userId = request.userId,
         treeId = request.treeId,
         action = TreeUpdatePerson.TreeAction.valueOf(request.action.name),
         context = TreeUpdatePerson.TreeUpdatePersonContext(
