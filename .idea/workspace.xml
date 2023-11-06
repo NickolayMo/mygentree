@@ -5,10 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2a94fb5-ddda-43f4-bd1a-b0966bf51d50" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/UpdatePersonContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/UpdatePersonContext.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeUpdatePersonRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeUpdatePersonRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/JwtAuthenticationEntryPoint.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/JwtAuthenticationEntryPoint.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Loader/Loader.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/PersonForm/UpdateRequest.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AppHeader/AppHeader.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AppHeader/AppHeader.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AppHeader/AppHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AppHeader/AppHeader.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home/Home.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home/Home.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home/Home.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/NodeDetails/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NodeDetails/actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/PersonForm/PersonForm.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/PersonForm/PersonForm.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/PersonForm/actions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/PersonForm/actions.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInForm.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInForm.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpForm.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpForm.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserProfile/UserProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/UserProfile/UserProfile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/api.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,9 +58,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript JSX File" />
         <option value="CSS File" />
         <option value="Kotlin Class" />
+        <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -94,7 +112,7 @@
       <recent name="com.mygentree.dto.response" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MyGenTree [bootRun]">
+  <component name="RunManager" selected="Compound.start my gen tree">
     <configuration name="start my gen tree" type="CompoundRunConfigurationType">
       <toRun name="MyGenTree [bootRun]" type="GradleRunConfiguration" />
       <toRun name="start" type="js.build_tools.npm" />
@@ -170,7 +188,7 @@
       <workItem from="1698953327336" duration="21000" />
       <workItem from="1698953545764" duration="953000" />
       <workItem from="1698954510986" duration="179000" />
-      <workItem from="1698992720233" duration="19991000" />
+      <workItem from="1698992720233" duration="42980000" />
     </task>
     <servers />
   </component>

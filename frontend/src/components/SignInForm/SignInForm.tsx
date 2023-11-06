@@ -1,56 +1,66 @@
 import React from 'react';
 import './SignInForm.css';
-import { Button, Form, Input } from 'antd';
-import { SignInRequest } from './SignInRequest';
-import { signIn } from '../../utils/api';
-import { ACCESS_TOKEN } from '../../constants';
+import {Button, Form, Input} from 'antd';
+import {signIn} from '../../utils/api';
+import {ACCESS_TOKEN} from '../../constants';
+import {Link} from "react-router-dom";
+import {LockOutlined, UserOutlined} from "@ant-design/icons";
 
-const onFinish = (values: any) => {
-    console.log('Success:', values);
-    signIn(values).then(response=>{
-        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-    }).catch(error=>{
-        console.log(error)
-    });
-};
 
-const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-};
+interface SignInForm {
+    handleLogin: () => void
+}
 
-const SignInForm: React.FC = () => (
-    <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-    >
-        <Form.Item<SignInRequest>
-            label="Логин/email"
-            name="usernameOrEmail"
-            rules={[{ required: true, message: 'Пожалуйста введите свой логин!' }]}
-        >
-            <Input />
-        </Form.Item>
+const SignInForm: React.FC<SignInForm> = (props: SignInForm) => {
 
-        <Form.Item<SignInRequest>
-            label="Пароль"
-            name="password"
-            rules={[{ required: true, message: 'Пожалуйста введите свой пароль!' }]}
-        >
-            <Input.Password />
-        </Form.Item>
+    const onFinish = (values: any) => {
+        console.log('Success:', values);
+        signIn(values).then(response => {
+            localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+            props.handleLogin()
+        }).catch(error => {
+            console.log(error)
+        });
+    };
+    return (
+        <div className="signin-container">
+            <h1 className="page-title">Вход</h1>
+            <div className="signin-content">
+                <Form
+                    name="normal_login"
+                    className="login-form"
+                    initialValues={{remember: true}}
+                    onFinish={onFinish}
+                >
+                    <Form.Item
+                        name="usernameOrEmail"
+                        rules={[{required: true, message: 'Пожалуйста введите свой логин или Email'}]}
+                    >
+                        <Input prefix={<UserOutlined className="site-form-item-icon" rev={undefined}/>}
+                               placeholder="Логин"/>
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        rules={[{required: true, message: '\'Пожалуйста введите свой пароль'}]}
+                    >
+                        <Input
+                            prefix={<LockOutlined className="site-form-item-icon" rev={undefined}/>}
+                            type="password"
+                            placeholder="Пароль"
+                        />
+                    </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-                Submit
-            </Button>
-        </Form.Item>
-    </Form>
-);
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className="signin-form-button" size="large">
+                            Войти
+                        </Button>
+                        или <Link to="/sign_up"> зарегистрируйтесь!</Link>
+                    </Form.Item>
+                </Form>
+            </div>
+        </div>
+
+    );
+}
 
 export default SignInForm;

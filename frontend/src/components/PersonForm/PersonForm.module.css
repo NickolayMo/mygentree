@@ -6,8 +6,9 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     width: 400px;
-  }
-  .close {
+}
+
+.close {
     display: flex;
     width: 20px;
     height: 20px;
@@ -23,66 +24,67 @@
     position: absolute;
     right: 8px;
     top: 8px;
-  }
+}
 
-  input[type=text], select, textarea {
+.root input[type=text], select, textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
     resize: vertical;
-  }
-  
-  label {
+}
+
+.root label {
     padding: 12px 12px 12px 0;
     display: inline-block;
-  }
-  
-  input[type=submit] {
+}
+
+.root input[type=submit] {
     background-color: #fff;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     float: right;
-  }
-  
-  input[type=submit]:hover {
+}
+
+.root input[type=submit]:hover {
     background-color: #ccc;
-  }
-  
-  .container {
+}
+
+.container {
     border-radius: 5px;
     background-color: #fff;
     padding: 20px;
-  }
-  
-  .col_25 {
+}
+
+.col_25 {
     float: left;
     width: 25%;
     margin-top: 6px;
-  }
-  
-  .col_75 {
+}
+
+.col_75 {
     float: left;
     width: 75%;
     margin-top: 6px;
-  }
-  
-  .row::after {
+}
+
+.row::after {
     content: "";
     display: table;
     clear: both;
-  }
-  
-  @media screen and (max-width: 600px) {
+}
+
+@media screen and (max-width: 600px) {
     .col_25, .col_75, input[type=submit] {
-      width: 100%;
-      margin-top: 0;
+        width: 100%;
+        margin-top: 0;
     }
-  }
-  @media screen and (max-width: 1000px) {
+}
+
+@media screen and (max-width: 1000px) {
     .container {
-      width: 100%;
+        width: 100%;
     }
-  }
+}

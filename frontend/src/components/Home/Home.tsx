@@ -1,15 +1,28 @@
 import React, {useEffect, useState} from "react";
-import {UserProfile} from "../UserProfile/UserProfile";
+import {UserInfo, UserProfile} from "../UserProfile/UserProfile";
 import {getTreeList} from "../../utils/api";
 import {Link} from "react-router-dom";
+import {Card, List} from "antd";
+import "./Home.css"
+import {PlusOutlined} from "@ant-design/icons";
 
+interface HomeProps {
+    handleLogout: () => void,
+    currentUser: UserInfo | undefined,
+    isAuthenticated: boolean
+}
 
-export const Home: React.FC = () => {
+export const Home: React.FC<HomeProps> = (props) => {
     return (
         <div>
-            <UserProfile/>
-            <TreeList/>
-
+            {props.isAuthenticated && props.currentUser && (
+                <div className="home-container">
+                    {/*<UserProfile currentUser={props.currentUser} handleLogout={props.handleLogout}*/}
+                    {/*             isAuthenticated={props.isAuthenticated}/>*/}
+                    <h1>Мои деревья</h1>
+                    <TreeList/>
+                </div>
+            )}
         </div>
     )
 }
@@ -18,13 +31,36 @@ type TreeInfo = {
     name: string
 }
 
-const TreeLink: React.FC<TreeInfo> = (treeInfo: TreeInfo) => {
+enum TreeLinkType {
+    NODE,
+    ADD
+}
 
-    return (
-        <div>
-            <Link to={"/tree/"+treeInfo.id}>{treeInfo.name}</Link>
-        </div>
-    )
+interface TreeLinkProps {
+    type: TreeLinkType,
+    treeInfo?: TreeInfo|undefined
+}
+const TreeLink: React.FC<TreeLinkProps> = (props) => {
+    if(props.type === TreeLinkType.ADD) {
+        return (
+            <Link to={"/tree/add"}>
+                <Card>
+                   <PlusOutlined rev={undefined}/>
+                    Добавить новое дерево
+                </Card>
+            </Link>
+        )
+    }
+    if(props.treeInfo){
+        return(
+            <Link to={"/tree/" + props.treeInfo.id}>
+                <Card>
+                    {props.treeInfo.name}
+                </Card>
+            </Link>
+        )
+    }
+    return (<div></div>)
 }
 
 
@@ -40,28 +76,40 @@ const TreeList: React.FC = () => {
                     setTreeList(response.data)
                 }
             })
-            .catch(err =>{
+            .catch(err => {
                 console.log(err)
             })
-            .finally(()=>{
+            .finally(() => {
                 setIsLoading(false)
             })
-    },[])
-    if(isLoading) {
+    }, [])
+    if (isLoading) {
         return (
             <div>
                 Загрузка ...
             </div>
         )
     }
-    const nodes = treeList.map(
-        treeInfo=> (
-            <TreeLink id={treeInfo.id} name={treeInfo.name}/>
-        )
-    )
+    const nodes:Array<TreeLinkProps> = treeList.map((val) => {
+        return {
+            type: TreeLinkType.NODE,
+            treeInfo: val
+        }
+    })
+    nodes.push({
+        type: TreeLinkType.ADD
+    })
     return (
         <div>
-            {nodes}
+            <List
+                grid={{gutter: 16, column: 4}}
+                dataSource={nodes}
+                renderItem={(item) => (
+                    <List.Item>
+                        <TreeLink treeInfo={item.treeInfo} type={item.type}></TreeLink>
+                    </List.Item>
+                )}
+            />
         </div>
     )
 }

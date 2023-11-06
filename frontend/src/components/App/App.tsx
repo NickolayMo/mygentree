@@ -1,36 +1,100 @@
-import { Suspense, useEffect } from 'react';
+import {Suspense, useEffect, useState} from 'react';
 
-import { TreeRoot } from '../TreeRoot/TreeRoot';
-import { Layout } from 'antd';
-import { Route, Routes } from 'react-router-dom'
-import { NotFound } from '../NotFound/NotFound';
-import { AppHeader } from '../AppHeader/AppHeader';
+import {TreeRoot} from '../TreeRoot/TreeRoot';
+import {Layout, notification} from 'antd';
+import {redirect, redirectDocument, Route, Routes, useNavigate} from 'react-router-dom'
+import {NotFound} from '../NotFound/NotFound';
+import {AppHeader} from '../AppHeader/AppHeader';
 import SignInForm from '../SignInForm/SignInForm';
 import css from "./App.module.css"
 import SignUpForm from "../SignUpForm/SignUpForm";
 import {Home} from "../Home/Home";
-const { Content } = Layout;
+import {UserInfo} from "../UserProfile/UserProfile";
+import {getCurrentUser} from "../../utils/api";
+import {Loader} from "../Loader/Loader";
+import {ACCESS_TOKEN} from "../../constants";
+
+const {Content} = Layout;
 
 export const App: React.FC = () => {
+    const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+    const [currentUser, setCurrentUser] = useState<UserInfo>()
 
-  useEffect(() => {
+    notification.config({
+        placement: 'topRight',
+        top: 70,
+        duration: 3,
+    });
 
-  })
+    useEffect(() => {
+        loadCurrentUser()
+    }, []);
 
-  return (
-    <Layout className="app-container">
-      <AppHeader />
-      <Content className={css.app_content}>
-        <div className="container">
-          <Routes>
-            <Route path='/' Component={Home}/>
-            <Route path='/tree/:id' Component={TreeRoot}/>
-            <Route path='/sign_in' Component={SignInForm}/>
-            <Route path='/sign_up' Component={SignUpForm}/>
-            <Route path='*' Component={NotFound}></Route>
-          </Routes>
-        </div>
-      </Content>
-    </Layout>
-  )
+    const loadCurrentUser = () => {
+        setIsLoading(true)
+        getCurrentUser()
+            .then(response => {
+                if (response.success === true) {
+                    setIsLoading(false)
+                    setCurrentUser(response.data)
+                    setIsAuthenticated(true)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
+    }
+
+    const handleLogout = (
+        redirectTo = "/",
+        notificationCallback = () =>
+            notification.success({
+                message: "Моё дерево",
+                description: "Вы успешно вышли из вашей учетной записи"
+            })
+    ) => {
+        localStorage.removeItem(ACCESS_TOKEN)
+        setIsAuthenticated(false)
+        setCurrentUser(undefined)
+        navigate(redirectTo)
+        notificationCallback()
+    }
+
+
+
+    const handleLogin = () =>{
+        notification.success({
+            message: "Моё дерево",
+            description: "Вы успешно вошли"
+        })
+        loadCurrentUser()
+        navigate("/")
+    }
+
+    if (isLoading) {
+        return <Loader/>
+    }
+
+
+    return (
+        <Layout className="app-container">
+            <AppHeader currentUser={currentUser} isAuthenticated={isAuthenticated} handleLogout={handleLogout}/>
+            <Content className={css.app_content}>
+                <div className="container">
+                    <Routes>
+                        <Route path='/' Component={()=><Home handleLogout={handleLogout} currentUser={currentUser} isAuthenticated={isAuthenticated}/>}/>
+                        <Route path='/tree/:id' Component={()=><TreeRoot handleLogout={handleLogout} currentUser={currentUser} isAuthenticated={isAuthenticated}/>}/>
+                        <Route path='/sign_in' Component={()=><SignInForm handleLogin={handleLogin}/>}/>
+                        <Route path='/sign_up' Component={SignUpForm}/>
+                        <Route path='*' Component={NotFound}></Route>
+                    </Routes>
+                </div>
+            </Content>
+        </Layout>
+    )
 };

@@ -11,14 +11,20 @@ import css from './TreeRoot.module.css';
 import {FormTypes, PersonForm} from '../PersonForm/PersonForm';
 import {getTreeNodes} from "../../utils/api";
 import {useParams} from "react-router-dom";
+import {UserInfo} from "../UserProfile/UserProfile";
 
-export const TreeRoot: React.FC = () => {
+interface TreeRootProps {
+    handleLogout: ()=>void,
+    currentUser: UserInfo|undefined,
+    isAuthenticated: boolean
+}
+export const TreeRoot: React.FC<TreeRootProps> = (props) => {
     let {id} = useParams()
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [treeNodes, setTreeNodes] = useState<Readonly<Node>[]>([])
 
     useEffect(() => {
-        if (!id) {
+        if (!id || !props.currentUser || !props.isAuthenticated) {
             return
         }
         setIsLoading(true)
@@ -55,7 +61,6 @@ type TreeProps = {
     treeNodes: readonly Readonly<Node>[]
 }
 export const Tree: React.FC<TreeProps> = (treeNodes: TreeProps) => {
-    console.log(treeNodes)
     const [nodes, setNodes] = useState<readonly Readonly<Node>[]>(treeNodes.treeNodes);
     const [formType, setFormType] = useState<FormTypes>()
     const [formVisible, setFormVisilble] = useState(false)
@@ -78,6 +83,7 @@ export const Tree: React.FC<TreeProps> = (treeNodes: TreeProps) => {
             setNodes(nodes);
             setSelectId(selectId);
             setHoverId(selectId);
+            console.log("kkkkkkkkk")
         },
         [])
     const onPersonDelete = useCallback(
@@ -86,6 +92,7 @@ export const Tree: React.FC<TreeProps> = (treeNodes: TreeProps) => {
             setNodes(nodes);
             setSelectId(undefined);
             setHoverId(undefined);
+            console.log("dadasdas")
         },
         [])
 

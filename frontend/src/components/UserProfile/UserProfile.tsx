@@ -1,41 +1,20 @@
-import {useEffect, useState} from "react";
-import {getCurrentUser, getTreeList} from "../../utils/api";
+import React from "react";
 
-type UserInfo = {
+export type UserInfo = {
     id: bigint,
     name: string,
     userName:string,
     email:string
 }
-export const UserProfile = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [userInfo, setUserInfo] = useState<UserInfo>()
-    useEffect(() => {
-        setIsLoading(true)
-        getCurrentUser()
-            .then(response => {
-                if (response.success === true) {
-                    setIsLoading(false)
-                    setUserInfo(response.data)
-                }
-            })
-            .catch(err =>{
-                console.log(err)
-            })
-            .finally(()=>{
-                setIsLoading(false)
-            })
-    }, []);
-    if(isLoading) {
-        return (
-            <div>
-                Загрузка...
-            </div>
-        )
-    }
+interface UserProfileProps {
+    handleLogout: ()=>void,
+    currentUser: UserInfo|undefined,
+    isAuthenticated: boolean
+}
+export const UserProfile:React.FC<UserProfileProps> = (props) => {
     return (
         <div>
-            <div>{userInfo && userInfo.userName}</div>
+            <div>{props.currentUser && props.currentUser.userName}</div>
         </div>
     );
 }

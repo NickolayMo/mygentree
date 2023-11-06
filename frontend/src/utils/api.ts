@@ -6,8 +6,10 @@ import {
     checkUsernameAvailabilityRoute,
     getCurrentUserRoute, getTreeListRoute, getTreeRoute,
     signInRoute,
-    signUpRoute
+    signUpRoute, updateRoute
 } from "./routes";
+import {Gender, LiveEvent, PersonDocuments, Relation} from "../renderTree/types";
+import {UpdateRequest} from "../components/PersonForm/UpdateRequest";
 
 
 const request = (url: RequestInfo | URL, options: RequestInit | undefined) => {
@@ -48,34 +50,31 @@ export const getCurrentUser = () => {
 }
 
 
-export const signIn = (signInRequest: SignInRequest) => {
-    return request(
+export const signIn = (signInRequest: SignInRequest) =>
+    request(
         API_BASE_URL + signInRoute,
         {
             method: "POST",
             body: JSON.stringify(signInRequest)
         }
     )
-}
 
-export const signUp = (signUpRequest: SignUpRequest) => {
-    return request(
+export const signUp = (signUpRequest: SignUpRequest) =>
+    request(
         API_BASE_URL + signUpRoute,
         {
             method: "POST",
             body: JSON.stringify(signUpRequest)
         }
     )
-}
 
-export const checkUsernameAvailability = (username: string) => {
-    return request(
+export const checkUsernameAvailability = (username: string) =>
+    request(
         API_BASE_URL + checkUsernameAvailabilityRoute + `?username=${username}`,
         {
             method: "GET",
         }
     )
-}
 
 export const checkEmailAvailability = (email: string) => {
     return request(
@@ -95,12 +94,22 @@ export const getTreeList = () => {
     )
 }
 
-export const getTreeNodes = (treeId: string) => {
-    return request(
+export const getTreeNodes = (treeId: string) =>
+    request(
         API_BASE_URL + getTreeRoute,
         {
             method: "POST",
-            body: JSON.stringify({ userId: 1, treeId: treeId }),
+            body: JSON.stringify({userId: 1, treeId: treeId}),
         }
     )
-}
+
+
+export const doUpdatePerson = (rq: UpdateRequest) =>
+    request(
+        API_BASE_URL + updateRoute,
+        {
+            method: "POST",
+            body: JSON.stringify(rq)
+        }
+    )
+

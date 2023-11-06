@@ -68,13 +68,13 @@ const Signup: React.FC = () => {
             .then(response => {
                 notification.success({
                     message: '',
-                    description: "Thank you! You're successfully registered. Please Login to continue!",
+                    description: "Спасибо! Вы успешно зарегистрированы. Пожалуйста залогиньтесь!",
                 });
             })
             .catch(error => {
                 notification.error({
                     message: '',
-                    description: error.message || 'Sorry! Something went wrong. Please try again!'
+                    description: error.message || 'Извините! Что-то пошло не так, попробуйте снова!'
                 });
             });
     };
@@ -92,12 +92,12 @@ const Signup: React.FC = () => {
         if (name.length < NAME_MIN_LENGTH) {
             return {
                 nameValidateStatus: 'error',
-                nameErrorMsg: `Name is too short (Minimum ${NAME_MIN_LENGTH} characters needed.)`
+                nameErrorMsg: `Имя слишком короткое (Минимум ${NAME_MIN_LENGTH} символов нужно.)`
             };
         } else if (name.length > NAME_MAX_LENGTH) {
             return {
                 nameValidateStatus: 'error',
-                nameErrorMsg: `Name is too long (Maximum ${NAME_MAX_LENGTH} characters allowed.)`
+                nameErrorMsg: `Имя слишком длинное (Максимум ${NAME_MAX_LENGTH} символов можно.)`
             };
         } else {
             return {
@@ -111,7 +111,7 @@ const Signup: React.FC = () => {
         if (!email) {
             return {
                 emailValidateStatus: 'error',
-                emailErrorMsg: 'Email may not be empty'
+                emailErrorMsg: 'Пожалуйста заполните Email'
             };
         }
 
@@ -119,14 +119,14 @@ const Signup: React.FC = () => {
         if (!EMAIL_REGEX.test(email)) {
             return {
                 emailValidateStatus: 'error',
-                emailErrorMsg: 'Email not valid'
+                emailErrorMsg: 'Email не валидный'
             };
         }
 
         if (email.length > EMAIL_MAX_LENGTH) {
             return {
                 emailValidateStatus: 'error',
-                emailErrorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
+                emailErrorMsg: `Email слишком длинный (Максимум ${EMAIL_MAX_LENGTH} символов можно)`
             };
         }
 
@@ -140,12 +140,12 @@ const Signup: React.FC = () => {
         if (username.length < USERNAME_MIN_LENGTH) {
             return {
                 usernameValidateStatus: 'error',
-                usernameErrorMsg: `Username is too short (Minimum ${USERNAME_MIN_LENGTH} characters needed.)`
+                usernameErrorMsg: `Ник слишком короткий (Минимум ${USERNAME_MIN_LENGTH} символов нужно.)`
             };
         } else if (username.length > USERNAME_MAX_LENGTH) {
             return {
                 usernameValidateStatus: 'error',
-                usernameErrorMsg: `Username is too long (Maximum ${USERNAME_MAX_LENGTH} characters allowed.)`
+                usernameErrorMsg: `Ник слишком длинный (Максимум ${USERNAME_MAX_LENGTH}  символов можно.)`
             };
         } else {
             return {
@@ -191,7 +191,7 @@ const Signup: React.FC = () => {
                         ...prev,
 
                         usernameValidateStatus: 'error',
-                        usernameErrorMsg: 'This username is already taken'
+                        usernameErrorMsg: 'С этим ником кто то уже зарегистрирован'
                     }));
                 }
             })
@@ -237,7 +237,7 @@ const Signup: React.FC = () => {
                     setState((prev) => ({
                         ...prev,
                         emailValidateStatus: 'error',
-                        emailErrorMsg: 'This Email is already registered'
+                        emailErrorMsg: 'С этим Email кто то уже зарегистрирован '
                     }));
                     console.log(state)
                 }
@@ -255,12 +255,12 @@ const Signup: React.FC = () => {
         if (password.length < PASSWORD_MIN_LENGTH) {
             return {
                 passwordValidateStatus: 'error',
-                passwordErrorMsg: `Password is too short (Minimum ${PASSWORD_MIN_LENGTH} characters needed.)`
+                passwordErrorMsg: `Пароль слишком короткий (Минимум ${PASSWORD_MIN_LENGTH} символов нужно.)`
             };
         } else if (password.length > PASSWORD_MAX_LENGTH) {
             return {
                 passwordValidateStatus: 'error',
-                passwordErrorMsg: `Password is too long (Maximum ${PASSWORD_MAX_LENGTH} characters allowed.)`
+                passwordErrorMsg: `Пароль слишком длинный (Максимум ${PASSWORD_MAX_LENGTH} characters allowed.)`
             };
         } else {
             return {
@@ -272,67 +272,62 @@ const Signup: React.FC = () => {
 
     return (
         <div className="signup-container">
-            <h1 className="page-title">Sign Up</h1>
+            <h1 className="page-title">Регистрация</h1>
             <div className="signup-content">
-                <Form onFinish={handleSubmit} className="signup-form">
+                <Form
+                    onFinish={handleSubmit}
+                    className="login-form"
+                >
                     <Item
-                        label="Full Name"
                         validateStatus={state.nameValidateStatus}
                         help={state.nameErrorMsg}
                     >
                         <Input
-                            size="large"
                             name="name"
                             autoComplete="off"
-                            placeholder="Your full name"
+                            placeholder="Ваше Имя"
                             value={state.name}
                             onChange={(event) => handleInputChange(event, validateName)}
                         />
                     </Item>
                     <Item
-                        label="Username"
                         hasFeedback
                         validateStatus={state.usernameValidateStatus}
                         help={state.usernameErrorMsg}
                     >
                         <Input
-                            size="large"
                             name="username"
                             autoComplete="off"
-                            placeholder="A unique username"
+                            placeholder="Ваш ник"
                             value={state.username}
                             onBlur={validateUsernameAvailability}
                             onChange={(event) => handleInputChange(event, validateUsername)}
                         />
                     </Item>
                     <Item
-                        label="Email"
                         hasFeedback
                         validateStatus={state.emailValidateStatus}
                         help={state.emailErrorMsg}
                     >
                         <Input
-                            size="large"
                             name="email"
                             type="email"
                             autoComplete="off"
-                            placeholder="Your email"
+                            placeholder="Ваш email"
                             value={state.email}
                             onBlur={validateEmailAvailability}
                             onChange={(event) => handleInputChange(event, validateEmail)}
                         />
                     </Item>
                     <Item
-                        label="Password"
                         validateStatus={state.passwordValidateStatus}
                         help={state.passwordErrorMsg}
                     >
                         <Input
-                            size="large"
                             name="password"
                             type="password"
                             autoComplete="off"
-                            placeholder="A password between 6 to 20 characters"
+                            placeholder="Пароль между 6 и 20 символами"
                             value={state.password}
                             onChange={(event) => handleInputChange(event, validatePassword)}
                         />
@@ -342,8 +337,8 @@ const Signup: React.FC = () => {
                                 htmlType="submit"
                                 size="large"
                                 className="signup-form-button"
-                                disabled={isFormInvalid()}>Sign up</Button>
-                        Already registered? <Link to="/login">Login now!</Link>
+                                disabled={isFormInvalid()}>Зарегистрироваться</Button>
+                        Уже зарегистрированы? <Link to="/sign_in">Войти!</Link>
                     </Item>
                 </Form>
             </div>
