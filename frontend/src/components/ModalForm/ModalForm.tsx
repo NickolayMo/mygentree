@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Button, DatePicker, DatePickerProps, Form, Input, Modal, notification, Select} from "antd";
 import {Gender, Node} from "../../renderTree/types";
-import dayjs from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat"
 dayjs.extend(customParseFormat)
 const dateFormat = "DD.MM.YYYY"
@@ -23,7 +23,7 @@ interface State {
     middleName: string | undefined,
     lastName: string | undefined,
     avatar: string | undefined,
-    birthDate: string | undefined,
+    birthDate: Dayjs | undefined,
     location: string | undefined,
     occupation: string | undefined,
     gender: string | undefined,
@@ -40,17 +40,13 @@ export const ModalForm: React.FC<ModalFormProps> = (props) => {
         middleName: props.node?.infoNode?.middleName,
         lastName: props.node?.infoNode?.lastName,
         avatar: props.node?.infoNode?.avatar,
-        birthDate: props.node?.infoNode?.birthDate,
+        birthDate: dayjs(props.node?.infoNode?.birthDate, dateFormat),
         location: props.node?.infoNode?.location,
         occupation: props.node?.infoNode?.occupation,
         gender: Gender.male,
         nodeId: props.nodeId,
         treeId: props.treeId
     });
-    console.log(dayjs(state.birthDate, dateFormat))
-    const customFormat: DatePickerProps['format'] = (value) =>{
-        return "";
-    }
 
 
     const [isModalOpen, setIsModalOpen] = useState(props.show);
@@ -71,6 +67,7 @@ export const ModalForm: React.FC<ModalFormProps> = (props) => {
 
     };
     const onFinish = (values: any) => {
+        values["birthDate"] = values["birthDate"].format(dateFormat)
         setLoading(true)
         props.submitHandler(values)
             .then(response => {
@@ -145,11 +142,10 @@ export const ModalForm: React.FC<ModalFormProps> = (props) => {
                     </Form.Item>
                     <Form.Item name="birthDate">
                         <DatePicker
-                            name="firstName"
+                            name="birthDate"
                             autoComplete="off"
                             placeholder="Дата рождения"
-                            value={dayjs(state.birthDate, dateFormat)}
-                            format={customFormat}
+                            format={dateFormat}
                         />
                     </Form.Item>
                     <Form.Item name="nodeId" hidden={true}>

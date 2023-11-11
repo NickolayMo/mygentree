@@ -5,50 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2a94fb5-ddda-43f4-bd1a-b0966bf51d50" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/PersonController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeCreateRequest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ModalForm/ModalForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/TreeCreateForm/TreeCreateForm.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/TreeCreateForm/TreeCreateForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/services/personService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/services/treeService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/services/userService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/TreeController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/TreeController.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Tree.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Tree.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/GenTree.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/GenTree.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/GenTreeNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/GenTreeNode.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/UpdatePersonContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/UpdatePersonContext.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/PersonRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/PersonRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/ITreeService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/ITreeService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/PersonServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/PersonServiceImpl.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AppHeader/AppHeader.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AppHeader/AppHeader.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/NodeDetails/NodeDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NodeDetails/NodeDetails.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/NodeDetails/actions.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PersonForm/PersonForm.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PersonForm/PersonForm.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PersonForm/UpdateRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/models/UpdateRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/PersonForm/actions.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/models/SignInRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignUpForm/SignUpRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/models/SignUpRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/SourceSelect/SourceSelect.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UseForm/UseForm.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/UserProfile/UserProfile.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/const.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/constants/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/constants/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ModalForm/ModalForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ModalForm/ModalForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -223,7 +181,7 @@
       <workItem from="1698953545764" duration="953000" />
       <workItem from="1698954510986" duration="179000" />
       <workItem from="1698992720233" duration="47991000" />
-      <workItem from="1699631367110" duration="32845000" />
+      <workItem from="1699631367110" duration="35289000" />
     </task>
     <servers />
   </component>
