@@ -1,0 +1,17 @@
+.create-tree-container {
+    max-width: 420px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.create-tree-button {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.create-tree-button[disabled], .create-tree-button[disabled]:hover, .create-treebutton[disabled]:focus {
+    opacity: 0.6;
+    color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+}

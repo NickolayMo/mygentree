@@ -3,10 +3,11 @@ package com.mygentree.extensions
 import com.mygentree.dto.TreeUpdatePerson
 import com.mygentree.dto.request.TreeUpdatePersonRequest
 
-fun TreeUpdatePerson.Companion.fromRequest(request: TreeUpdatePersonRequest): TreeUpdatePerson {
+fun TreeUpdatePerson.Companion.fromRequest(request: TreeUpdatePersonRequest, userId: Long): TreeUpdatePerson {
     return TreeUpdatePerson(
         treeId = request.treeId,
         action = TreeUpdatePerson.TreeAction.valueOf(request.action.name),
+        userId = userId,
         context = TreeUpdatePerson.TreeUpdatePersonContext(
             avatar = request.context.avatar,
             firstName = request.context.firstName,

@@ -1,7 +1,6 @@
 import React, {useState, ChangeEvent, FormEvent} from 'react';
 import "./SignUpForm.css"
 import {Link} from 'react-router-dom';
-import {checkEmailAvailability, checkUsernameAvailability, signUp} from "../../utils/api";
 import {
     NAME_MIN_LENGTH, NAME_MAX_LENGTH,
     USERNAME_MIN_LENGTH, USERNAME_MAX_LENGTH,
@@ -11,6 +10,7 @@ import {
 
 import {Form, Input, Button, notification} from 'antd';
 import {ValidateStatus} from "antd/es/form/FormItem";
+import {checkEmailAvailability, checkUsernameAvailability, signUp} from "../../services/userService";
 
 const {Item} = Form;
 

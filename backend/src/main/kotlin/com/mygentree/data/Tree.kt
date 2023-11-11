@@ -2,6 +2,7 @@ package com.mygentree.data
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
+import org.hibernate.annotations.ColumnTransformer
 
 
 @Entity
@@ -22,6 +23,7 @@ class Tree(
     @OrderBy("id ASC")
     var persons: Set<Person>?,
 
+    @ColumnTransformer(write = "?::json")
     var extraInfo: String?
 )
 

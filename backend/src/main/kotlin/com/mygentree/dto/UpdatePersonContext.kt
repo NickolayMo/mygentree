@@ -2,6 +2,7 @@ package com.mygentree.dto
 
 data class TreeUpdatePerson(
     val treeId: String,
+    val userId: Long,
     val action: TreeAction,
     val context: TreeUpdatePersonContext,
 ) {

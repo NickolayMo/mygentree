@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {UserInfo, UserProfile} from "../UserProfile/UserProfile";
-import {getTreeList} from "../../utils/api";
 import {Link} from "react-router-dom";
 import {Card, List} from "antd";
 import "./Home.css"
 import {PlusOutlined} from "@ant-design/icons";
+import {getTreeList} from "../../services/treeService";
+
+export type UserInfo = {
+    id: bigint,
+    name: string,
+    userName: string,
+    email: string
+}
 
 interface HomeProps {
     handleLogout: () => void,
@@ -17,8 +23,6 @@ export const Home: React.FC<HomeProps> = (props) => {
         <div>
             {props.isAuthenticated && props.currentUser && (
                 <div className="home-container">
-                    {/*<UserProfile currentUser={props.currentUser} handleLogout={props.handleLogout}*/}
-                    {/*             isAuthenticated={props.isAuthenticated}/>*/}
                     <h1>Мои деревья</h1>
                     <TreeList/>
                 </div>

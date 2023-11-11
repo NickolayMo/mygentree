@@ -9,16 +9,12 @@ import com.mygentree.dto.GenTree
 import com.mygentree.dto.InfoNode
 import com.mygentree.dto.TreeUpdatePerson
 import com.mygentree.repository.PersonRepository
-import com.mygentree.repository.RelationRepository
 import com.mygentree.repository.TreeRepository
-import jakarta.persistence.EntityManager
 import jakarta.persistence.EntityNotFoundException
-import jakarta.persistence.PersistenceContext
-import org.hibernate.Cache
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
+
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class PersonServiceImpl(
@@ -48,9 +44,9 @@ class PersonServiceImpl(
     }
 
     private fun update(updatePersonContext: TreeUpdatePerson) {
-        val tree = treeRepository.findById(updatePersonContext.treeId.toLong()).orElseThrow()
+        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId).orElseThrow()
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
-        val node = personRepository.findById(nodeId).orElseThrow { EntityNotFoundException("Entity not found") }
+        val node = personRepository.findByIdAndTreeId(nodeId, tree.id).orElseThrow { EntityNotFoundException("Entity not found") }
         node.gender = updatePersonContext.context.gender
         var infoNode = InfoNode()
         val extraInfo = node.extraInfo
@@ -84,7 +80,7 @@ class PersonServiceImpl(
 
 
     private fun create(updatePersonContext: TreeUpdatePerson) {
-        val tree = treeRepository.findById(updatePersonContext.treeId.toLong()).orElseThrow()
+        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId).orElseThrow()
         val node = Person(
             id = null,
             relations = setOf(),
@@ -105,21 +101,15 @@ class PersonServiceImpl(
         node.extraInfo = Gson().toJson(infoNode)
         node.gender = updatePersonContext.context.gender
 
-        val session = sessionFactory.openSession()
-        try {
-            session.transaction.begin()
-            session.persist(node)
+        val session = sessionFactory.openSession().use {
+            it.transaction.begin()
+            it.persist(node)
             //create connections
             val relations = createRelations(updatePersonContext, tree, node)
             relations.forEach { relation ->
-                session.persist(relation)
+                it.persist(relation)
             }
-            session.transaction.commit()
-        } catch (e: Exception) {
-            session.close()
-        } finally {
-            session.close()
-
+            it.transaction.commit()
         }
     }
 
@@ -249,22 +239,17 @@ class PersonServiceImpl(
     )
 
     private fun delete(updatePersonContext: TreeUpdatePerson) {
+        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId).orElseThrow()
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
-        val session = sessionFactory.openSession()
-        try {
-            session.transaction.begin()
+        val node = personRepository.findByIdAndTreeId(nodeId, tree.id).orElseThrow { EntityNotFoundException("Entity not found") }
+        sessionFactory.openSession().use {
+            it.transaction.begin()
             val q =
-                session.createNativeMutationQuery("delete from relation where first_person_id=:ID or second_person_id=:ID")
+                it.createNativeMutationQuery("delete from relation where first_person_id=:ID or second_person_id=:ID")
             q.setParameter("ID", nodeId)
             q.executeUpdate()
-            val qp = session.createNativeMutationQuery("delete from person where id=:ID")
-            qp.setParameter("ID", nodeId)
-            qp.executeUpdate()
-            session.transaction.commit()
-        } catch (e: Exception) {
-            session.close()
-        } finally {
-            session.close()
+            personRepository.delete(node)
+            it.transaction.commit()
         }
     }
 }

@@ -1,6 +1,6 @@
-import type { CSSProperties } from 'react';
-import type { ExtNode, Node } from '../renderTree/types';
-import { NODE_HEIGHT, NODE_WIDTH } from '../components/const';
+import type {CSSProperties} from 'react';
+import type {ExtNode, Node} from '../renderTree/types';
+import {NODE_HEIGHT, NODE_WIDTH} from "../constants";
 
 export function getNodeStyle({ left, top }: Readonly<ExtNode>): CSSProperties {
   return {

@@ -2,17 +2,17 @@ import {Suspense, useEffect, useState} from 'react';
 
 import {TreeRoot} from '../TreeRoot/TreeRoot';
 import {Layout, notification} from 'antd';
-import {redirect, redirectDocument, Route, Routes, useNavigate} from 'react-router-dom'
+import {Route, Routes, useNavigate} from 'react-router-dom'
 import {NotFound} from '../NotFound/NotFound';
 import {AppHeader} from '../AppHeader/AppHeader';
 import SignInForm from '../SignInForm/SignInForm';
 import css from "./App.module.css"
 import SignUpForm from "../SignUpForm/SignUpForm";
-import {Home} from "../Home/Home";
-import {UserInfo} from "../UserProfile/UserProfile";
-import {getCurrentUser} from "../../utils/api";
+import {Home, UserInfo} from "../Home/Home";
 import {Loader} from "../Loader/Loader";
 import {ACCESS_TOKEN} from "../../constants";
+import {TreeCreateForm} from "../TreeCreateForm/TreeCreateForm";
+import {getCurrentUser} from "../../services/userService";
 
 const {Content} = Layout;
 
@@ -91,6 +91,7 @@ export const App: React.FC = () => {
                         <Route path='/tree/:id' Component={()=><TreeRoot handleLogout={handleLogout} currentUser={currentUser} isAuthenticated={isAuthenticated}/>}/>
                         <Route path='/sign_in' Component={()=><SignInForm handleLogin={handleLogin}/>}/>
                         <Route path='/sign_up' Component={SignUpForm}/>
+                        <Route path='/tree/add' Component={TreeCreateForm}/>
                         <Route path='*' Component={NotFound}></Route>
                     </Routes>
                 </div>

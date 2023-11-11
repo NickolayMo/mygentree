@@ -2,11 +2,11 @@ import {Header} from "antd/es/layout/layout"
 import Menu from "antd/es/menu/menu"
 import {Link} from "react-router-dom"
 import './AppHeader.css';
-import {UserInfo} from "../UserProfile/UserProfile";
 import React from "react";
 import {MenuProps} from "antd";
 import {MenuInfo} from "rc-menu/lib/interface";
 import {SettingOutlined} from "@ant-design/icons";
+import {UserInfo} from "../Home/Home";
 
 interface AppHeaderProps {
     currentUser: UserInfo | undefined,

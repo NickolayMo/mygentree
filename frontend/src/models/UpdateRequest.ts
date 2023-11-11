@@ -1,10 +1,9 @@
-import {Gender, LiveEvent, PersonDocuments, Relation} from "../../renderTree/types";
+import {Gender, LiveEvent, PersonDocuments, Relation} from "../renderTree/types";
 
 export type UpdateRequest = {
-    userId: string,
     treeId: string,
     action: string,
-    nodeId: string,
+    nodeId: string|undefined,
     context: UpdateContext
 }
 

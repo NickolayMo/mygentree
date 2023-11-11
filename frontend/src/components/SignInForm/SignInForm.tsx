@@ -1,10 +1,10 @@
 import React from 'react';
 import './SignInForm.css';
 import {Button, Form, Input} from 'antd';
-import {signIn} from '../../utils/api';
 import {ACCESS_TOKEN} from '../../constants';
 import {Link} from "react-router-dom";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import {signIn} from "../../services/userService";
 
 
 interface SignInForm {

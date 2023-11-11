@@ -1,14 +1,17 @@
 package com.mygentree.service
 
 import com.google.gson.Gson
+import com.mygentree.data.Person
 import com.mygentree.data.Relation
 import com.mygentree.data.RelationType
 import com.mygentree.data.Tree
 import com.mygentree.dto.*
+import com.mygentree.dto.request.TreeCreateRequest
 import com.mygentree.dto.response.TreeInfo
 import com.mygentree.repository.TreeRepository
 import jakarta.persistence.EntityManager
 import jakarta.persistence.EntityNotFoundException
+import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -17,7 +20,9 @@ class TreeServiceImp(
     @Autowired
     private val treeRepository: TreeRepository,
     @Autowired
-    private val entityManager: EntityManager
+    private val entityManager: EntityManager,
+    @Autowired
+    val sessionFactory: SessionFactory
 ) : ITreeService {
 
     override fun getTreeByIdAndUserId(treeId: Long, userId: Long): GenTree {
@@ -25,6 +30,22 @@ class TreeServiceImp(
         val result =
             treeRepository.findByIdAndUserId(treeId, userId).orElseThrow { EntityNotFoundException("Tree not found") }
         return mapToGenTree(result)
+    }
+
+    override fun createTree(rq: TreeCreateRequest, userId: Long): GenTree {
+        val tree = Tree(
+            id = null,
+            name = rq.treeName,
+            extraInfo = rq.extraInfo,
+            userId = userId,
+            persons = null
+        )
+        sessionFactory.openSession().use {
+            it.transaction.begin()
+            it.persist(tree)
+            it.transaction.commit()
+        }
+        return mapToGenTree(tree)
     }
 
     override fun getUserTrees(id: Long?): List<TreeInfo>? {
@@ -42,7 +63,10 @@ class TreeServiceImp(
 
     fun mapToGenTree(tree: Tree): GenTree {
         return GenTree(
-            relatives = mapRelatives(tree)
+            relatives = mapRelatives(tree),
+            treeId = tree.id,
+            userId = tree.userId,
+            extraInfo = tree.extraInfo
         )
     }
 
@@ -61,12 +85,17 @@ class TreeServiceImp(
                     spouses = mapConnectionNode(relMap?.getOrDefault(RelationType.SPOUSE.name, mutableListOf())),
                     children = mapConnectionNode(relMap?.getOrDefault(RelationType.CHILD.name, mutableListOf())),
                     infoNode = mapInfoNode(person.extraInfo),
-                    isMain = person.isMain
+                    isMain = person.isMain,
+                    kinship = calcKinship(person)
                 )
             )
         }
         result.sortByDescending { it.isMain }
         return result
+    }
+
+    private fun calcKinship(person: Person): String? {
+        return "Родственник"
     }
 
     private fun mapInfoNode(extraInfo: String?): InfoNode? {
