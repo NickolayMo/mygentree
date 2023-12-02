@@ -17,6 +17,7 @@ import ReactModal from 'react-modal';
 import {ModalForm} from "../ModalForm/ModalForm";
 
 import {addChild, addParent, addSpouse, deleteUser, updatePerson} from "../../services/personService";
+import {Tip} from "../Tip/Tip";
 
 ReactModal.setAppElement('#root');
 
@@ -31,6 +32,7 @@ interface NodeDetailsProps {
     onPersonChange: (nodes: readonly Readonly<Node>[]) => void;
     treeId: string;
 }
+
 export const NodeDetails = memo(
     function NodeDetails({nodeList, node, className, onDelete, onPersonChange, treeId, ...props}: NodeDetailsProps) {
         const [showAddPersonRel, setShowAddPersonRel] = useState(false)
@@ -77,9 +79,11 @@ export const NodeDetails = memo(
                     </div>
                 </header>
                 <section className={css.editBlock}>
-                    <button className={css.delete} onClick={deleteUserCallback}>
-                        <FontAwesomeIcon icon={faTrashCan}/>
-                    </button>
+                    <Tip text={"Удалить"}>
+                        <button className={css.delete} onClick={deleteUserCallback}>
+                            <FontAwesomeIcon icon={faTrashCan}/>
+                        </button>
+                    </Tip>
                     <ModalForm
                         node={node}
                         nodeId={node.id}
@@ -90,7 +94,7 @@ export const NodeDetails = memo(
                         showModalButtonIcon={<FontAwesomeIcon icon={faEdit}/>}
                         showModalButtonTitle={'Редактирование'}
                     />
-                    <button className={classNames(css.add, showAddPersonRel ? css.on : css.off)}
+                    <button className={classNames(css.add, css.editButton, showAddPersonRel ? css.on : css.off)}
                             onClick={handleShowAddPersonRel}>
                         <FontAwesomeIcon icon={faUserPlus}/>
                     </button>

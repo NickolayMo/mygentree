@@ -6,6 +6,7 @@ import com.mygentree.data.Relation
 import com.mygentree.data.RelationType
 import com.mygentree.data.Tree
 import com.mygentree.dto.*
+import com.mygentree.dto.request.DeleteTreeRequest
 import com.mygentree.dto.request.TreeCreateRequest
 import com.mygentree.dto.response.TreeInfo
 import com.mygentree.repository.TreeRepository
@@ -48,6 +49,52 @@ class TreeServiceImp(
         return mapToGenTree(tree)
     }
 
+    override fun deleteTree(rq: DeleteTreeRequest, userId: Long): Boolean {
+        sessionFactory.openSession().use {
+            it.transaction.begin()
+            it.createNativeMutationQuery(
+                """
+                delete
+                    from relation
+                    where first_person_id in 
+                        (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
+                    or second_person_id  in 
+                        (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
+            """.trimIndent()
+            )
+                .setParameter("TREEID", rq.treeId.toLong())
+                .setParameter("USERID", userId)
+                .executeUpdate()
+
+            it.createNativeMutationQuery(
+                """
+               delete
+                    from person
+                        where person.id in 
+                           (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
+            """.trimIndent()
+            )
+                .setParameter("TREEID", rq.treeId.toLong())
+                .setParameter("USERID", userId)
+                .executeUpdate()
+
+
+            it.createNativeMutationQuery(
+                """
+               delete
+                    from tree
+                       where user_id = :USERID
+                       and id = :TREEID
+            """.trimIndent()
+            )
+                .setParameter("TREEID", rq.treeId.toLong())
+                .setParameter("USERID", userId)
+                .executeUpdate()
+            it.transaction.commit()
+        }
+        return true
+    }
+
     override fun getUserTrees(id: Long?): List<TreeInfo>? {
         treeRepository.findAll()
         return treeRepository.findAllByUserId(id).map {
@@ -55,7 +102,6 @@ class TreeServiceImp(
                 id = it.id,
                 name = it.name,
                 extraInfo = it.extraInfo
-
             )
         }.toList()
 

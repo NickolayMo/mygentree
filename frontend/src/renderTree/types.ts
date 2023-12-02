@@ -65,6 +65,7 @@ export type Node = Readonly<{
   spouses: readonly Relation[];
   placeholder?: boolean;
   infoNode?: InfoNode;
+  kinship?: string
 }>
 
 export type ExtNode = Node & Readonly<{

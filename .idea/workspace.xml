@@ -5,8 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2a94fb5-ddda-43f4-bd1a-b0966bf51d50" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/DeleteTreeRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Tip/Tip.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/TreeList/TreeList.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/PersonController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/PersonController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/TreeController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/TreeController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/ITreeService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/ITreeService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/App/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/FamilyNode/FamilyNode.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FamilyNode/FamilyNode.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/FamilyNode/FamilyNode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FamilyNode/FamilyNode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home/Home.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/ModalForm/ModalForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ModalForm/ModalForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/NodeDetails/NodeDetails.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NodeDetails/NodeDetails.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/NodeDetails/NodeDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NodeDetails/NodeDetails.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SignInForm/SignInForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TreeList/TreeList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TreeList/TreeList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/renderTree/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/renderTree/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/treeService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/treeService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/routes.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,10 +59,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="CSS File" />
-        <option value="Kotlin Class" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="Kotlin Class" />
+        <option value="CSS File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -104,7 +124,7 @@
       <recent name="com.mygentree.dto.response" />
     </key>
   </component>
-  <component name="RunManager" selected="Compound.start my gen tree">
+  <component name="RunManager" selected="Gradle.MyGenTree [bootRun]">
     <configuration name="start my gen tree" type="CompoundRunConfigurationType">
       <toRun name="MyGenTree [bootRun]" type="GradleRunConfiguration" />
       <toRun name="start" type="js.build_tools.npm" />
@@ -181,7 +201,9 @@
       <workItem from="1698953545764" duration="953000" />
       <workItem from="1698954510986" duration="179000" />
       <workItem from="1698992720233" duration="47991000" />
-      <workItem from="1699631367110" duration="35289000" />
+      <workItem from="1699631367110" duration="41239000" />
+      <workItem from="1700898329944" duration="4703000" />
+      <workItem from="1701510633332" duration="7951000" />
     </task>
     <servers />
   </component>

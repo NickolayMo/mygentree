@@ -1,5 +1,5 @@
 import {API_BASE_URL} from "../constants";
-import {crateTreeRoute, getTreeListRoute, getTreeRoute} from "../utils/routes";
+import {crateTreeRoute, deleteTreeRoute, getTreeListRoute, getTreeRoute} from "../utils/routes";
 import {request} from "../utils/api";
 
 export const getTreeList = () => {
@@ -26,6 +26,17 @@ export const createTree = (name: string) =>
             body: JSON.stringify({
                 treeName: name,
                 extraInfo: "{}"
+            })
+        }
+    )
+
+export const deleteTree = (id: string) =>
+    request(
+        deleteTreeRoute,
+        {
+            method: "POST",
+            body: JSON.stringify({
+                treeId: id
             })
         }
     )

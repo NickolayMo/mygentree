@@ -8,12 +8,15 @@ import {getNodeStyle} from '../../utils/utils';
 
 import css from './TreeRoot.module.css';
 import {useParams} from "react-router-dom";
-import {notification} from "antd";
+import {Button, FloatButton, notification} from "antd";
 import {UserInfo} from "../Home/Home";
 import {ModalForm} from "../ModalForm/ModalForm";
 import {getTreeNodes} from "../../services/treeService";
 import {createFirstPerson} from "../../services/personService";
 import {NODE_HEIGHT, NODE_WIDTH} from "../../constants";
+import {Loader} from "../Loader/Loader";
+import {RollbackOutlined} from "@ant-design/icons";
+import {Tip} from "../Tip/Tip";
 
 interface TreeRootProps {
     handleLogout: () => void,
@@ -61,12 +64,12 @@ export const TreeRoot: React.FC<TreeRootProps> = (props) => {
     if (isLoading) {
         return (
             <div>
-                Загрузка ...
+                <Loader/>
             </div>
         )
     }
     const createPersonHandler = (values: any) => {
-        if(id){
+        if (id) {
             return createFirstPerson(values, id)
         }
         return Promise.reject()
@@ -160,9 +163,10 @@ export const Tree: React.FC<TreeProps> = (props: TreeProps) => {
                 </PinchZoomPan>
             )}
             {rootId !== firstNodeId && (
-                <button className={css.reset} onClick={resetRootHandler}>
-                    Reset
-                </button>
+                <Tip text={"Назад"}>
+                    <FloatButton className={css.reset} icon={<RollbackOutlined rev={""}/>} type="default"
+                                 style={{right: 94}} onClick={resetRootHandler}/>
+                </Tip>
             )}
             {selected && (
                 <NodeDetails

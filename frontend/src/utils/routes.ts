@@ -9,3 +9,4 @@ export const checkUsernameAvailabilityRoute = API_BASE_URL + "/api/v1/user/usern
 export const checkEmailAvailabilityRoute = API_BASE_URL + "/api/v1/user/email_availability"
 export const getTreeListRoute = API_BASE_URL + "/api/v1/tree/get/list"
 export const crateTreeRoute = API_BASE_URL + "/api/v1/tree/add"
+export const deleteTreeRoute = API_BASE_URL + "/api/v1/tree/delete"

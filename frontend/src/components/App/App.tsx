@@ -43,7 +43,10 @@ export const App: React.FC = () => {
                 }
             })
             .catch(err => {
-                console.log(err)
+                notification.error({
+                    message: '',
+                    description: err,
+                });
             })
             .finally(() => {
                 setIsLoading(false)

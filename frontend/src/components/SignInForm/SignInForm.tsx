@@ -1,6 +1,6 @@
 import React from 'react';
 import './SignInForm.css';
-import {Button, Form, Input} from 'antd';
+import {Button, Form, Input, notification} from 'antd';
 import {ACCESS_TOKEN} from '../../constants';
 import {Link} from "react-router-dom";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
@@ -14,12 +14,14 @@ interface SignInForm {
 const SignInForm: React.FC<SignInForm> = (props: SignInForm) => {
 
     const onFinish = (values: any) => {
-        console.log('Success:', values);
         signIn(values).then(response => {
             localStorage.setItem(ACCESS_TOKEN, response.accessToken);
             props.handleLogin()
         }).catch(error => {
-            console.log(error)
+            notification.error({
+                message: '',
+                description: error,
+            });
         });
     };
     return (

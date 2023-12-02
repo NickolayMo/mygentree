@@ -1,4 +1,5 @@
 .root {
+  margin-top: 10px;
   padding: 10px;
   font-family: monospace;
   font-size: 9px;
@@ -68,14 +69,20 @@
 .male .avatarImg {
   border: 1px solid #5ddcff;
 }
-.delete {
-
+.editBlock .delete {
+  border-radius: 50%;
+  background-color: tomato;
+  border: tomato 1px solid;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  color: white;
 }
 .editBlock {
   display: flex;
   justify-content: center;
 }
-.editBlock button {
+.editBlock .editButton {
   border-radius: 50%;
   background-color: transparent;
   border: #888 1px solid;
@@ -101,13 +108,12 @@
 }
 .edit {
   display: flex;
-
 }
-button.on {
+.editButton.on {
   background-color: #666;
   color: #fff;
 }
-button.off {
+.editButton.off {
   background-color: #fff;
   color: #000;
 }

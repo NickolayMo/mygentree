@@ -1,6 +1,7 @@
 package com.mygentree.controller
 
 import com.mygentree.dto.GenTree
+import com.mygentree.dto.request.DeleteTreeRequest
 import com.mygentree.dto.request.TreeCreateRequest
 import com.mygentree.dto.request.TreeRequest
 import com.mygentree.dto.response.ApiResponse
@@ -59,6 +60,21 @@ class TreeController(
             ApiResponse(
                 success = true,
                 data = tree,
+                error = null
+            )
+        )
+    }
+
+    @PostMapping("/delete")
+    @PreAuthorize("hasRole('USER')")
+    fun deleteTree(@RequestBody rq: DeleteTreeRequest,
+                   @CurrentUser user: UserPrincipal):  ResponseEntity<ApiResponse<List<TreeInfo>>> {
+        treeService.deleteTree(rq, user.id!!)
+        val treeList = treeService.getUserTrees(user.id)
+        return ResponseEntity.ok(
+            ApiResponse(
+                success = true,
+                data = treeList,
                 error = null
             )
         )

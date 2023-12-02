@@ -75,22 +75,15 @@
 
 .sub {
   position: absolute;
-  top: 2px;
-  height: 20px;
-  width: 20px;
-  border: 1px solid rgba(0, 0, 0, .2);
-  background: #fff;
+  top: 0;
+  right: 0;
+  height: 30px;
+  width: 30px;
   cursor: pointer;
-}
-
-.sub.male {
-  background: #ffdcef;
-  border-radius: 0%;
-}
-
-.sub.female {
-  background: #5ddcff;
-  border-radius: 0%;
+  border: none;
+  border-radius: 50%;
+  text-align: center;
+  background-color: orange;
 }
 
 .avatar {
