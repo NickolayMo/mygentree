@@ -1,18 +1,176 @@
-version: '3.7'
+version: '3'
+
 services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.13
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - web-root:/var/www/html
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    networks:
+      - app-network
+
+  certbot:
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    command: certonly --webroot --webroot-path=/var/www/html --email ${CERT_EMAIL} --agree-tos --no-eff-email --staging -d ${HOST} -d www.${HOST}
+
+  postgresql:
+    container_name: postgresql
+    image: postgres:14.8-alpine3.18
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=50"
+      - "-c"
+      - "shared_buffers=1GB"
+      - "-c"
+      - "effective_cache_size=4GB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=512MB"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "temp_file_limit=10GB"
+      - "-c"
+      - "log_min_duration_statement=200ms"
+      - "-c"
+      - "idle_in_transaction_session_timeout=10s"
+      - "-c"
+      - "lock_timeout=1s"
+      - "-c"
+      - "statement_timeout=60s"
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements"
+      - "-c"
+      - "pg_stat_statements.max=10000"
+      - "-c"
+      - "pg_stat_statements.track=all"
+    environment:
+      POSTGRES_DB: "${DB_DATABASE}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ../2. Init Database:/docker-entrypoint-initdb.d
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${DB_DATABASE}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+    networks:
+      - app-network
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:7.2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "${POSTGRES_ADMIN_EMAIL}"
+      PGADMIN_DEFAULT_PASSWORD: "${POSTGRES_PASSWORD}"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - app-network
+  postgres_exporter:
+    container_name: postgres_exporter
+    image: prometheuscommunity/postgres-exporter:v0.10.1
+    environment:
+      DATA_SOURCE_URI: "${DB_HOST}:${DB_PORT}/${DB_DATABASE}?sslmode=disable"
+      DATA_SOURCE_USER: "${POSTGRES_USER}"
+      DATA_SOURCE_PASS: "${POSTGRES_PASSWORD}"
+      PG_EXPORTER_EXTEND_QUERY_PATH: "/etc/postgres_exporter/queries.yaml"
+    volumes:
+      - ./queries.yaml:/etc/postgres_exporter/queries.yaml:ro
+    ports:
+      - "9187:9187"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 500M
+    networks:
+      - app-network
 
   my-gen-tree-backend:
-    image: "my-gen-tree/backend:0.0.1"
     container_name: my-gen-tree-backend
-    ports:
-      - "8080:8080"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     environment:
-      - SPRING.PROFILES.ACTIVE=default
-  my-gen-tree-frontend:
-    image: "my-gen-tree/frontend:0.0.1"
-    container_name: my-gen-tree-frontend
+      - "DB_HOST=${DB_HOST}"
+      - "DB_PORT=${DB_PORT}"
+      - "DB_DATABASE=${DB_DATABASE}"
+      - "JWT_SECRET=${JWT_SECRET}"
+      - "POSTGRES_USER=${POSTGRES_USER}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "SERVER_PORT=8080"
+      - "SPRING.PROFILES.ACTIVE=default"
     ports:
-      - "3000:3000"
-    links:
-      - my-gen-tree-backend
+      - '8080:8080'
+    depends_on:
+      - nginx
+      - postgresql
+    restart: always
+    networks:
+      - app-network
 
+  my-gen-tree-frontend:
+    container_name: my-gen-tree-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - "REACT_APP_TREE_APP_SERVICE_URL=${REACT_APP_TREE_APP_SERVICE_URL}"
+      - "REACT_APP_TEST=${REACT_APP_TEST}"
+    ports:
+      - '3000:3000'
+    depends_on:
+      - nginx
+      - postgresql
+      - my-gen-tree-backend
+    restart: always
+    networks:
+      - app-network
+
+volumes:
+  certbot-etc:
+  certbot-var:
+  web-root:
+  db-data:
+  pgadmin-data:
+
+networks:
+  app-network:
+    driver: bridge

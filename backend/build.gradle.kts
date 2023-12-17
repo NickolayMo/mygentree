@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    application
     id("org.springframework.boot") version "3.1.0"
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.8.21"
@@ -64,4 +65,7 @@ liquibase {
         )
     }
     runList = "main"
+}
+tasks.jar {
+    manifest.attributes["Main-Class"] = "com.mygentree.MainKt"
 }
