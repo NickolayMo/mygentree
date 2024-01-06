@@ -89,7 +89,7 @@ export const addSpouse = (values: UpdateContext, node: Node, treeId: string) => 
     values.spouses = spouse
     return createPerson(values, node.id, treeId)
 }
-export const createFirstPerson = (values: UpdateContext, treeId: string) => {
+export const createNewPerson = (values: UpdateContext, treeId: string) => {
     return createPerson(values, "", treeId)
 }
 export const deleteUser = (node: Node, treeId: string, callback: (nodes: readonly Readonly<Node>[]) => void) => {

@@ -11,11 +11,11 @@ class Relation(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "relationSeq")
     var id: Long?,
     @ManyToOne
-    @JoinColumn(name = "first_person_id")
-    var firstPerson: Person?,
+    @JoinColumn(name = "person_id")
+    var person: Person?,
     @ManyToOne
-    @JoinColumn(name = "second_person_id")
-    var secondPerson: Person?,
+    @JoinColumn(name = "related_person_id")
+    var relatedPerson: Person?,
     @ColumnTransformer(write = "?::relation_type")
     var relationType: String?,
     @ColumnTransformer(write = "?::connection_type")

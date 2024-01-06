@@ -40,6 +40,7 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("io.minio:minio:8.5.7")
 }
 
 tasks.withType<KotlinCompile> {

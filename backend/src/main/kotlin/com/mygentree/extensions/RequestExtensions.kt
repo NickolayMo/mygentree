@@ -29,7 +29,8 @@ fun TreeUpdatePerson.Companion.fromRequest(request: TreeUpdatePersonRequest, use
             spouses = request.context.spouses?.map {
                 mapConnection(it)
             },
-            gender = request.context.gender
+            gender = request.context.gender,
+            photoNames = request.context.photoNames
 
             )
     )

@@ -25,7 +25,8 @@ data class TreeUpdatePerson(
         var children: List<Connection>?,
         var siblings: List<Connection>?,
         var spouses: List<Connection>?,
-        var gender: String?
+        var gender: String?,
+        var photoNames: List<String>? = null
     )
 
     data class Connection(

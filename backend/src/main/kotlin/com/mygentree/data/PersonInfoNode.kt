@@ -1,6 +1,8 @@
-package com.mygentree.dto
+package com.mygentree.data
 
-data class InfoNode(
+import com.mygentree.dto.LiveEvent
+
+data class PersonInfoNode(
     var avatar: String? = null,
     var firstName: String? = null,
     var middleName: String? = null,
@@ -9,7 +11,7 @@ data class InfoNode(
     var occupation: String? = null,
     var location: String? = null,
     var liveEvents: List<LiveEvent>? = null,
-    var personDocuments: List<PersonDocuments>? = null,
+    var personDocuments: List<String>? = null,
     var description: String? = null,
-    var photo: List<PersonPhoto>? = null
+    var photoNames: List<String>? = null
 )

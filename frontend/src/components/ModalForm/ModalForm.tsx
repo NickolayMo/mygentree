@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import {Button, ConfigProvider, DatePicker, Form, Input, Modal, notification, Select} from "antd";
-import {Gender, Node} from "../../renderTree/types";
+import {Button, ConfigProvider, DatePicker, Form, Input, Modal, notification, Select, Upload} from "antd";
+import {Gender, Node, PersonPhoto} from "../../renderTree/types";
 import dayjs, {Dayjs} from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat"
 import css from '../NodeDetails/NodeDetails.module.css';
@@ -8,6 +8,7 @@ import css from '../NodeDetails/NodeDetails.module.css';
 import locale from "antd/es/locale/ru_RU"
 import 'dayjs/locale/ru';
 import {Tip} from "../Tip/Tip";
+import {UploadPhoto} from "../UploadPhoto/UploadPhoto";
 
 dayjs.locale('ru')
 dayjs.extend(customParseFormat)
@@ -30,34 +31,41 @@ interface State {
     firstName: string | undefined,
     middleName: string | undefined,
     lastName: string | undefined,
-    avatar: string | undefined,
     birthDate: Dayjs | undefined,
     location: string | undefined,
     occupation: string | undefined,
     gender: string | undefined,
     nodeId: string | undefined,
     treeId: string | undefined,
+    photo: PersonPhoto[] | undefined,
+    photoNames: string[] | undefined,
 }
 
 export const ModalForm: React.FC<ModalFormProps> = (props) => {
-    const [state, setState] = useState<State>({
+    const mapState = () => ({
         firstName: props.node?.infoNode?.firstName,
         middleName: props.node?.infoNode?.middleName,
         lastName: props.node?.infoNode?.lastName,
-        avatar: props.node?.infoNode?.avatar,
         birthDate: props.node?.infoNode && dayjs(props.node?.infoNode?.birthDate, dateFormat),
         location: props.node?.infoNode?.location,
         occupation: props.node?.infoNode?.occupation,
         gender: props.node?.gender,
         nodeId: props.nodeId,
-        treeId: props.treeId
-    });
-
+        treeId: props.treeId,
+        photo: props.node?.infoNode?.photo,
+        photoNames: props.node?.infoNode?.photo?.map(value => value.filename)
+    })
+    const [state, setState] = useState<State>(mapState());
     const [isModalOpen, setIsModalOpen] = useState(props.show);
     const [loading, setLoading] = useState(false);
     const showModal = () => {
+        setState(mapState())
         setIsModalOpen(true);
+        console.log(state)
+        console.log(props)
     };
+
+
 
     const handleCancel = () => {
         if (props.notAllowToClose) {
@@ -71,6 +79,7 @@ export const ModalForm: React.FC<ModalFormProps> = (props) => {
 
     };
     const onFinish = (values: any) => {
+        console.log(values)
         values["birthDate"] = values["birthDate"].format(dateFormat)
         setLoading(true)
         props.submitHandler(values)
@@ -90,6 +99,13 @@ export const ModalForm: React.FC<ModalFormProps> = (props) => {
         setLoading(false)
         setIsModalOpen(false)
     }
+    const normFile = (e: any) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e?.value;
+    };
 
     return (
         <>
@@ -106,13 +122,11 @@ export const ModalForm: React.FC<ModalFormProps> = (props) => {
                     <Form onFinish={onFinish} initialValues={
                         state
                     }>
-                        <Form.Item name="avatar">
-                            <Input
-                                name="avatar"
-                                autoComplete="off"
-                                placeholder="фото"
-                                value={state.avatar}
-                            />
+                        <Form.Item
+                            name="photoNames"
+                            getValueFromEvent={normFile}
+                        >
+                            <UploadPhoto defaultPhoto={state.photo}/>
                         </Form.Item>
                         <Form.Item name="gender">
                             <Select

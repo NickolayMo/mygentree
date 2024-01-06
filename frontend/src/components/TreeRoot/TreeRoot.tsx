@@ -12,7 +12,7 @@ import {Button, FloatButton, notification} from "antd";
 import {UserInfo} from "../Home/Home";
 import {ModalForm} from "../ModalForm/ModalForm";
 import {getTreeNodes} from "../../services/treeService";
-import {createFirstPerson} from "../../services/personService";
+import {createNewPerson} from "../../services/personService";
 import {NODE_HEIGHT, NODE_WIDTH} from "../../constants";
 import {Loader} from "../Loader/Loader";
 import {RollbackOutlined} from "@ant-design/icons";
@@ -70,7 +70,7 @@ export const TreeRoot: React.FC<TreeRootProps> = (props) => {
     }
     const createPersonHandler = (values: any) => {
         if (id) {
-            return createFirstPerson(values, id)
+            return createNewPerson(values, id)
         }
         return Promise.reject()
     }

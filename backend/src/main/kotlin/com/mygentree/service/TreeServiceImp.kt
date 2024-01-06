@@ -1,11 +1,9 @@
 package com.mygentree.service
 
 import com.google.gson.Gson
-import com.mygentree.data.Person
-import com.mygentree.data.Relation
-import com.mygentree.data.RelationType
-import com.mygentree.data.Tree
+import com.mygentree.data.*
 import com.mygentree.dto.*
+import com.mygentree.dto.ConnectionType
 import com.mygentree.dto.request.DeleteTreeRequest
 import com.mygentree.dto.request.TreeCreateRequest
 import com.mygentree.dto.response.TreeInfo
@@ -14,6 +12,7 @@ import jakarta.persistence.EntityManager
 import jakarta.persistence.EntityNotFoundException
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,7 +22,13 @@ class TreeServiceImp(
     @Autowired
     private val entityManager: EntityManager,
     @Autowired
-    val sessionFactory: SessionFactory
+    val sessionFactory: SessionFactory,
+
+    @Value("\${file.photoServerUrl}")
+    val photoFileServerUrl: String,
+
+    @Value("\${file.docServerUrl}")
+    val docFileServerUrl: String
 ) : ITreeService {
 
     override fun getTreeByIdAndUserId(treeId: Long, userId: Long): GenTree {
@@ -56,9 +61,9 @@ class TreeServiceImp(
                 """
                 delete
                     from relation
-                    where first_person_id in 
+                    where person_id in 
                         (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
-                    or second_person_id  in 
+                    or related_person_id  in 
                         (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
             """.trimIndent()
             )
@@ -145,7 +150,27 @@ class TreeServiceImp(
     }
 
     private fun mapInfoNode(extraInfo: String?): InfoNode? {
-        return Gson().fromJson(extraInfo, InfoNode::class.java)
+        val node = Gson().fromJson(extraInfo, PersonInfoNode::class.java)
+        val avatar = node.photoNames?.firstOrNull()?.let {
+            photoFileServerUrl + it
+        }
+        return InfoNode(
+            avatar = avatar,
+            firstName = node.firstName,
+            middleName = node.middleName,
+            lastName = node.lastName,
+            birthDate = node.birthDate,
+            occupation = node.occupation,
+            location = node.location,
+            description = node.description,
+            personDocuments = node.personDocuments?.map { PersonDocuments(
+                url = it
+            ) },
+            photo = node.photoNames?.map { PersonPhoto(
+                url = photoFileServerUrl + it,
+                filename = it
+            )}
+        )
     }
 
     private fun mapConnectionNode(relations: List<Relation>?): MutableList<ConnectionNode>? {
@@ -153,7 +178,7 @@ class TreeServiceImp(
         relations?.forEach {
             result.add(
                 ConnectionNode(
-                    id = it.secondPerson?.id.toString(),
+                    id = it.relatedPerson?.id.toString(),
                     type = ConnectionType.valueOf(it.connectionType.toString())
                 )
             )

@@ -1,10 +1,7 @@
 package com.mygentree.service
 
 import com.google.gson.Gson
-import com.mygentree.data.Person
-import com.mygentree.data.Relation
-import com.mygentree.data.RelationType
-import com.mygentree.data.Tree
+import com.mygentree.data.*
 import com.mygentree.dto.GenTree
 import com.mygentree.dto.InfoNode
 import com.mygentree.dto.TreeUpdatePerson
@@ -44,14 +41,16 @@ class PersonServiceImpl(
     }
 
     private fun update(updatePersonContext: TreeUpdatePerson) {
-        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId).orElseThrow()
+        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId)
+            .orElseThrow()
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
-        val node = personRepository.findByIdAndTreeId(nodeId, tree.id).orElseThrow { EntityNotFoundException("Entity not found") }
+        val node = personRepository.findByIdAndTreeId(nodeId, tree.id)
+            .orElseThrow { EntityNotFoundException("Entity not found") }
         node.gender = updatePersonContext.context.gender
-        var infoNode = InfoNode()
+        var infoNode = PersonInfoNode()
         val extraInfo = node.extraInfo
         if (extraInfo != null) {
-            infoNode = Gson().fromJson(extraInfo, InfoNode::class.java)
+            infoNode = Gson().fromJson(extraInfo, PersonInfoNode::class.java)
         }
         infoNode.avatar = updatePersonContext.context.avatar
         infoNode.firstName = updatePersonContext.context.firstName
@@ -59,6 +58,7 @@ class PersonServiceImpl(
         infoNode.lastName = updatePersonContext.context.lastName
         infoNode.birthDate = updatePersonContext.context.birthDate
         infoNode.occupation = updatePersonContext.context.occupation
+        infoNode.photoNames = updatePersonContext.context.photoNames
 
         node?.extraInfo = Gson().toJson(infoNode)
         val session = sessionFactory.openSession()
@@ -80,7 +80,8 @@ class PersonServiceImpl(
 
 
     private fun create(updatePersonContext: TreeUpdatePerson) {
-        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId).orElseThrow()
+        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId)
+            .orElseThrow()
         val node = Person(
             id = null,
             relations = setOf(),
@@ -90,13 +91,14 @@ class PersonServiceImpl(
             isMain = false
         )
 
-        val infoNode = InfoNode()
+        val infoNode = PersonInfoNode()
         infoNode.avatar = updatePersonContext.context.avatar
         infoNode.firstName = updatePersonContext.context.firstName
         infoNode.middleName = updatePersonContext.context.middleName
         infoNode.lastName = updatePersonContext.context.lastName
         infoNode.birthDate = updatePersonContext.context.birthDate
         infoNode.occupation = updatePersonContext.context.occupation
+        infoNode.photoNames = updatePersonContext.context.photoNames
 
         node.extraInfo = Gson().toJson(infoNode)
         node.gender = updatePersonContext.context.gender
@@ -166,10 +168,10 @@ class PersonServiceImpl(
             //add sibling relations
             personParent.relations?.filter { it.relationType == RelationType.CHILD.toString() }?.forEach { sibling ->
                 relations.add(
-                    getSiblingRelation(sibling.firstPerson!!, node, parent.connectionType)
+                    getSiblingRelation(sibling.person!!, node, parent.connectionType)
                 )
                 relations.add(
-                    getSiblingRelation(node, sibling.firstPerson!!, parent.connectionType)
+                    getSiblingRelation(node, sibling.person!!, parent.connectionType)
                 )
             }
             //add person as child to parent
@@ -226,29 +228,33 @@ class PersonServiceImpl(
     ) = mapRelation(person, sibling, connection, RelationType.SIBLING)
 
     private fun mapRelation(
-        firstPerson: Person,
-        secondPerson: Person,
+        person: Person,
+        relatedPerson: Person,
         connectionType: TreeUpdatePerson.ConnectionType,
         relationType: RelationType
     ) = Relation(
         id = null,
-        firstPerson = firstPerson,
-        secondPerson = secondPerson,
+        person = person,
+        relatedPerson = relatedPerson,
         relationType = relationType.toString(),
         connectionType = connectionType.toString()
     )
 
     private fun delete(updatePersonContext: TreeUpdatePerson) {
-        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId).orElseThrow()
+        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId)
+            .orElseThrow()
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
-        val node = personRepository.findByIdAndTreeId(nodeId, tree.id).orElseThrow { EntityNotFoundException("Entity not found") }
         sessionFactory.openSession().use {
             it.transaction.begin()
-            val q =
-                it.createNativeMutationQuery("delete from relation where first_person_id=:ID or second_person_id=:ID")
-            q.setParameter("ID", nodeId)
-            q.executeUpdate()
-            personRepository.delete(node)
+            val relationQueryDelete =
+                it.createNativeMutationQuery("delete from relation where person_id=:ID or related_person_id=:ID")
+            relationQueryDelete.setParameter("ID", nodeId)
+            relationQueryDelete.executeUpdate()
+            val personQueryDelete =
+                it.createNativeMutationQuery("delete from person where id=:ID and tree_id=:TREE_ID")
+            personQueryDelete.setParameter("ID", nodeId)
+            personQueryDelete.setParameter("TREE_ID", tree.id)
+            personQueryDelete.executeUpdate()
             it.transaction.commit()
         }
     }

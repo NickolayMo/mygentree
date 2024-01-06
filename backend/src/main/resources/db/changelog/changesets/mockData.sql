@@ -75,7 +75,7 @@ insert into person (tree_id, gender, extra_info, is_main) values (1, 'MALE', '{
 }', false);
 
 
-insert into relation (first_person_id, second_person_id, relation_type, connection_type) values
+insert into relation (person_id, related_person_id, relation_type, connection_type) values
 (1,
 2,
 'PARENT',

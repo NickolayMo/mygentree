@@ -10,3 +10,7 @@ export const checkEmailAvailabilityRoute = API_BASE_URL + "/api/v1/user/email_av
 export const getTreeListRoute = API_BASE_URL + "/api/v1/tree/get/list"
 export const crateTreeRoute = API_BASE_URL + "/api/v1/tree/add"
 export const deleteTreeRoute = API_BASE_URL + "/api/v1/tree/delete"
+export const uploadPhotoRoute = API_BASE_URL + "/api/v1/file/photo/upload"
+export const deletePhotoRoute = API_BASE_URL + "/api/v1/file/photo/delete/"
+export const uploadDocRoute = API_BASE_URL + "/api/v1/file/doc/upload"
+export const deleteDocRoute = API_BASE_URL + "/api/v1/file/doc/delete/"

@@ -95,11 +95,13 @@ export type InfoNode = {
   lastName?: string,
   occupation?: string,
   location?: string,
-  birthDate?: string
-  liveEvents?: readonly LiveEvent[];
-  personDocuments?: readonly PersonDocuments[];
-  description?: string
+  birthDate?: string,
+  liveEvents?: readonly LiveEvent[],
+  personDocuments?: readonly PersonDocuments[],
+  description?: string,
+  photo: PersonPhoto[]
 }
+
 export type LiveEvent = Readonly<{
   date?: string,
   place?: string,
@@ -115,4 +117,9 @@ export const enum LiveEventType {
 
 export type PersonDocuments = Readonly<{
   url?: string,
+}>
+
+export type PersonPhoto = Readonly<{
+  url: string,
+  filename: string
 }>

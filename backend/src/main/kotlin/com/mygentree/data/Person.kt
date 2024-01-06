@@ -12,7 +12,7 @@ class Person(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personSeq")
     var id: Long?,
 
-    @OneToMany(mappedBy = "firstPerson", cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "person", cascade = [CascadeType.ALL])
     @OrderBy("id ASC")
     var relations: Set<Relation>?,
 

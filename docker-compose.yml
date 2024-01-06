@@ -1,58 +1,58 @@
 version: '3'
 
 services:
-  traefik:
-    container_name: traefik
-    image: "traefik:latest"
-    command:
-      - --entrypoints.web.address=:80
-      - --entrypoints.websecure.address=:443
-      - --providers.docker
-      - --log.level=ERROR
-      - --certificatesresolvers.leresolver.acme.httpchallenge=true
-      - --certificatesresolvers.leresolver.acme.email=${CERT_EMAIL}
-      - --certificatesresolvers.leresolver.acme.storage=./acme.json
-      - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
-      - --metrics.prometheus=true
-      - --api.dashboard=true
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./data/acme/acme.json:/acme.json"
-    labels:
-      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
-      - "traefik.http.routers.http-catchall.entrypoints=web"
-      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.enable=true"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.${HOST}`)"
-      - "traefik.http.routers.traefik.tls=true"
-      - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.tls.certresolver=leresolver"
-      - "traefik.http.routers.traefik.middlewares=admin"
-      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
-      - "traefik.http.middlewares.admin.basicauth.users=${TRAEFIK_USER}"
-    networks:
-      - app-network
-  portainer:
-    image: portainer/portainer-ce:latest
-    command: -H unix:///var/run/docker.sock
-    restart: always
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`port.${HOST}`)"
-      - "traefik.http.routers.portainer.entrypoints=websecure"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-      - "traefik.http.routers.portainer.service=portainer"
-      - "traefik.http.routers.portainer.tls.certresolver=leresolver"
-    networks:
-      - app-network
+#  traefik:
+#    container_name: traefik
+#    image: "traefik:latest"
+#    command:
+#      - --entrypoints.web.address=:80
+#      - --entrypoints.websecure.address=:443
+#      - --providers.docker
+#      - --log.level=ERROR
+#      - --certificatesresolvers.leresolver.acme.httpchallenge=true
+#      - --certificatesresolvers.leresolver.acme.email=${CERT_EMAIL}
+#      - --certificatesresolvers.leresolver.acme.storage=./acme.json
+#      - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
+#      - --metrics.prometheus=true
+#      - --api.dashboard=true
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+#      - "./data/acme/acme.json:/acme.json"
+#    labels:
+#      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+#      - "traefik.http.routers.http-catchall.entrypoints=web"
+#      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+#      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.traefik.entrypoints=websecure"
+#      - "traefik.http.routers.traefik.rule=Host(`traefik.${HOST}`)"
+#      - "traefik.http.routers.traefik.tls=true"
+#      - "traefik.http.routers.traefik.service=api@internal"
+#      - "traefik.http.routers.traefik.tls.certresolver=leresolver"
+#      - "traefik.http.routers.traefik.middlewares=admin"
+#      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+#      - "traefik.http.middlewares.admin.basicauth.users=${TRAEFIK_USER}"
+#    networks:
+#      - app-network
+#  portainer:
+#    image: portainer/portainer-ce:latest
+#    command: -H unix:///var/run/docker.sock
+#    restart: always
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - portainer_data:/data
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.portainer.rule=Host(`port.${HOST}`)"
+#      - "traefik.http.routers.portainer.entrypoints=websecure"
+#      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+#      - "traefik.http.routers.portainer.service=portainer"
+#      - "traefik.http.routers.portainer.tls.certresolver=leresolver"
+#    networks:
+#      - app-network
   postgresql:
     container_name: postgresql
     image: postgres:14.8-alpine3.18
@@ -210,6 +210,21 @@ services:
     networks:
       - app-network
 
+  minio:
+    restart: always
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    command: server /export
+    networks:
+      - app-network
+    volumes:
+      - minio_data:/export
+      - minio_config:/root/.minio
+
 volumes:
   certbot-etc:
   certbot-var:
@@ -217,6 +232,8 @@ volumes:
   db-data:
   pgadmin-data:
   portainer_data:
+  minio_data:
+  minio_config:
 
 networks:
   app-network:

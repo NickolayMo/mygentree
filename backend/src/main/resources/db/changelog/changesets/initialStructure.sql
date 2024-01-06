@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS person (
 
 CREATE TABLE IF NOT EXISTS relation (
     id serial primary key,
-    first_person_id bigint references person(id),
-    second_person_id bigint references person(id),
+    person_id bigint references person(id),
+    related_person_id bigint references person(id),
     relation_type relation_type,
     connection_type connection_type,
     deleted bool not null default false,
