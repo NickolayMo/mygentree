@@ -3,15 +3,16 @@ package com.mygentree.service
 import com.google.gson.Gson
 import com.mygentree.data.*
 import com.mygentree.dto.GenTree
-import com.mygentree.dto.InfoNode
 import com.mygentree.dto.TreeUpdatePerson
-import com.mygentree.repository.PersonRepository
-import com.mygentree.repository.TreeRepository
+import com.mygentree.repository.*
+import com.mygentree.security.UserPrincipal
 import jakarta.persistence.EntityNotFoundException
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.context.SecurityContextHolder
 
 import org.springframework.stereotype.Service
+import java.time.Instant
 
 @Service
 class PersonServiceImpl(
@@ -20,7 +21,13 @@ class PersonServiceImpl(
     @Autowired
     val treeRepository: TreeRepository,
     @Autowired
-    val sessionFactory: SessionFactory
+    val sessionFactory: SessionFactory,
+    @Autowired
+    val genderRepository: GenderRepository,
+    @Autowired
+    val connectionTypeRepository: ConnectionTypeRepository,
+    @Autowired
+    val relationTypeRepository: RelationTypeRepository
 ) : IPersonService {
     override fun updatePerson(updatePersonContext: TreeUpdatePerson): GenTree? {
         when (updatePersonContext.action) {
@@ -41,12 +48,13 @@ class PersonServiceImpl(
     }
 
     private fun update(updatePersonContext: TreeUpdatePerson) {
-        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId)
+        val tree = treeRepository.findById(updatePersonContext.treeId.toLong())
             .orElseThrow()
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
         val node = personRepository.findByIdAndTreeId(nodeId, tree.id)
             .orElseThrow { EntityNotFoundException("Entity not found") }
-        node.gender = updatePersonContext.context.gender
+        val gender = genderRepository.findByGender(GenderTypeValue.valueOf(updatePersonContext.context.gender!!))
+        node.gender = gender
         var infoNode = PersonInfoNode()
         val extraInfo = node.extraInfo
         if (extraInfo != null) {
@@ -80,15 +88,16 @@ class PersonServiceImpl(
 
 
     private fun create(updatePersonContext: TreeUpdatePerson) {
-        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId)
+        val tree = treeRepository.findTree(updatePersonContext.treeId.toLong(), updatePersonContext.userId)
             .orElseThrow()
+        val gender = genderRepository.findByGender(GenderTypeValue.valueOf(updatePersonContext.context.gender!!))
         val node = Person(
             id = null,
             relations = setOf(),
-            tree = tree,
             extraInfo = null,
-            gender = updatePersonContext.context.gender,
-            isMain = false
+            gender = gender,
+            isMain = false,
+            tree = tree
         )
 
         val infoNode = PersonInfoNode()
@@ -101,9 +110,8 @@ class PersonServiceImpl(
         infoNode.photoNames = updatePersonContext.context.photoNames
 
         node.extraInfo = Gson().toJson(infoNode)
-        node.gender = updatePersonContext.context.gender
 
-        val session = sessionFactory.openSession().use {
+        sessionFactory.openSession().use {
             it.transaction.begin()
             it.persist(node)
             //create connections
@@ -166,14 +174,15 @@ class PersonServiceImpl(
                 getParentRelation(node, personParent, parent.connectionType)
             )
             //add sibling relations
-            personParent.relations?.filter { it.relationType == RelationType.CHILD.toString() }?.forEach { sibling ->
-                relations.add(
-                    getSiblingRelation(sibling.person!!, node, parent.connectionType)
-                )
-                relations.add(
-                    getSiblingRelation(node, sibling.person!!, parent.connectionType)
-                )
-            }
+            personParent.relations?.filter { it.relationType?.relationType == RelationTypeValue.CHILD }
+                ?.forEach { sibling ->
+                    relations.add(
+                        getSiblingRelation(sibling.person!!, node, parent.connectionType)
+                    )
+                    relations.add(
+                        getSiblingRelation(node, sibling.person!!, parent.connectionType)
+                    )
+                }
             //add person as child to parent
             relations.add(
                 getChildRelation(personParent, node, parent.connectionType)
@@ -207,51 +216,55 @@ class PersonServiceImpl(
         person: Person,
         parent: Person,
         connection: TreeUpdatePerson.ConnectionType
-    ) = mapRelation(person, parent, connection, RelationType.PARENT)
+    ) = mapRelation(person, parent, connection, RelationTypeValue.PARENT)
 
     private fun getSpouseRelation(
         person: Person,
         spouse: Person,
         connection: TreeUpdatePerson.ConnectionType
-    ) = mapRelation(person, spouse, connection, RelationType.SPOUSE)
+    ) = mapRelation(person, spouse, connection, RelationTypeValue.SPOUSE)
 
     private fun getChildRelation(
         person: Person,
         child: Person,
         connection: TreeUpdatePerson.ConnectionType
-    ) = mapRelation(person, child, connection, RelationType.CHILD)
+    ) = mapRelation(person, child, connection, RelationTypeValue.CHILD)
 
     private fun getSiblingRelation(
         person: Person,
         sibling: Person,
         connection: TreeUpdatePerson.ConnectionType
-    ) = mapRelation(person, sibling, connection, RelationType.SIBLING)
+    ) = mapRelation(person, sibling, connection, RelationTypeValue.SIBLING)
 
     private fun mapRelation(
         person: Person,
         relatedPerson: Person,
         connectionType: TreeUpdatePerson.ConnectionType,
-        relationType: RelationType
-    ) = Relation(
-        id = null,
-        person = person,
-        relatedPerson = relatedPerson,
-        relationType = relationType.toString(),
-        connectionType = connectionType.toString()
-    )
+        relationTypeValue: RelationTypeValue
+    ): Relation {
+        val connection = connectionTypeRepository.findByConnectionType(ConnectionTypeValue.valueOf(connectionType.toString()))
+        val relation = relationTypeRepository.findByRelationType(RelationTypeValue.valueOf(relationTypeValue.toString()))
+        return Relation(
+            id = null,
+            person = person,
+            relatedPerson = relatedPerson,
+            relationType = relation,
+            connectionType = connection
+        )
+    }
 
     private fun delete(updatePersonContext: TreeUpdatePerson) {
-        val tree = treeRepository.findByIdAndUserId(updatePersonContext.treeId.toLong(), updatePersonContext.userId)
+        val tree = treeRepository.findById(updatePersonContext.treeId.toLong())
             .orElseThrow()
         val nodeId = updatePersonContext.context.nodeId?.toLongOrNull() ?: throw Exception("Wrong node id")
         sessionFactory.openSession().use {
             it.transaction.begin()
             val relationQueryDelete =
-                it.createNativeMutationQuery("delete from relation where person_id=:ID or related_person_id=:ID")
+                it.createNativeMutationQuery("delete from relations where person_id=:ID or related_person_id=:ID")
             relationQueryDelete.setParameter("ID", nodeId)
             relationQueryDelete.executeUpdate()
             val personQueryDelete =
-                it.createNativeMutationQuery("delete from person where id=:ID and tree_id=:TREE_ID")
+                it.createNativeMutationQuery("delete from persons where id=:ID and tree_id=:TREE_ID")
             personQueryDelete.setParameter("ID", nodeId)
             personQueryDelete.setParameter("TREE_ID", tree.id)
             personQueryDelete.executeUpdate()

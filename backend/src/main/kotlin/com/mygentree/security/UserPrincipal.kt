@@ -15,7 +15,8 @@ class UserPrincipal(
     var userEmail: String,
     @JsonIgnore
     var userPassword: String,
-    var userAuthorities: MutableCollection<GrantedAuthority>
+    var userAuthorities: MutableCollection<GrantedAuthority>,
+    var userModel: User
 
 ): UserDetails {
     companion object{
@@ -29,7 +30,8 @@ class UserPrincipal(
                 userUsername = user.username,
                 userEmail = user.email,
                 userPassword = user.password,
-                userAuthorities = authorities
+                userAuthorities = authorities,
+                userModel = user
             )
         }
     }

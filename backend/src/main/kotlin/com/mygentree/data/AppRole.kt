@@ -7,16 +7,16 @@ import org.hibernate.annotations.NaturalId
 
 
 @Entity
-@Table(name = "roles")
-class Role(
+@Table(name = "app_roles")
+class AppRole(
     @Id
-    @SequenceGenerator(name="roleSeq", sequenceName="role_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roleSeq")
+    @SequenceGenerator(name="appRoleSeq", sequenceName="app_role_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appRoleSeq")
     var id: Long,
 
     @NotBlank
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Size(max = 50)
-    var name: RoleName
+    var name: AppRoleName
 )

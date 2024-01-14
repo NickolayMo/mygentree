@@ -5,17 +5,18 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.hibernate.annotations.NaturalId
 
+
 @Entity
-@Table(name = "relation_types")
-class RelationType(
+@Table(name = "tree_roles")
+class TreeRole(
     @Id
-    @SequenceGenerator(name="relationTypeSeq", sequenceName="relation_types_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "relationTypesSeq")
+    @SequenceGenerator(name="treeRoleSeq", sequenceName="tree_role_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "treeRoleSeq")
     var id: Long,
 
     @NotBlank
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Size(max = 50)
-    var relationType: RelationTypeValue
+    var name: TreeRoleName
 )

@@ -15,7 +15,7 @@ export const getTreeNodes = (treeId: string) =>
         getTreeRoute,
         {
             method: "POST",
-            body: JSON.stringify({userId: 1, treeId: treeId}),
+            body: JSON.stringify({treeId: treeId}),
         }
     )
 export const createTree = (name: string) =>

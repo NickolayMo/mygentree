@@ -4,15 +4,21 @@ import com.google.gson.Gson
 import com.mygentree.data.*
 import com.mygentree.dto.*
 import com.mygentree.dto.ConnectionType
+import com.mygentree.dto.Gender
 import com.mygentree.dto.request.DeleteTreeRequest
 import com.mygentree.dto.request.TreeCreateRequest
 import com.mygentree.dto.response.TreeInfo
+import com.mygentree.repository.AccessStatusRepository
+import com.mygentree.repository.AppRoleRepository
 import com.mygentree.repository.TreeRepository
+import com.mygentree.repository.TreeRoleRepository
+import com.mygentree.security.UserPrincipal
 import jakarta.persistence.EntityManager
 import jakarta.persistence.EntityNotFoundException
 import org.hibernate.SessionFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,6 +29,10 @@ class TreeServiceImp(
     private val entityManager: EntityManager,
     @Autowired
     val sessionFactory: SessionFactory,
+    @Autowired
+    val treeRoleRepository: TreeRoleRepository,
+    @Autowired
+    val accessStatusRepository: AccessStatusRepository,
 
     @Value("\${file.photoServerUrl}")
     val photoFileServerUrl: String,
@@ -34,21 +44,33 @@ class TreeServiceImp(
     override fun getTreeByIdAndUserId(treeId: Long, userId: Long): GenTree {
         entityManager.clear()
         val result =
-            treeRepository.findByIdAndUserId(treeId, userId).orElseThrow { EntityNotFoundException("Tree not found") }
+            treeRepository.findTree(treeId, userId).orElseThrow { EntityNotFoundException("Tree not found") }
         return mapToGenTree(result)
     }
 
     override fun createTree(rq: TreeCreateRequest, userId: Long): GenTree {
+        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
+        val role = treeRoleRepository.findByName(TreeRoleName.ROLE_ADMIN)
+        val accessStatus = accessStatusRepository.findByStatus(AccessStatusValue.GRANTED)
         val tree = Tree(
             id = null,
             name = rq.treeName,
             extraInfo = rq.extraInfo,
-            userId = userId,
-            persons = null
+            persons = null,
+            roles = null
         )
         sessionFactory.openSession().use {
             it.transaction.begin()
             it.persist(tree)
+            it.transaction.commit()
+            it.transaction.begin()
+            val relId = treeRepository.persistUserTreeRel(userPrincipal.id, tree.id)
+            treeRepository.persistUserTreeRoleRel(
+                userTreesId = relId,
+                roleId = role.id,
+                accessStatusId = accessStatus.id,
+                updatedBy = userPrincipal.id!!
+            )
             it.transaction.commit()
         }
         return mapToGenTree(tree)
@@ -60,9 +82,9 @@ class TreeServiceImp(
             it.createNativeMutationQuery(
                 """
                 delete
-                    from relation
+                    from relations
                     where person_id in 
-                        (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
+                        (select persons.id from persons join tree on persons.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
                     or related_person_id  in 
                         (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
             """.trimIndent()
@@ -74,9 +96,9 @@ class TreeServiceImp(
             it.createNativeMutationQuery(
                 """
                delete
-                    from person
-                        where person.id in 
-                           (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
+                    from persons
+                        where persons.id in 
+                           (select persons.id from persons join tree on persons.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
             """.trimIndent()
             )
                 .setParameter("TREEID", rq.treeId.toLong())
@@ -101,8 +123,7 @@ class TreeServiceImp(
     }
 
     override fun getUserTrees(id: Long?): List<TreeInfo>? {
-        treeRepository.findAll()
-        return treeRepository.findAllByUserId(id).map {
+        return treeRepository.findAllUserTrees(id).map {
             TreeInfo(
                 id = it.id,
                 name = it.name,
@@ -116,7 +137,6 @@ class TreeServiceImp(
         return GenTree(
             relatives = mapRelatives(tree),
             treeId = tree.id,
-            userId = tree.userId,
             extraInfo = tree.extraInfo
         )
     }
@@ -125,16 +145,16 @@ class TreeServiceImp(
         val result = mutableListOf<GenTreeNode>()
         tree.persons?.forEach { person ->
             val relMap: Map<String?, List<Relation>>? = person.relations?.distinct()?.groupBy {
-                it.relationType
+                it.relationType?.relationType?.name
             }?.toMap()
             result.add(
                 GenTreeNode(
                     id = person.id.toString(),
-                    gender = Gender.valueOf(person.gender.toString()),
-                    parents = mapConnectionNode(relMap?.getOrDefault(RelationType.PARENT.name, mutableListOf())),
-                    siblings = mapConnectionNode(relMap?.getOrDefault(RelationType.SIBLING.name, mutableListOf())),
-                    spouses = mapConnectionNode(relMap?.getOrDefault(RelationType.SPOUSE.name, mutableListOf())),
-                    children = mapConnectionNode(relMap?.getOrDefault(RelationType.CHILD.name, mutableListOf())),
+                    gender = Gender.valueOf(person.gender?.gender.toString()),
+                    parents = mapConnectionNode(relMap?.getOrDefault(RelationTypeValue.PARENT.name, mutableListOf())),
+                    siblings = mapConnectionNode(relMap?.getOrDefault(RelationTypeValue.SIBLING.name, mutableListOf())),
+                    spouses = mapConnectionNode(relMap?.getOrDefault(RelationTypeValue.SPOUSE.name, mutableListOf())),
+                    children = mapConnectionNode(relMap?.getOrDefault(RelationTypeValue.CHILD.name, mutableListOf())),
                     infoNode = mapInfoNode(person.extraInfo),
                     isMain = person.isMain,
                     kinship = calcKinship(person)
@@ -179,7 +199,7 @@ class TreeServiceImp(
             result.add(
                 ConnectionNode(
                     id = it.relatedPerson?.id.toString(),
-                    type = ConnectionType.valueOf(it.connectionType.toString())
+                    type = ConnectionType.valueOf(it.connectionType?.connectionType.toString())
                 )
             )
         }

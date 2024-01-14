@@ -69,6 +69,8 @@ class SecurityConfiguration {
                     .permitAll()
                     .requestMatchers("/api/v1/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
                     .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/v1/file/photo/serve/**")
+                    .permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/users/**")
                     .permitAll()
                     .anyRequest()

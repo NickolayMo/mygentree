@@ -18,18 +18,16 @@ class StorageService(
     val minioClient: MinioClient,
 ) : IStorageService {
     companion object {
-        const val PHOTO_BUKET = "user-%s-photo"
-        const val DOC_BUKET = "user-%s-doc"
+        const val PHOTO_BUKET = "photo"
+        const val DOC_BUKET = "doc"
     }
 
     private fun getPhotoBuket(): String {
-        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
-        return String.format(PHOTO_BUKET, userPrincipal.id.toString())
+        return PHOTO_BUKET
     }
 
     private fun getDocBuket(): String {
-        val userPrincipal = SecurityContextHolder.getContext().authentication.principal as UserPrincipal
-        return String.format(DOC_BUKET, userPrincipal.id.toString())
+        return DOC_BUKET
     }
 
     override fun docStore(file: MultipartFile): String {

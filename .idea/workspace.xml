@@ -5,39 +5,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2a94fb5-ddda-43f4-bd1a-b0966bf51d50" name="Changes" comment="fix build">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/MinioConfig.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/FileController.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/PersonInfoNode.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/PersonPhoto.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/response/UploadResponse.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/exception/StorageFileNotFoundException.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/IStorageService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/StorageService.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/UploadPhoto/UploadPhoto.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/services/fileService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/AccessStatus.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/AccessStatusValue.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/ConnectionTypeValue.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Gender.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/GenderTypeValue.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/RelationTypeValue.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/TreeRole.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/TreeRoleName.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/AccessStatusRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/ConnectionTypeRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/GenderRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/RelationTypeRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/TreeRoleRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/c821dd69-8b32-4e9f-b818-cef594edf5b3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c821dd69-8b32-4e9f-b818-cef594edf5b3.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/c821dd69-8b32-4e9f-b818-cef594edf5b3/storage_v2/_src_/database/mygentreedb.wHfLBg/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/c821dd69-8b32-4e9f-b818-cef594edf5b3/storage_v2/_src_/database/mygentreedb.wHfLBg/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/WebConfiguration.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/WebConfiguration.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/SecurityConfiguration.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/configuration/SecurityConfiguration.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/FileController.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/controller/FileController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/ConnectionType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/ConnectionType.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Person.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Person.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Relation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Relation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/RelationType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/RelationType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Role.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/AppRole.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/RoleName.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/AppRoleName.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Tree.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/Tree.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/InfoNode.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/InfoNode.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/UpdatePersonContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/UpdatePersonContext.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeUpdatePersonRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/request/TreeUpdatePersonRequest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/extensions/RequestExtensions.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/User.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/data/User.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/GenTree.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/dto/GenTree.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/MockTreeRepositoryImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/RoleRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/AppRoleRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/TreeRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/TreeRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/repository/mock/MockResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/UserPrincipal.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/UserPrincipal.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/filter/JwtAuthenticationFilter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/security/filter/JwtAuthenticationFilter.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/PersonServiceImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/PersonServiceImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/StorageService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/StorageService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/UserService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/UserService.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/resources/db/changelog/changesets/initialStructure.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/db/changelog/changesets/initialStructure.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/db/changelog/changesets/mockData.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/db/changelog/changesets/mockData.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ModalForm/ModalForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ModalForm/ModalForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/TreeRoot/TreeRoot.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/renderTree/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/renderTree/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/personService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/personService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/db/changelog/changesets/mockData.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/db/changelog/changesets/userModelInitData.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/treeService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/treeService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +82,7 @@
         <option value="TypeScript JSX File" />
         <option value="Kotlin Interface" />
         <option value="TypeScript File" />
+        <option value="Kotlin Enum" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -145,6 +154,7 @@
       <recent name="com.mygentree.dto.response" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.mygentree.repository" />
       <recent name="com.mygentree.data" />
       <recent name="com.mygentree.dto" />
       <recent name="com.mygentree.service" />
@@ -184,10 +194,10 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MyGenTree:backend [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="MyGenTree [dropAll]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/backend" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
         <option name="scriptParameters" />
         <option name="taskDescriptions">
@@ -195,7 +205,7 @@
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
+            <option value="dropAll" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -292,18 +302,18 @@
       <item itemvalue="Docker.backend/Dockerfile" />
       <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
       <item itemvalue="Gradle.MyGenTree [bootRun]" />
+      <item itemvalue="Gradle.MyGenTree [dropAll]" />
       <item itemvalue="Gradle.MyGenTree:backend [dropAll]" />
-      <item itemvalue="Gradle.MyGenTree:backend [clean]" />
       <item itemvalue="npm.start" />
       <item itemvalue="Spring Boot.Main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MyGenTree [dropAll]" />
+        <item itemvalue="Gradle.MyGenTree:backend [dropAll]" />
         <item itemvalue="Docker.docker-compose.yml.my-gen-tree-backend: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
         <item itemvalue="Docker.backend/Dockerfile" />
-        <item itemvalue="Gradle.MyGenTree:backend [dropAll]" />
-        <item itemvalue="Gradle.MyGenTree:backend [clean]" />
       </list>
     </recent_temporary>
   </component>
@@ -334,7 +344,10 @@
       <workItem from="1704287582915" duration="7984000" />
       <workItem from="1704364894419" duration="35836000" />
       <workItem from="1704469240538" duration="24000" />
-      <workItem from="1704469272638" duration="10652000" />
+      <workItem from="1704469272638" duration="18608000" />
+      <workItem from="1704715116509" duration="5007000" />
+      <workItem from="1704909932248" duration="24519000" />
+      <workItem from="1705237655248" duration="4955000" />
     </task>
     <task id="LOCAL-00001" summary="fix build">
       <option name="closed" value="true" />
@@ -364,6 +377,17 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix build" />
     <option name="LAST_COMMIT_MESSAGE" value="fix build" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/backend/src/main/kotlin/com/mygentree/service/TreeServiceImp.kt</url>
+          <line>149</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

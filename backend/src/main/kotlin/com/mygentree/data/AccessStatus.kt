@@ -6,16 +6,16 @@ import jakarta.validation.constraints.Size
 import org.hibernate.annotations.NaturalId
 
 @Entity
-@Table(name = "relation_types")
-class RelationType(
+@Table(name = "access_statuses")
+class AccessStatus(
     @Id
-    @SequenceGenerator(name="relationTypeSeq", sequenceName="relation_types_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "relationTypesSeq")
+    @SequenceGenerator(name="accessStatusSeq", sequenceName="access_status_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accessStatusSeq")
     var id: Long,
 
     @NotBlank
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Size(max = 50)
-    var relationType: RelationTypeValue
+    var status: AccessStatusValue
 )

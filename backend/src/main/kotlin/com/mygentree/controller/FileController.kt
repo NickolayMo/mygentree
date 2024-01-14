@@ -61,9 +61,8 @@ class FileController(
         )
     }
 
-    @GetMapping("/photo/{filename:.+}")
+    @GetMapping("/photo/serve/{filename:.+}")
     @ResponseBody
-    @PreAuthorize("hasRole('USER')")
     fun photoServe(@PathVariable filename: String): ResponseEntity<Resource> {
         val file = storageService.getPhotoAsResource(filename)
         return ResponseEntity
@@ -72,7 +71,7 @@ class FileController(
             .body(file)
     }
 
-    @GetMapping("/doc/{filename:.+}")
+    @GetMapping("/doc/serve/{filename:.+}")
     @ResponseBody
     @PreAuthorize("hasRole('USER')")
     fun docServe(@PathVariable filename: String): ResponseEntity<Resource> {

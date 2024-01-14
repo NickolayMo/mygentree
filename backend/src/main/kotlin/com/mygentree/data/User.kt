@@ -45,14 +45,14 @@ class User(
     var password: String,
 
     @NotBlank
-    var deleted: Boolean,
+    var isActive: Boolean,
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
+    @JoinTable(name = "user_app_roles",
         joinColumns = [JoinColumn(name = "user_id")],
         inverseJoinColumns = [JoinColumn(name = "role_id")]
     )
-    var roles: Set<Role>?,
+    var roles: Set<AppRole>?,
 
     @NotBlank
     @CreatedDate
