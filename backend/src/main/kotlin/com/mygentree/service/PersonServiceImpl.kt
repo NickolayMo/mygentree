@@ -67,6 +67,9 @@ class PersonServiceImpl(
         infoNode.birthDate = updatePersonContext.context.birthDate
         infoNode.occupation = updatePersonContext.context.occupation
         infoNode.photoNames = updatePersonContext.context.photoNames
+        infoNode.description = updatePersonContext.context.description
+        infoNode.location = updatePersonContext.context.location
+        infoNode.personDocuments = updatePersonContext.context.personDocuments
 
         node?.extraInfo = Gson().toJson(infoNode)
         val session = sessionFactory.openSession()
@@ -108,6 +111,9 @@ class PersonServiceImpl(
         infoNode.birthDate = updatePersonContext.context.birthDate
         infoNode.occupation = updatePersonContext.context.occupation
         infoNode.photoNames = updatePersonContext.context.photoNames
+        infoNode.description = updatePersonContext.context.description
+        infoNode.location = updatePersonContext.context.location
+        infoNode.personDocuments = updatePersonContext.context.personDocuments
 
         node.extraInfo = Gson().toJson(infoNode)
 

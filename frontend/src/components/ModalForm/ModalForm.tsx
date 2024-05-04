@@ -9,6 +9,7 @@ import locale from "antd/es/locale/ru_RU"
 import 'dayjs/locale/ru';
 import {Tip} from "../Tip/Tip";
 import {UploadPhoto} from "../UploadPhoto/UploadPhoto";
+import TextArea from "antd/lib/input/TextArea";
 
 dayjs.locale('ru')
 dayjs.extend(customParseFormat)
@@ -34,6 +35,7 @@ interface State {
     birthDate: Dayjs | undefined,
     location: string | undefined,
     occupation: string | undefined,
+    description: string | undefined,
     gender: string | undefined,
     nodeId: string | undefined,
     treeId: string | undefined,
@@ -49,6 +51,7 @@ export const ModalForm: React.FC<ModalFormProps> = (props) => {
         birthDate: props.node?.infoNode && dayjs(props.node?.infoNode?.birthDate, dateFormat),
         location: props.node?.infoNode?.location,
         occupation: props.node?.infoNode?.occupation,
+        description: props.node?.infoNode?.description,
         gender: props.node?.gender,
         nodeId: props.nodeId,
         treeId: props.treeId,
@@ -168,6 +171,36 @@ export const ModalForm: React.FC<ModalFormProps> = (props) => {
                                 autoComplete="off"
                                 placeholder="Дата рождения"
                                 format={dateFormat}
+                            />
+
+                        </Form.Item>
+                        <Form.Item name="description">
+
+                            <TextArea
+                                name="description"
+                                autoComplete="off"
+                                placeholder="Информация"
+                                value={state.description}
+                            />
+
+                        </Form.Item>
+                        <Form.Item name="location">
+
+                            <Input
+                                name="location"
+                                autoComplete="off"
+                                placeholder="Где живет"
+                                value={state.location}
+                            />
+
+                        </Form.Item>
+                        <Form.Item name="occupation">
+
+                            <Input
+                                name="occupation"
+                                autoComplete="off"
+                                placeholder="Чем занимается"
+                                value={state.occupation}
                             />
 
                         </Form.Item>

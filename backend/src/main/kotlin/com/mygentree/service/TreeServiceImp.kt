@@ -79,18 +79,29 @@ class TreeServiceImp(
     override fun deleteTree(rq: DeleteTreeRequest, userId: Long): Boolean {
         sessionFactory.openSession().use {
             it.transaction.begin()
+            val tree =
+                treeRepository.findTree(rq.treeId.toLong(), userId)
+                    .orElseThrow { EntityNotFoundException("Tree not found") }
             it.createNativeMutationQuery(
                 """
                 delete
                     from relations
                     where person_id in 
-                        (select persons.id from persons join tree on persons.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
+                        (
+                            select persons.id 
+                                from persons 
+                            where 
+                                tree_id = :TREEID)
                     or related_person_id  in 
-                        (select person.id from person join tree on person.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
+                        (
+                            select persons.id 
+                                from persons 
+                            where 
+                                tree_id = :TREEID
+                            )
             """.trimIndent()
             )
-                .setParameter("TREEID", rq.treeId.toLong())
-                .setParameter("USERID", userId)
+                .setParameter("TREEID", tree.id)
                 .executeUpdate()
 
             it.createNativeMutationQuery(
@@ -98,24 +109,48 @@ class TreeServiceImp(
                delete
                     from persons
                         where persons.id in 
-                           (select persons.id from persons join tree on persons.tree_id = tree.id where user_id = :USERID and tree_id = :TREEID)
+                           (
+                               select persons.id 
+                                   from persons 
+                               where tree_id = :TREEID
+                           )
             """.trimIndent()
             )
-                .setParameter("TREEID", rq.treeId.toLong())
-                .setParameter("USERID", userId)
+                .setParameter("TREEID", tree.id)
                 .executeUpdate()
-
 
             it.createNativeMutationQuery(
                 """
                delete
-                    from tree
-                       where user_id = :USERID
-                       and id = :TREEID
+                    from user_tree_roles
+                       where user_trees_id in (
+                           select id
+                               from user_trees
+                               where tree_id = :TREEID
+                       )
             """.trimIndent()
             )
-                .setParameter("TREEID", rq.treeId.toLong())
-                .setParameter("USERID", userId)
+                .setParameter("TREEID",tree.id)
+                .executeUpdate()
+
+            it.createNativeMutationQuery(
+                """
+               delete
+                   from user_trees
+                   where tree_id = :TREEID
+            """.trimIndent()
+            )
+                .setParameter("TREEID",tree.id)
+                .executeUpdate()
+            
+            it.createNativeMutationQuery(
+                """
+               delete
+                    from trees
+                       where id = :TREEID
+            """.trimIndent()
+            )
+                .setParameter("TREEID",tree.id)
                 .executeUpdate()
             it.transaction.commit()
         }
@@ -183,13 +218,17 @@ class TreeServiceImp(
             occupation = node.occupation,
             location = node.location,
             description = node.description,
-            personDocuments = node.personDocuments?.map { PersonDocuments(
-                url = it
-            ) },
-            photo = node.photoNames?.map { PersonPhoto(
-                url = photoFileServerUrl + it,
-                filename = it
-            )}
+            personDocuments = node.personDocuments?.map {
+                PersonDocuments(
+                    url = it
+                )
+            },
+            photo = node.photoNames?.map {
+                PersonPhoto(
+                    url = photoFileServerUrl + it,
+                    filename = it
+                )
+            }
         )
     }
 

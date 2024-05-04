@@ -133,10 +133,25 @@ export const NodeDetails = memo(
                         </section>
                     )}
                 </section>
-                <Relations {...props} title="Родители" items={node.parents} nodeList={nodeList}/>
-                <Relations {...props} title="Дети" items={node.children} nodeList={nodeList}/>
-                <Relations {...props} title="Братья и сестры" items={node.siblings} nodeList={nodeList}/>
-                <Relations {...props} title="Супруги" items={node.spouses} nodeList={nodeList}/>
+                <section>
+                    <section>
+                        <div>Дата рождения: {node.infoNode?.birthDate}</div>
+                        <div>Информация: {node.infoNode?.description}</div>
+                        <div>Место жительства: {node.infoNode?.location}</div>
+                        <div>Чем занимается: {node.infoNode?.occupation}</div>
+                    </section>
+                    <section>
+                        <div>Связи</div>
+                        <section>
+                            <Relations {...props} title="Родители" items={node.parents} nodeList={nodeList}/>
+                            <Relations {...props} title="Дети" items={node.children} nodeList={nodeList}/>
+                            <Relations {...props} title="Братья и сестры" items={node.siblings} nodeList={nodeList}/>
+                            <Relations {...props} title="Супруги" items={node.spouses} nodeList={nodeList}/>
+                        </section>
+                    </section>
+
+                </section>
+
             </section>
         );
     },

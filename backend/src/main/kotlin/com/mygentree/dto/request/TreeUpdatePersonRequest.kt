@@ -20,12 +20,14 @@ data class TreeUpdatePersonRequest(
         var birthDate: String?,
         var occupation: String?,
         var location: String?,
+        var description: String?,
         var parents: List<Connection>?,
         var children: List<Connection>?,
         var siblings: List<Connection>?,
         var spouses: List<Connection>?,
         var gender: String?,
-        var photoNames: List<String>?
+        var photoNames: List<String>?,
+        var personDocuments: List<String>?,
     )
 
     data class Connection(
