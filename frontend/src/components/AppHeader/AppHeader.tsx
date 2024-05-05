@@ -3,10 +3,11 @@ import Menu from "antd/es/menu/menu"
 import {Link} from "react-router-dom"
 import './AppHeader.css';
 import React from "react";
-import {MenuProps} from "antd";
+import {Col, MenuProps, Row} from "antd";
 import {MenuInfo} from "rc-menu/lib/interface";
 import {SettingOutlined} from "@ant-design/icons";
 import {UserInfo} from "../Home/Home";
+import {TreeImage} from "../TreeImage/TreeImage";
 
 interface AppHeaderProps {
     currentUser: UserInfo | undefined,
@@ -28,6 +29,10 @@ export const AppHeader: React.FC<AppHeaderProps> = (props: AppHeaderProps) => {
                         label: "Выйти"
                     }
                 ]
+            },
+            {
+                key: "logout",
+                label: "Выйти"
             }
         ]
         :
@@ -56,12 +61,22 @@ export const AppHeader: React.FC<AppHeaderProps> = (props: AppHeaderProps) => {
         <Header className="app-header">
             <div className="container">
                 <div className="app-title">
-                    <Link to="/">Древо</Link>
+                    <Link to="/" className="app-logo">
+                        <Row>
+                            <Col>
+                                <TreeImage width={"50px"} height={"50px"}/>
+                            </Col>
+                            <Col>
+                                Древо
+                            </Col>
+                        </Row>
+
+                    </Link>
                 </div>
                 <Menu
                     className="app-menu"
                     mode="horizontal"
-                    style={{lineHeight: '64px'}}
+                    style={{lineHeight: '64px', width: '20%'}}
                     items={items}
                     onClick={handleMenuClick}
                 >

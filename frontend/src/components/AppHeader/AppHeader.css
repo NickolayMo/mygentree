@@ -85,4 +85,9 @@
         padding: 0 15px;
         margin: 0 -15px;
     }
-}  
+}
+.app-logo {
+    display: flex;
+    align-items: center;
+    color: #000000;
+}

@@ -68,8 +68,11 @@ const TreeLink: React.FC<TreeLinkProps> = (props) => {
     return (<div></div>)
 }
 
+interface TreeListProps {
+    isAuthenticated: boolean
+}
 
-const TreeList: React.FC = () => {
+export const TreeList: React.FC<TreeListProps> = (props: TreeListProps) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [treeList, setTreeList] = useState<Array<TreeInfo>>([])
     const onDeleteTreeHandler = (id: string) => {
@@ -127,18 +130,25 @@ const TreeList: React.FC = () => {
     nodes.push({
         type: TreeLinkType.ADD
     })
-    return (
-        <div>
-            <List
-                grid={{gutter: 16, column: 4}}
-                dataSource={nodes}
-                renderItem={(item) => (
-                    <List.Item>
-                        <TreeLink treeInfo={item.treeInfo} type={item.type} onDeleteTree={item.onDeleteTree}></TreeLink>
-                    </List.Item>
-                )}
-            />
-        </div>
-    )
+    let isAuthenticated = props.isAuthenticated
+    return isAuthenticated ? (
+            <div className="home-container">
+                <h1>Мои деревья</h1>
+                <div>
+                    <List
+                        grid={{gutter: 16, column: 4}}
+                        dataSource={nodes}
+                        renderItem={(item) => (
+                            <List.Item>
+                                <TreeLink treeInfo={item.treeInfo} type={item.type}
+                                          onDeleteTree={item.onDeleteTree}></TreeLink>
+                            </List.Item>
+                        )}
+                    />
+                </div>
+            </div>
+        ) :
+        (
+            <div></div>
+        )
 }
-export default TreeList
